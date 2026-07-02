@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-dark text-slate-50 antialiased min-h-screen;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-bg-card backdrop-blur-md border border-white/10 rounded-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
