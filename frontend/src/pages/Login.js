@@ -14,7 +14,8 @@ const Login = () => {
     setError('');
     try {
       await login(email, password);
-      navigate('/');
+      console.log(localStorage.getItem("token"));
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     }
