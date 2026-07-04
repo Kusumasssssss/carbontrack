@@ -94,6 +94,7 @@ function Activities() {
             style={{
               width: "100%",
               borderCollapse: "collapse",
+              color: "#000000",
             }}
           >
             <thead>
@@ -180,15 +181,16 @@ function Activities() {
 const th = {
   padding: "15px",
   textAlign: "left",
-  color: "#0F172A",
-  fontWeight: "bold",
+  color: "#000000",
+  fontWeight: "700",
 };
 
 const td = {
   padding: "15px",
   borderBottom: "1px solid #E2E8F0",
-  color: "#1E293B",
-  fontWeight: "500",
+  color: "#000000",
+  backgroundColor: "#FFFFFF",
+  fontWeight: "600",
 };
 
 export default Activities;

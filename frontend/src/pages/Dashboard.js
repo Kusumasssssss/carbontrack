@@ -132,13 +132,21 @@ function Dashboard() {
         <div
           style={{
             marginTop: "35px",
-            background: "white",
+            background: "#FFFFFF",
+            color: "#000000",
             padding: "25px",
             borderRadius: "18px",
             boxShadow: "0 5px 20px rgba(0,0,0,.08)",
           }}
         >
-          <h2>📋 Recent Activities</h2>
+          <h2
+            style={{
+              color: "#000000",
+              marginBottom: "20px",
+            }}
+          >
+            📋 Recent Activities
+          </h2>
 
           <table
             style={{
@@ -259,12 +267,18 @@ const desc = {
 const tableHead = {
   padding: "15px",
   textAlign: "left",
-  color: "#0F172A",
+  color: "#000000",
+  fontWeight: "700",
+  backgroundColor: "#E2E8F0",
 };
 
 const tableCell = {
   padding: "15px",
   borderBottom: "1px solid #E2E8F0",
+  color: "#000000",
+  backgroundColor: "#FFFFFF",
+  fontWeight: "600",
+  opacity: 1,
 };
 
 export default Dashboard;
