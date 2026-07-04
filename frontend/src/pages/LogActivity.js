@@ -38,10 +38,7 @@ function LogActivity() {
         }),
       });
 
-      console.log("Status:", response.status);
-
       const responseText = await response.text();
-      console.log("Response:", responseText);
 
       if (!response.ok) {
         alert(`Error ${response.status}\n\n${responseText}`);
@@ -57,7 +54,6 @@ function LogActivity() {
         unit: "",
         date: "",
       });
-
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -95,6 +91,7 @@ function LogActivity() {
           style={{
             color: "#64748B",
             marginBottom: "30px",
+            fontSize: "18px",
           }}
         >
           Record your daily activities to calculate your carbon footprint.
@@ -103,14 +100,14 @@ function LogActivity() {
         <form
           onSubmit={handleSubmit}
           style={{
-            background: "white",
+            background: "#FFFFFF",
             padding: "35px",
             borderRadius: "18px",
             boxShadow: "0 5px 15px rgba(0,0,0,.08)",
             maxWidth: "700px",
           }}
         >
-          <label>Category</label>
+          <label style={labelStyle}>Category</label>
 
           <select
             name="category"
@@ -126,7 +123,7 @@ function LogActivity() {
             <option value="Waste">Waste</option>
           </select>
 
-          <label>Activity</label>
+          <label style={labelStyle}>Activity</label>
 
           <input
             type="text"
@@ -138,7 +135,7 @@ function LogActivity() {
             required
           />
 
-          <label>Quantity</label>
+          <label style={labelStyle}>Quantity</label>
 
           <input
             type="number"
@@ -150,7 +147,7 @@ function LogActivity() {
             required
           />
 
-          <label>Unit</label>
+          <label style={labelStyle}>Unit</label>
 
           <select
             name="unit"
@@ -166,7 +163,7 @@ function LogActivity() {
             <option value="litres">litres</option>
           </select>
 
-          <label>Date</label>
+          <label style={labelStyle}>Date</label>
 
           <input
             type="date"
@@ -183,7 +180,7 @@ function LogActivity() {
               width: "100%",
               marginTop: "25px",
               background: "#22C55E",
-              color: "white",
+              color: "#FFFFFF",
               border: "none",
               padding: "16px",
               borderRadius: "12px",
@@ -200,6 +197,14 @@ function LogActivity() {
   );
 }
 
+const labelStyle = {
+  display: "block",
+  marginBottom: "8px",
+  color: "#0F172A",
+  fontWeight: "600",
+  fontSize: "16px",
+};
+
 const inputStyle = {
   width: "100%",
   padding: "14px",
@@ -208,6 +213,8 @@ const inputStyle = {
   borderRadius: "10px",
   border: "1px solid #CBD5E1",
   fontSize: "16px",
+  color: "#0F172A",
+  background: "#FFFFFF",
   boxSizing: "border-box",
 };
 
