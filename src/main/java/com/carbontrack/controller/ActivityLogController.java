@@ -15,19 +15,29 @@ public class ActivityLogController {
     @Autowired
     private ActivityLogService service;
 
-    // Save Activity
     @PostMapping
     public ActivityLog saveActivity(@RequestBody ActivityLog activity) {
         return service.saveActivity(activity);
     }
 
-    // Get All Activities
     @GetMapping
     public List<ActivityLog> getActivities() {
         return service.getAllActivities();
     }
 
-    // Delete Activity
+    @GetMapping("/{id}")
+    public ActivityLog getActivity(@PathVariable Long id) {
+        return service.getActivityById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ActivityLog updateActivity(
+            @PathVariable Long id,
+            @RequestBody ActivityLog activity) {
+
+        return service.updateActivity(id, activity);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteActivity(@PathVariable Long id) {
         service.deleteActivity(id);

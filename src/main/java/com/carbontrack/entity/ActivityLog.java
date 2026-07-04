@@ -21,9 +21,13 @@ public class ActivityLog {
 
     private LocalDate date;
 
+    @Column(name = "carbon_emission")
+    private Double carbonEmission;
+
     public ActivityLog() {
     }
 
+    // ID
     public Long getId() {
         return id;
     }
@@ -32,6 +36,7 @@ public class ActivityLog {
         this.id = id;
     }
 
+    // Category
     public String getCategory() {
         return category;
     }
@@ -40,6 +45,7 @@ public class ActivityLog {
         this.category = category;
     }
 
+    // Activity
     public String getActivity() {
         return activity;
     }
@@ -48,6 +54,7 @@ public class ActivityLog {
         this.activity = activity;
     }
 
+    // Quantity
     public Double getQuantity() {
         return quantity;
     }
@@ -56,6 +63,7 @@ public class ActivityLog {
         this.quantity = quantity;
     }
 
+    // Unit
     public String getUnit() {
         return unit;
     }
@@ -64,11 +72,21 @@ public class ActivityLog {
         this.unit = unit;
     }
 
+    // Date
     public LocalDate getDate() {
         return date;
     }
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    // Carbon Emission
+    public Double getCarbonEmission() {
+        return carbonEmission;
+    }
+
+    public void setCarbonEmission(Double carbonEmission) {
+        this.carbonEmission = carbonEmission;
     }
 }
