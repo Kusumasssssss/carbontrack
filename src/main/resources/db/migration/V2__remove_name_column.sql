@@ -1,1 +1,1 @@
-ALTER TABLE users DROP COLUMN name;
+-- No migration required

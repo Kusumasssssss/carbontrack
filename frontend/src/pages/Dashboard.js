@@ -1,130 +1,270 @@
-import React from "react";
+import CarbonChart from "../components/CarbonChart";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isAuthenticated, logout } from "../api";
+import Sidebar from "../components/Sidebar";
+import { isAuthenticated } from "../api";
 
 function Dashboard() {
-
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  const [activities, setActivities] = useState([]);
+
+  // Login check
+  useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login");
     }
   }, [navigate]);
 
+  // Fetch activities
+  useEffect(() => {
+    fetch("http://localhost:8080/api/activity")
+      .then((res) => res.json())
+      .then((data) => setActivities(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // Today's Date
+  const today = new Date().toISOString().split("T")[0];
+
+  const todaysActivities = activities.filter(
+    (item) => item.date === today
+  );
+
   return (
     <div
       style={{
+        display: "flex",
+        background: "#F1F5F9",
         minHeight: "100vh",
-        background: "#f4f7fa",
-        padding: "30px",
       }}
     >
+      <Sidebar />
+
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          flex: 1,
+          marginLeft: "270px",
+          padding: "35px",
         }}
       >
-        <div>
-          <h1 style={{ color: "#2E8B57" }}>
-            🌍 CarbonTrack Dashboard
-          </h1>
+        {/* Header */}
 
-          <p>Welcome back! 🌱</p>
-        </div>
-
-        <button
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
+        <h1
           style={{
-            background: "#dc3545",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
+            fontSize: "40px",
+            color: "#0F172A",
+            marginBottom: "10px",
           }}
         >
-          Logout
-        </button>
+          🌍 CarbonTrack Dashboard
+        </h1>
+
+        <p
+          style={{
+            color: "#64748B",
+            fontSize: "18px",
+            marginBottom: "35px",
+          }}
+        >
+          👋 Welcome, User! 🌱 Let's build a greener future.
+        </p>
+
+        {/* Cards */}
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))",
+            gap: "20px",
+          }}
+        >
+          <div style={greenCard}>
+            <h3 style={title}>🌿 Total Activities</h3>
+            <h1 style={value}>{activities.length}</h1>
+            <p style={desc}>Activities Recorded</p>
+          </div>
+
+          <div style={blueCard}>
+            <h3 style={title}>📅 Today's Activities</h3>
+            <h1 style={value}>{todaysActivities.length}</h1>
+            <p style={desc}>Today's Records</p>
+          </div>
+
+          <div style={orangeCard}>
+            <h3 style={title}>🎯 Goal Progress</h3>
+            <h1 style={value}>0%</h1>
+            <p style={desc}>Coming Soon</p>
+          </div>
+
+          <div style={purpleCard}>
+            <h3 style={title}>🏆 Eco Badges</h3>
+            <h1 style={value}>0</h1>
+            <p style={desc}>Achievements</p>
+          </div>
+        </div>
+
+        {/* Chart */}
+
+        <div
+          style={{
+            marginTop: "35px",
+            background: "white",
+            padding: "25px",
+            borderRadius: "18px",
+            boxShadow: "0 5px 20px rgba(0,0,0,.08)",
+          }}
+        >
+          <h2>📈 Carbon Emission Overview</h2>
+
+          <div
+            style={{
+              width: "100%",
+              height: "320px",
+            }}
+          >
+            <CarbonChart activities={activities} />
+          </div>
+          </div>
+
+        {/* Recent Activities */}
+
+        <div
+          style={{
+            marginTop: "35px",
+            background: "white",
+            padding: "25px",
+            borderRadius: "18px",
+            boxShadow: "0 5px 20px rgba(0,0,0,.08)",
+          }}
+        >
+          <h2>📋 Recent Activities</h2>
+
+          <table
+            style={{
+              width: "100%",
+              marginTop: "20px",
+              borderCollapse: "collapse",
+            }}
+          >
+            <thead>
+              <tr style={{ background: "#E2E8F0" }}>
+                <th style={tableHead}>Date</th>
+                <th style={tableHead}>Category</th>
+                <th style={tableHead}>Activity</th>
+                <th style={tableHead}>Quantity</th>
+                <th style={tableHead}>Unit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {activities.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="5"
+                    style={{
+                      textAlign: "center",
+                      padding: "25px",
+                    }}
+                  >
+                    No activities found.
+                  </td>
+                </tr>
+              ) : (
+                activities
+                  .slice()
+                  .reverse()
+                  .slice(0, 5)
+                  .map((item) => (
+                    <tr key={item.id}>
+                      <td style={tableCell}>{item.date}</td>
+                      <td style={tableCell}>{item.category}</td>
+                      <td style={tableCell}>{item.activity}</td>
+                      <td style={tableCell}>{item.quantity}</td>
+                      <td style={tableCell}>{item.unit}</td>
+                    </tr>
+                  ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Button */}
+
+        <div style={{ marginTop: "30px" }}>
+          <button
+            onClick={() => navigate("/logactivity")}
+            style={{
+              background: "#22C55E",
+              color: "white",
+              border: "none",
+              padding: "15px 30px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontSize: "18px",
+              fontWeight: "bold",
+            }}
+          >
+            ➕ Log New Activity
+          </button>
+        </div>
       </div>
-
-      <br />
-
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={card}>
-          <h3>🌿 Total CO₂</h3>
-          <h2>0 kg</h2>
-        </div>
-
-        <div style={card}>
-          <h3>📅 Today's CO₂</h3>
-          <h2>0 kg</h2>
-        </div>
-
-        <div style={card}>
-          <h3>🎯 Goal</h3>
-          <h2>Not Set</h2>
-        </div>
-
-        <div style={card}>
-          <h3>🏆 Badges</h3>
-          <h2>0</h2>
-        </div>
-      </div>
-
-      <br />
-
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h2>📋 Recent Activities</h2>
-
-        <p>No activities found.</p>
-      </div>
-
-      <br />
-
-      <button
-        style={{
-          background: "#2E8B57",
-          color: "white",
-          border: "none",
-          padding: "15px 30px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
-        ➕ Log New Activity
-      </button>
-
     </div>
   );
 }
 
-const card = {
-  background: "white",
-  width: "220px",
-  padding: "20px",
-  borderRadius: "12px",
-  textAlign: "center",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+/* Cards */
+
+const greenCard = {
+  background: "#DCFCE7",
+  padding: "25px",
+  borderRadius: "18px",
+  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
+};
+
+const blueCard = {
+  background: "#DBEAFE",
+  padding: "25px",
+  borderRadius: "18px",
+  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
+};
+
+const orangeCard = {
+  background: "#FFEDD5",
+  padding: "25px",
+  borderRadius: "18px",
+  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
+};
+
+const purpleCard = {
+  background: "#F3E8FF",
+  padding: "25px",
+  borderRadius: "18px",
+  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
+};
+
+const title = {
+  color: "#0F172A",
+};
+
+const value = {
+  fontSize: "36px",
+  color: "#111827",
+};
+
+const desc = {
+  color: "#475569",
+};
+
+const tableHead = {
+  padding: "15px",
+  textAlign: "left",
+  color: "#0F172A",
+};
+
+const tableCell = {
+  padding: "15px",
+  borderBottom: "1px solid #E2E8F0",
 };
 
 export default Dashboard;

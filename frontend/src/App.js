@@ -1,3 +1,5 @@
+import Activities from "./pages/Activities";
+import LogActivity from "./pages/LogActivity";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -23,7 +25,8 @@ function App() {
         <main className="flex-1 p-8 overflow-y-auto">
 
           <Routes>
-
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/logactivity" element={<LogActivity />} />
             {/* Landing Page */}
             <Route path="/" element={<LandingPage />} />
 
