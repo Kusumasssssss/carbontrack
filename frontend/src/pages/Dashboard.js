@@ -31,6 +31,16 @@ function Dashboard() {
     (item) => item.date === today
   );
 
+  const totalCarbonEmission = activities.reduce(
+    (sum, item) => sum + Number(item.carbonEmission || 0),
+    0
+  );
+
+  const todaysCarbonEmission = todaysActivities.reduce(
+    (sum, item) => sum + Number(item.carbonEmission || 0),
+    0
+  );
+
   return (
     <div
       style={{
@@ -80,27 +90,29 @@ function Dashboard() {
           }}
         >
           <div style={greenCard}>
+            <h3 style={title}>🌍 Total Carbon Emission</h3>
+            <h1 style={value}>{totalCarbonEmission.toFixed(2)} kg</h1>
+            <p style={desc}>Total CO₂ Emission</p>
+          </div>
+
+          <div style={blueCard}>
+            <h3 style={title}>📅 Today's Carbon</h3>
+            <h1 style={value}>{todaysCarbonEmission.toFixed(2)} kg</h1>
+            <p style={desc}>Today's CO₂</p>
+          </div>
+
+          <div style={orangeCard}>
             <h3 style={title}>🌿 Total Activities</h3>
             <h1 style={value}>{activities.length}</h1>
             <p style={desc}>Activities Recorded</p>
           </div>
 
-          <div style={blueCard}>
-            <h3 style={title}>📅 Today's Activities</h3>
-            <h1 style={value}>{todaysActivities.length}</h1>
-            <p style={desc}>Today's Records</p>
-          </div>
-
-          <div style={orangeCard}>
-            <h3 style={title}>🎯 Goal Progress</h3>
-            <h1 style={value}>0%</h1>
-            <p style={desc}>Coming Soon</p>
-          </div>
-
           <div style={purpleCard}>
-            <h3 style={title}>🏆 Eco Badges</h3>
-            <h1 style={value}>0</h1>
-            <p style={desc}>Achievements</p>
+            <h3 style={title}>🏆 Eco Score</h3>
+            <h1 style={value}>
+              {Math.max(100 - totalCarbonEmission.toFixed(0), 0)}
+            </h1>
+            <p style={desc}>Green Score</p>
           </div>
         </div>
 
@@ -162,6 +174,7 @@ function Dashboard() {
                 <th style={tableHead}>Activity</th>
                 <th style={tableHead}>Quantity</th>
                 <th style={tableHead}>Unit</th>
+                <th style={tableHead}>Carbon (kg CO₂)</th>
               </tr>
             </thead>
 
@@ -169,7 +182,7 @@ function Dashboard() {
               {activities.length === 0 ? (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="6"
                     style={{
                       textAlign: "center",
                       padding: "25px",
@@ -190,6 +203,10 @@ function Dashboard() {
                       <td style={tableCell}>{item.activity}</td>
                       <td style={tableCell}>{item.quantity}</td>
                       <td style={tableCell}>{item.unit}</td>
+
+                      <td style={tableCell}>
+                        {(item.carbonEmission || 0).toFixed(2)}
+                      </td>
                     </tr>
                   ))
               )}

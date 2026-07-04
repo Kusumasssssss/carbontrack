@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 
 function Activities() {
+  const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
@@ -138,6 +140,7 @@ function Activities() {
 
                     <td style={td}>
                       <button
+                        onClick={() => navigate(`/logactivity/${item.id}`)}
                         style={{
                           background: "#3B82F6",
                           color: "white",

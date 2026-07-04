@@ -25,6 +25,7 @@ function App() {
         <main className="flex-1 p-8 overflow-y-auto">
 
           <Routes>
+          <Route path="/logactivity/:id" element={<LogActivity />} />
           <Route path="/activities" element={<Activities />} />
           <Route path="/logactivity" element={<LogActivity />} />
             {/* Landing Page */}

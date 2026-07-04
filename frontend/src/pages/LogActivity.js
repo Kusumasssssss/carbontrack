@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 function LogActivity() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     category: "",
     activity: "",
@@ -9,6 +13,24 @@ function LogActivity() {
     unit: "",
     date: "",
   });
+
+  // Load activity when editing
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:8080/api/activity/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setFormData({
+            category: data.category,
+            activity: data.activity,
+            quantity: data.quantity,
+            unit: data.unit,
+            date: data.date,
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,8 +45,14 @@ function LogActivity() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:8080/api/activity", {
-        method: "POST",
+      const url = id
+        ? `http://localhost:8080/api/activity/${id}`
+        : "http://localhost:8080/api/activity";
+
+      const method = id ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -38,25 +66,20 @@ function LogActivity() {
         }),
       });
 
-      const responseText = await response.text();
-
       if (!response.ok) {
-        alert(`Error ${response.status}\n\n${responseText}`);
-        return;
+        throw new Error("Failed");
       }
 
-      alert("✅ Activity saved successfully!");
+      alert(
+        id
+          ? "✅ Activity updated successfully!"
+          : "✅ Activity saved successfully!"
+      );
 
-      setFormData({
-        category: "",
-        activity: "",
-        quantity: "",
-        unit: "",
-        date: "",
-      });
+      navigate("/activities");
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      alert("Something went wrong.");
     }
   };
 
@@ -84,7 +107,7 @@ function LogActivity() {
             marginBottom: "10px",
           }}
         >
-          ➕ Log Activity
+          {id ? "✏️ Edit Activity" : "➕ Log Activity"}
         </h1>
 
         <p
@@ -128,7 +151,6 @@ function LogActivity() {
           <input
             type="text"
             name="activity"
-            placeholder="Example: Car Travel"
             value={formData.activity}
             onChange={handleChange}
             style={inputStyle}
@@ -140,7 +162,6 @@ function LogActivity() {
           <input
             type="number"
             name="quantity"
-            placeholder="Enter Quantity"
             value={formData.quantity}
             onChange={handleChange}
             style={inputStyle}
@@ -189,7 +210,7 @@ function LogActivity() {
               fontWeight: "bold",
             }}
           >
-            💾 Save Activity
+            {id ? "✏️ Update Activity" : "💾 Save Activity"}
           </button>
         </form>
       </div>
