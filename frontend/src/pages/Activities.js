@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import { fetchAuth } from "../api";
 
 function Activities() {
   const navigate = useNavigate();
@@ -17,12 +18,9 @@ function Activities() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/activity/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+    const response = await fetchAuth(`/activity/${id}`, {
+        method: "DELETE",
+    });
 
       if (!response.ok) {
         throw new Error("Delete failed");
@@ -39,9 +37,14 @@ function Activities() {
 
   const fetchActivities = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/activity");
+      const response = await fetchAuth("/activity");
       const data = await response.json();
-      setActivities(data);
+
+      if (Array.isArray(data)) {
+          setActivities(data);
+      } else {
+          setActivities([]);
+      }
     } catch (error) {
       console.error(error);
       alert("Unable to fetch activities.");

@@ -1,8 +1,11 @@
 package com.carbontrack.service;
 
 import com.carbontrack.entity.ActivityLog;
+import com.carbontrack.entity.User;
 import com.carbontrack.repository.ActivityLogRepository;
+import com.carbontrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,9 @@ public class ActivityLogService {
     @Autowired
     private ActivityLogRepository repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // Calculate Carbon Emission
     private double calculateCarbonEmission(String category, Double quantity) {
 
@@ -21,6 +27,7 @@ public class ActivityLogService {
         }
 
         switch (category) {
+
             case "Transportation":
                 return quantity * 0.21;
 
@@ -38,8 +45,24 @@ public class ActivityLogService {
         }
     }
 
+    // Get Logged-in User
+    private User getLoggedInUser() {
+
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
     // Save Activity
     public ActivityLog saveActivity(ActivityLog activity) {
+
+        User user = getLoggedInUser();
+
+        activity.setUser(user);
 
         double emission = calculateCarbonEmission(
                 activity.getCategory(),
@@ -48,31 +71,39 @@ public class ActivityLogService {
 
         activity.setCarbonEmission(emission);
 
-        System.out.println("========== SAVE ==========");
-        System.out.println("Category : " + activity.getCategory());
-        System.out.println("Quantity : " + activity.getQuantity());
-        System.out.println("Emission : " + activity.getCarbonEmission());
-        System.out.println("==========================");
-
         return repository.save(activity);
     }
 
-    // Get All Activities
+    // Get Logged-in User Activities
     public List<ActivityLog> getAllActivities() {
-        return repository.findAll();
+
+        User user = getLoggedInUser();
+
+        return repository.findByUser(user);
     }
 
     // Get Activity By Id
     public ActivityLog getActivityById(Long id) {
-        return repository.findById(id).orElse(null);
+
+        User user = getLoggedInUser();
+
+        ActivityLog activity = repository.findById(id).orElse(null);
+
+        if (activity == null || !activity.getUser().getId().equals(user.getId())) {
+            return null;
+        }
+
+        return activity;
     }
 
     // Update Activity
     public ActivityLog updateActivity(Long id, ActivityLog activity) {
 
+        User user = getLoggedInUser();
+
         ActivityLog existing = repository.findById(id).orElse(null);
 
-        if (existing == null) {
+        if (existing == null || !existing.getUser().getId().equals(user.getId())) {
             return null;
         }
 
@@ -89,17 +120,18 @@ public class ActivityLogService {
 
         existing.setCarbonEmission(emission);
 
-        System.out.println("========== UPDATE ==========");
-        System.out.println("Category : " + existing.getCategory());
-        System.out.println("Quantity : " + existing.getQuantity());
-        System.out.println("Emission : " + existing.getCarbonEmission());
-        System.out.println("============================");
-
         return repository.save(existing);
     }
 
     // Delete Activity
     public void deleteActivity(Long id) {
-        repository.deleteById(id);
+
+        User user = getLoggedInUser();
+
+        ActivityLog activity = repository.findById(id).orElse(null);
+
+        if (activity != null && activity.getUser().getId().equals(user.getId())) {
+            repository.deleteById(id);
+        }
     }
 }

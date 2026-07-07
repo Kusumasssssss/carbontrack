@@ -37,8 +37,8 @@ public class SecurityConfig {
                         // Public APIs
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Allow Activity APIs
-                        .requestMatchers("/api/activity/**").permitAll()
+                        // Activity APIs require login
+                        .requestMatchers("/api/activity/**").authenticated()
 
                         // Error page
                         .requestMatchers("/error").permitAll()

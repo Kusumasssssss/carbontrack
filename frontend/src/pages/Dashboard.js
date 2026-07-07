@@ -2,7 +2,7 @@ import CarbonChart from "../components/CarbonChart";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { isAuthenticated } from "../api";
+import { isAuthenticated, fetchAuth } from "../api";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -18,10 +18,21 @@ function Dashboard() {
 
   // Fetch activities
   useEffect(() => {
-    fetch("http://localhost:8080/api/activity")
+    fetchAuth("/activity")
       .then((res) => res.json())
-      .then((data) => setActivities(data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        console.log(data);
+
+        if (Array.isArray(data)) {
+          setActivities(data);
+        } else {
+          setActivities([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setActivities([]);
+      });
   }, []);
 
   // Today's Date
