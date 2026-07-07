@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @Column(nullable = false)
@@ -37,6 +37,10 @@ public class User implements UserDetails {
 
     @Column(name = "org_id")
     private Long orgId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider", nullable = false)
+    private AuthProvider authProvider = AuthProvider.LOCAL;
 
     @PrePersist
     protected void onCreate() {
