@@ -67,7 +67,11 @@ function LogActivity() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed");
+        const errorText = await response.text();
+        console.log("Status:", response.status);
+        console.log("Error:", errorText);
+        alert(errorText);
+        return;
       }
 
       alert(
