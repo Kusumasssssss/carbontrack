@@ -3,6 +3,8 @@ package com.carbontrack.controller;
 import com.carbontrack.entity.User;
 import com.carbontrack.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.carbontrack.dto.UserPreferenceDto;
 
 import java.util.List;
 
@@ -26,5 +28,12 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    // Update Preferences
+    @PutMapping("/preferences")
+    public User updatePreferences(@RequestBody UserPreferenceDto dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.updatePreferences(email, dto.getPreferredUnits(), dto.getGoalVisibility());
     }
 }

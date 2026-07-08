@@ -3,6 +3,9 @@ package com.carbontrack.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 @Entity
@@ -13,17 +16,25 @@ public class ActivityLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Category is mandatory")
     private String category;
 
+    @NotBlank(message = "Activity type is mandatory")
+    @Column(name = "activity_type")
     private String activity;
 
+    @NotNull(message = "Quantity is mandatory")
+    @PositiveOrZero(message = "Quantity must be positive or zero")
     private Double quantity;
 
+    @NotBlank(message = "Unit is mandatory")
     private String unit;
 
+    @NotNull(message = "Date is mandatory")
+    @Column(name = "log_date")
     private LocalDate date;
 
-    @Column(name = "carbon_emission")
+    @Column(name = "co2e_kg")
     private Double carbonEmission;
 
     @ManyToOne(fetch = FetchType.LAZY)

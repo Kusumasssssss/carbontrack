@@ -2,6 +2,8 @@ package com.carbontrack.service;
 
 import com.carbontrack.entity.ActivityLog;
 import com.carbontrack.entity.User;
+import com.carbontrack.entity.EmissionFactor;
+import com.carbontrack.repository.EmissionFactorRepository;
 import com.carbontrack.repository.ActivityLogRepository;
 import com.carbontrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +21,24 @@ public class ActivityLogService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmissionFactorRepository emissionFactorRepository;
+
     // Calculate Carbon Emission
-    private double calculateCarbonEmission(String category, Double quantity) {
+    public double calculateCarbonEmission(String activityType, Double quantity) {
 
         if (quantity == null) {
             return 0;
         }
 
-        switch (category) {
+        EmissionFactor factor = emissionFactorRepository.findByActivityType(activityType)
+                .orElse(null);
 
-            case "Transportation":
-                return quantity * 0.21;
-
-            case "Electricity":
-                return quantity * 0.82;
-
-            case "Food":
-                return quantity * 2.50;
-
-            case "Waste":
-                return quantity * 0.50;
-
-            default:
-                return 0;
+        if (factor == null) {
+            return 0;
         }
+
+        return quantity * factor.getKgCo2ePerUnit().doubleValue();
     }
 
     // Get Logged-in User
@@ -65,7 +61,7 @@ public class ActivityLogService {
         activity.setUser(user);
 
         double emission = calculateCarbonEmission(
-                activity.getCategory(),
+                activity.getActivity(),
                 activity.getQuantity()
         );
 
@@ -114,7 +110,7 @@ public class ActivityLogService {
         existing.setDate(activity.getDate());
 
         double emission = calculateCarbonEmission(
-                activity.getCategory(),
+                activity.getActivity(),
                 activity.getQuantity()
         );
 

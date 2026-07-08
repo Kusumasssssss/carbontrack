@@ -1,32 +1,18 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./styles/index.css";
 
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import "./styles/index.css";
-
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import Activities from "./pages/Activities";
-import LogActivity from "./pages/LogActivity";
-import Analytics from "./pages/Analytics";
-import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
-=======
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import './styles/index.css';
 
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import OAuth2RedirectHandler from './pages/OAuth2RedirectHandler';
+import Activities from './pages/Activities';
+import LogActivity from './pages/LogActivity';
+import Analytics from './pages/Analytics';
+
+
 
 
 const NotFound = () => (
