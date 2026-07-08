@@ -4,6 +4,7 @@ import com.carbontrack.entity.ActivityLog;
 import com.carbontrack.service.ActivityLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ActivityLogController {
     private ActivityLogService service;
 
     @PostMapping
-    public ActivityLog saveActivity(@RequestBody ActivityLog activity) {
+    public ActivityLog saveActivity(@Valid @RequestBody ActivityLog activity) {
         return service.saveActivity(activity);
     }
 
@@ -33,7 +34,7 @@ public class ActivityLogController {
     @PutMapping("/{id}")
     public ActivityLog updateActivity(
             @PathVariable Long id,
-            @RequestBody ActivityLog activity) {
+            @Valid @RequestBody ActivityLog activity) {
 
         return service.updateActivity(id, activity);
     }

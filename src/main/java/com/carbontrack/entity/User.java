@@ -42,6 +42,12 @@ public class User implements UserDetails {
     @Column(name = "auth_provider", nullable = false)
     private AuthProvider authProvider = AuthProvider.LOCAL;
 
+    @Column(name = "preferred_units")
+    private String preferredUnits = "METRIC";
+
+    @Column(name = "goal_visibility")
+    private String goalVisibility = "PRIVATE";
+
     @PrePersist
     protected void onCreate() {
         if (role == null) {

@@ -22,4 +22,18 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public User updatePreferences(String email, String preferredUnits, String goalVisibility) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        if (preferredUnits != null) {
+            user.setPreferredUnits(preferredUnits);
+        }
+        if (goalVisibility != null) {
+            user.setGoalVisibility(goalVisibility);
+        }
+        
+        return userRepository.save(user);
+    }
 }
