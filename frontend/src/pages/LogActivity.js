@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import { motion } from "framer-motion";
+import BlurText from "../components/BlurText";
 
 function LogActivity() {
   const { id } = useParams();
@@ -83,160 +85,132 @@ function LogActivity() {
     }
   };
 
+  const formVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        background: "#F1F5F9",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="flex bg-slate-900 min-h-screen text-slate-50 relative overflow-hidden">
+      <div className="absolute bottom-0 left-1/4 w-[120%] h-[400px] bg-emerald-500/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+      
       <Sidebar />
 
-      <div
-        style={{
-          flex: 1,
-          marginLeft: "270px",
-          padding: "40px",
-        }}
-      >
-        <h1
-          style={{
-            color: "#0F172A",
-            fontSize: "36px",
-            marginBottom: "10px",
-          }}
-        >
-          {id ? "✏️ Edit Activity" : "➕ Log Activity"}
-        </h1>
+      <div className="flex-1 ml-[270px] p-8 lg:p-10 relative z-10">
+        <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <div className="mb-10">
+            <BlurText 
+              text={id ? "✏️ Edit Activity" : "➕ Log Activity"}
+              delay={50}
+              className="text-4xl font-extrabold text-white tracking-tight mb-2"
+            />
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-lg text-slate-400 font-medium"
+            >
+              Record your daily activities to calculate your carbon footprint.
+            </motion.p>
+          </div>
 
-        <p
-          style={{
-            color: "#64748B",
-            marginBottom: "30px",
-            fontSize: "18px",
-          }}
-        >
-          Record your daily activities to calculate your carbon footprint.
-        </p>
-
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            background: "#FFFFFF",
-            padding: "35px",
-            borderRadius: "18px",
-            boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-            maxWidth: "700px",
-          }}
-        >
-          <label style={labelStyle}>Category</label>
-
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            style={inputStyle}
-            required
+          <motion.form
+            variants={formVariants}
+            initial="hidden"
+            animate="visible"
+            onSubmit={handleSubmit}
+            className="bg-slate-800/40 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-slate-700/50"
           >
-            <option value="">Select Category</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Electricity">Electricity</option>
-            <option value="Food">Food</option>
-            <option value="Waste">Waste</option>
-          </select>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Category</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
+                  required
+                >
+                  <option value="" className="bg-slate-800 text-slate-400">Select Category</option>
+                  <option value="Transportation" className="bg-slate-800">Transportation</option>
+                  <option value="Electricity" className="bg-slate-800">Electricity</option>
+                  <option value="Food" className="bg-slate-800">Food</option>
+                  <option value="Waste" className="bg-slate-800">Waste</option>
+                </select>
+              </div>
 
-          <label style={labelStyle}>Activity</label>
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Activity</label>
+                <input
+                  type="text"
+                  name="activity"
+                  value={formData.activity}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder-slate-500"
+                  placeholder="e.g., Driving to work"
+                  required
+                />
+              </div>
 
-          <input
-            type="text"
-            name="activity"
-            value={formData.activity}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Quantity</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder-slate-500"
+                    placeholder="e.g., 15"
+                    required
+                  />
+                </div>
 
-          <label style={labelStyle}>Quantity</label>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">Unit</label>
+                  <select
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
+                    required
+                  >
+                    <option value="" className="bg-slate-800 text-slate-400">Select Unit</option>
+                    <option value="km" className="bg-slate-800">km</option>
+                    <option value="kWh" className="bg-slate-800">kWh</option>
+                    <option value="kg" className="bg-slate-800">kg</option>
+                    <option value="litres" className="bg-slate-800">litres</option>
+                  </select>
+                </div>
+              </div>
 
-          <input
-            type="number"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
+                  required
+                />
+              </div>
+            </div>
 
-          <label style={labelStyle}>Unit</label>
-
-          <select
-            name="unit"
-            value={formData.unit}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          >
-            <option value="">Select Unit</option>
-            <option value="km">km</option>
-            <option value="kWh">kWh</option>
-            <option value="kg">kg</option>
-            <option value="litres">litres</option>
-          </select>
-
-          <label style={labelStyle}>Date</label>
-
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
-
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              marginTop: "25px",
-              background: "#22C55E",
-              color: "#FFFFFF",
-              border: "none",
-              padding: "16px",
-              borderRadius: "12px",
-              fontSize: "18px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            {id ? "✏️ Update Activity" : "💾 Save Activity"}
-          </button>
-        </form>
+            <motion.button
+              whileHover={{ y: -2, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              className="w-full mt-8 bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-emerald-500/20"
+            >
+              {id ? "✏️ Update Activity" : "💾 Save Activity"}
+            </motion.button>
+          </motion.form>
+        </div>
       </div>
     </div>
   );
 }
-
-const labelStyle = {
-  display: "block",
-  marginBottom: "8px",
-  color: "#0F172A",
-  fontWeight: "600",
-  fontSize: "16px",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "14px",
-  marginTop: "8px",
-  marginBottom: "20px",
-  borderRadius: "10px",
-  border: "1px solid #CBD5E1",
-  fontSize: "16px",
-  color: "#0F172A",
-  background: "#FFFFFF",
-  boxSizing: "border-box",
-};
 
 export default LogActivity;

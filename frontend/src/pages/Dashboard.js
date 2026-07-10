@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { isAuthenticated, fetchAuth } from "../api";
+import { motion } from "framer-motion";
+import BlurText from "../components/BlurText";
 
 function Dashboard() {
   const navigate = useNavigate();
-
   const [activities, setActivities] = useState([]);
 
   // Login check
@@ -21,8 +22,6 @@ function Dashboard() {
     fetchAuth("/activity")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
         if (Array.isArray(data)) {
           setActivities(data);
         } else {
@@ -52,261 +51,177 @@ function Dashboard() {
     0
   );
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        background: "#F1F5F9",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="flex bg-slate-900 min-h-screen text-slate-50 relative overflow-hidden">
+      {/* Background glow effects */}
+      <div className="absolute top-0 -left-1/4 w-[150%] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+      
       <Sidebar />
 
-      <div
-        style={{
-          flex: 1,
-          marginLeft: "270px",
-          padding: "35px",
-        }}
-      >
-        {/* Header */}
-
-        <h1
-          style={{
-            fontSize: "40px",
-            color: "#0F172A",
-            marginBottom: "10px",
-          }}
+      <div className="flex-1 ml-[270px] p-8 lg:p-10 relative z-10">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-7xl mx-auto"
         >
-          🌍 CarbonTrack Dashboard
-        </h1>
-
-        <p
-          style={{
-            color: "#64748B",
-            fontSize: "18px",
-            marginBottom: "35px",
-          }}
-        >
-          👋 Welcome, User! 🌱 Let's build a greener future.
-        </p>
-
-        {/* Cards */}
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))",
-            gap: "20px",
-          }}
-        >
-          <div style={greenCard}>
-            <h3 style={title}>🌍 Total Carbon Emission</h3>
-            <h1 style={value}>{totalCarbonEmission.toFixed(2)} kg</h1>
-            <p style={desc}>Total CO₂ Emission</p>
+          {/* Header */}
+          <div className="mb-10">
+            <BlurText 
+              text="🌍 CarbonTrack Dashboard"
+              delay={50}
+              className="text-4xl font-extrabold text-white tracking-tight mb-2"
+            />
+            <motion.p variants={itemVariants} className="text-lg text-slate-400 font-medium">
+              👋 Welcome back! 🌱 Let's build a greener future.
+            </motion.p>
           </div>
 
-          <div style={blueCard}>
-            <h3 style={title}>📅 Today's Carbon</h3>
-            <h1 style={value}>{todaysCarbonEmission.toFixed(2)} kg</h1>
-            <p style={desc}>Today's CO₂</p>
-          </div>
-
-          <div style={orangeCard}>
-            <h3 style={title}>🌿 Total Activities</h3>
-            <h1 style={value}>{activities.length}</h1>
-            <p style={desc}>Activities Recorded</p>
-          </div>
-
-          <div style={purpleCard}>
-            <h3 style={title}>🏆 Eco Score</h3>
-            <h1 style={value}>
-              {Math.max(100 - totalCarbonEmission.toFixed(0), 0)}
-            </h1>
-            <p style={desc}>Green Score</p>
-          </div>
-        </div>
-
-        {/* Chart */}
-
-        <div
-          style={{
-            marginTop: "35px",
-            background: "white",
-            padding: "25px",
-            borderRadius: "18px",
-            boxShadow: "0 5px 20px rgba(0,0,0,.08)",
-          }}
-        >
-          <h2>📈 Carbon Emission Overview</h2>
-
-          <div
-            style={{
-              width: "100%",
-              height: "320px",
-            }}
+          {/* Cards */}
+          <motion.div 
+            variants={itemVariants}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           >
-            <CarbonChart activities={activities} />
-          </div>
-          </div>
+            <motion.div 
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="bg-slate-800/60 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-slate-700/50 transition-all hover:border-emerald-500/30"
+            >
+              <h3 className="text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <span className="p-1.5 rounded-md bg-emerald-500/20">🌍</span> Total Carbon
+              </h3>
+              <h1 className="text-4xl font-bold text-white mb-1">{totalCarbonEmission.toFixed(2)} <span className="text-xl text-slate-500">kg</span></h1>
+              <p className="text-sm text-slate-400 font-medium">Total CO₂ Emission</p>
+            </motion.div>
 
-        {/* Recent Activities */}
+            <motion.div 
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="bg-slate-800/60 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-slate-700/50 transition-all hover:border-blue-500/30"
+            >
+              <h3 className="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <span className="p-1.5 rounded-md bg-blue-500/20">📅</span> Today's Carbon
+              </h3>
+              <h1 className="text-4xl font-bold text-white mb-1">{todaysCarbonEmission.toFixed(2)} <span className="text-xl text-slate-500">kg</span></h1>
+              <p className="text-sm text-slate-400 font-medium">Today's CO₂</p>
+            </motion.div>
 
-        <div
-          style={{
-            marginTop: "35px",
-            background: "#FFFFFF",
-            color: "#000000",
-            padding: "25px",
-            borderRadius: "18px",
-            boxShadow: "0 5px 20px rgba(0,0,0,.08)",
-          }}
-        >
-          <h2
-            style={{
-              color: "#000000",
-              marginBottom: "20px",
-            }}
+            <motion.div 
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="bg-slate-800/60 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-slate-700/50 transition-all hover:border-orange-500/30"
+            >
+              <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <span className="p-1.5 rounded-md bg-orange-500/20">🌿</span> Total Activities
+              </h3>
+              <h1 className="text-4xl font-bold text-white mb-1">{activities.length}</h1>
+              <p className="text-sm text-slate-400 font-medium">Activities Recorded</p>
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="bg-slate-800/60 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-slate-700/50 transition-all hover:border-purple-500/30"
+            >
+              <h3 className="text-sm font-semibold text-purple-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <span className="p-1.5 rounded-md bg-purple-500/20">🏆</span> Eco Score
+              </h3>
+              <h1 className="text-4xl font-bold text-white mb-1">
+                {Math.max(100 - totalCarbonEmission.toFixed(0), 0)}
+              </h1>
+              <p className="text-sm text-slate-400 font-medium">Green Score Rating</p>
+            </motion.div>
+          </motion.div>
+
+          {/* Chart */}
+          <motion.div 
+            variants={itemVariants}
+            className="bg-slate-800/40 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-slate-700/50 mb-10 relative overflow-hidden"
           >
-            📋 Recent Activities
-          </h2>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -z-10"></div>
+            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+              <span className="text-emerald-400">📈</span> Carbon Emission Overview
+            </h2>
+            <div className="w-full h-[360px] bg-slate-900/50 rounded-xl p-4 border border-slate-700/30">
+              <CarbonChart activities={activities} />
+            </div>
+          </motion.div>
 
-          <table
-            style={{
-              width: "100%",
-              marginTop: "20px",
-              borderCollapse: "collapse",
-            }}
+          {/* Recent Activities */}
+          <motion.div 
+            variants={itemVariants}
+            className="bg-slate-800/40 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-slate-700/50 mb-10 overflow-hidden"
           >
-            <thead>
-              <tr style={{ background: "#E2E8F0" }}>
-                <th style={tableHead}>Date</th>
-                <th style={tableHead}>Category</th>
-                <th style={tableHead}>Activity</th>
-                <th style={tableHead}>Quantity</th>
-                <th style={tableHead}>Unit</th>
-                <th style={tableHead}>Carbon (kg CO₂)</th>
-              </tr>
-            </thead>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <span className="text-blue-400">📋</span> Recent Activities
+              </h2>
+              <button
+                onClick={() => navigate("/logactivity")}
+                className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-5 py-2.5 rounded-xl font-semibold transition-all transform hover:-translate-y-0.5 shadow-lg text-sm flex items-center gap-2"
+              >
+                <span>➕</span> Log New Activity
+              </button>
+            </div>
 
-            <tbody>
-              {activities.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan="6"
-                    style={{
-                      textAlign: "center",
-                      padding: "25px",
-                    }}
-                  >
-                    No activities found.
-                  </td>
-                </tr>
-              ) : (
-                activities
-                  .slice()
-                  .reverse()
-                  .slice(0, 5)
-                  .map((item) => (
-                    <tr key={item.id}>
-                      <td style={tableCell}>{item.date}</td>
-                      <td style={tableCell}>{item.category}</td>
-                      <td style={tableCell}>{item.activity}</td>
-                      <td style={tableCell}>{item.quantity}</td>
-                      <td style={tableCell}>{item.unit}</td>
-
-                      <td style={tableCell}>
-                        {(item.carbonEmission || 0).toFixed(2)}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-900/50 border-b border-slate-700">
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider rounded-tl-xl">Date</th>
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider">Category</th>
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider">Activity</th>
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider">Quantity</th>
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider">Unit</th>
+                    <th className="py-4 px-6 font-semibold text-slate-400 text-sm uppercase tracking-wider rounded-tr-xl">Carbon (kg CO₂)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-700/50">
+                  {activities.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="py-12 text-center text-slate-500 font-medium">
+                        No activities found. Start logging!
                       </td>
                     </tr>
-                  ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                  ) : (
+                    activities
+                      .slice()
+                      .reverse()
+                      .slice(0, 5)
+                      .map((item) => (
+                        <tr key={item.id} className="hover:bg-slate-700/30 transition-colors">
+                          <td className="py-4 px-6 text-sm text-slate-300 font-medium">{item.date}</td>
+                          <td className="py-4 px-6 text-sm text-slate-400">{item.category}</td>
+                          <td className="py-4 px-6 text-sm text-slate-400">{item.activity}</td>
+                          <td className="py-4 px-6 text-sm text-slate-300 font-medium">{item.quantity}</td>
+                          <td className="py-4 px-6 text-sm text-slate-500">{item.unit}</td>
+                          <td className="py-4 px-6 text-sm text-emerald-400 font-bold">
+                            {(item.carbonEmission || 0).toFixed(2)}
+                          </td>
+                        </tr>
+                      ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
 
-        {/* Button */}
-
-        <div style={{ marginTop: "30px" }}>
-          <button
-            onClick={() => navigate("/logactivity")}
-            style={{
-              background: "#22C55E",
-              color: "white",
-              border: "none",
-              padding: "15px 30px",
-              borderRadius: "10px",
-              cursor: "pointer",
-              fontSize: "18px",
-              fontWeight: "bold",
-            }}
-          >
-            ➕ Log New Activity
-          </button>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 }
-
-/* Cards */
-
-const greenCard = {
-  background: "#DCFCE7",
-  padding: "25px",
-  borderRadius: "18px",
-  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-};
-
-const blueCard = {
-  background: "#DBEAFE",
-  padding: "25px",
-  borderRadius: "18px",
-  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-};
-
-const orangeCard = {
-  background: "#FFEDD5",
-  padding: "25px",
-  borderRadius: "18px",
-  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-};
-
-const purpleCard = {
-  background: "#F3E8FF",
-  padding: "25px",
-  borderRadius: "18px",
-  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-};
-
-const title = {
-  color: "#0F172A",
-};
-
-const value = {
-  fontSize: "36px",
-  color: "#111827",
-};
-
-const desc = {
-  color: "#475569",
-};
-
-const tableHead = {
-  padding: "15px",
-  textAlign: "left",
-  color: "#000000",
-  fontWeight: "700",
-  backgroundColor: "#E2E8F0",
-};
-
-const tableCell = {
-  padding: "15px",
-  borderBottom: "1px solid #E2E8F0",
-  color: "#000000",
-  backgroundColor: "#FFFFFF",
-  fontWeight: "600",
-  opacity: 1,
-};
 
 export default Dashboard;
