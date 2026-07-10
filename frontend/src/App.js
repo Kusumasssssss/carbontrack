@@ -13,6 +13,7 @@ import LogActivity from "./pages/LogActivity";
 import Analytics from "./pages/Analytics";
 import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
 import PageTransition from "./components/PageTransition";
+import Layout from "./components/Layout";
 
 const NotFound = () => (
   <div className="glass-panel p-8">
@@ -41,16 +42,12 @@ function AnimatedRoutes() {
           element={<OAuth2RedirectHandler />}
         />
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<PageTransition><Dashboard /></PageTransition>} />
-
-        {/* Activities */}
-        <Route path="/activities" element={<PageTransition><Activities /></PageTransition>} />
-        <Route path="/logactivity" element={<PageTransition><LogActivity /></PageTransition>} />
-        <Route path="/logactivity/:id" element={<PageTransition><LogActivity /></PageTransition>} />
-
-        {/* Analytics */}
-        <Route path="/analytics" element={<PageTransition><Analytics /></PageTransition>} />
+        {/* Dashboard Routes wrapped in Layout */}
+        <Route path="/dashboard" element={<Layout><PageTransition><Dashboard /></PageTransition></Layout>} />
+        <Route path="/activities" element={<Layout><PageTransition><Activities /></PageTransition></Layout>} />
+        <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
+        <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
+        <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
 
         {/* 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

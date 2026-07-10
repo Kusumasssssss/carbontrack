@@ -14,6 +14,8 @@ export const login = async (email, password) => {
     const data = await response.json();
     if (data.token) {
         localStorage.setItem('token', data.token);
+        if (data.username) localStorage.setItem('username', data.username);
+        if (data.email) localStorage.setItem('email', data.email);
     }
     return data;
 };
@@ -29,11 +31,19 @@ export const signup = async (username, email, password) => {
         throw new Error('Signup failed. Email or username might already be in use.');
     }
     
-    return await response.json();
+    const data = await response.json();
+    if (data.token) {
+        localStorage.setItem('token', data.token);
+        if (data.username) localStorage.setItem('username', data.username);
+        if (data.email) localStorage.setItem('email', data.email);
+    }
+    return data;
 };
 
 export const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
 };
 
 export const isAuthenticated = () => {

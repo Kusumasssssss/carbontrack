@@ -37,12 +37,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
 
+        String name = oAuth2User.getAttribute("name");
+
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isPresent()) {
             User existingUser = userOptional.get();
+            boolean changed = false;
             if (!existingUser.getAuthProvider().equals(authProvider)) {
                 existingUser.setAuthProvider(authProvider);
+                changed = true;
+            }
+            if (name != null && (existingUser.getFullName() == null || existingUser.getFullName().trim().isEmpty())) {
+                existingUser.setFullName(name);
+                changed = true;
+            }
+            if (changed) {
                 userRepository.save(existingUser);
             }
         } else {
@@ -50,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             User newUser = User.builder()
                     .email(email)
                     .username(email.split("@")[0] + "_" + System.currentTimeMillis()) 
+                    .fullName(name)
                     .authProvider(authProvider)
                     .role("USER")
                     .build();
