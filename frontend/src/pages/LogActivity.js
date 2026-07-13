@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import { motion } from "framer-motion";
+import { Save, FileEdit, Database, ArrowLeft } from "lucide-react";
+import BlurText from "../components/BlurText";
+import { fetchAuth } from "../api";
 
 function LogActivity() {
   const { id } = useParams();
@@ -17,7 +20,7 @@ function LogActivity() {
   // Load activity when editing
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8080/api/activity/${id}`)
+      fetchAuth(`/activity/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setFormData({
@@ -43,20 +46,11 @@ function LogActivity() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
-
-      const url = id
-        ? `http://localhost:8080/api/activity/${id}`
-        : "http://localhost:8080/api/activity";
-
+      const url = id ? `/activity/${id}` : "/activity";
       const method = id ? "PUT" : "POST";
 
-      const response = await fetch(url, {
+      const response = await fetchAuth(url, {
         method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           category: formData.category,
           activity: formData.activity,
@@ -74,12 +68,6 @@ function LogActivity() {
         return;
       }
 
-      alert(
-        id
-          ? "✅ Activity updated successfully!"
-          : "✅ Activity saved successfully!"
-      );
-
       navigate("/activities");
     } catch (error) {
       console.error(error);
@@ -87,160 +75,143 @@ function LogActivity() {
     }
   };
 
+  const formVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        background: "#F1F5F9",
-        minHeight: "100vh",
-      }}
-    >
-      <Sidebar />
+    <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <div className="mb-10">
+            <button 
+              onClick={() => navigate("/activities")}
+              className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors mb-6"
+            >
+              <ArrowLeft size={16} /> Back to Activities
+            </button>
+            <div className="flex items-center gap-2 text-brand-400 mb-2">
+              <Database size={16} />
+              <span className="text-xs font-bold uppercase tracking-wider">Data Repository</span>
+            </div>
+            <BlurText 
+              text={id ? "Edit Record" : "New Entry"}
+              delay={40}
+              className="text-4xl font-extrabold text-white tracking-tight mb-2"
+            />
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-lg text-slate-400 font-medium"
+            >
+              {id ? "Update the details of this logged activity." : "Record a new activity to calculate organizational carbon footprint."}
+            </motion.p>
+          </div>
 
-      <div
-        style={{
-          flex: 1,
-          marginLeft: "270px",
-          padding: "40px",
-        }}
-      >
-        <h1
-          style={{
-            color: "#0F172A",
-            fontSize: "36px",
-            marginBottom: "10px",
-          }}
-        >
-          {id ? "✏️ Edit Activity" : "➕ Log Activity"}
-        </h1>
-
-        <p
-          style={{
-            color: "#64748B",
-            marginBottom: "30px",
-            fontSize: "18px",
-          }}
-        >
-          Record your daily activities to calculate your carbon footprint.
-        </p>
-
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            background: "#FFFFFF",
-            padding: "35px",
-            borderRadius: "18px",
-            boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-            maxWidth: "700px",
-          }}
-        >
-          <label style={labelStyle}>Category</label>
-
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            style={inputStyle}
-            required
+          <motion.form
+            variants={formVariants}
+            initial="hidden"
+            animate="visible"
+            onSubmit={handleSubmit}
+            className="glass-panel p-8"
           >
-            <option value="">Select Category</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Electricity">Electricity</option>
-            <option value="Food">Food</option>
-            <option value="Waste">Waste</option>
-          </select>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Category</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all appearance-none"
+                  required
+                >
+                  <option value="" className="bg-slate-900 text-slate-500">Select Category</option>
+                  <option value="Transportation" className="bg-slate-900">Transportation</option>
+                  <option value="Electricity" className="bg-slate-900">Electricity</option>
+                  <option value="Food" className="bg-slate-900">Food</option>
+                  <option value="Waste" className="bg-slate-900">Waste</option>
+                </select>
+              </div>
 
-          <label style={labelStyle}>Activity</label>
+              <div>
+                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Activity Description</label>
+                <input
+                  type="text"
+                  name="activity"
+                  value={formData.activity}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all placeholder-slate-600"
+                  placeholder="e.g., Q3 Employee Flight Travel (NY to LDN)"
+                  required
+                />
+              </div>
 
-          <input
-            type="text"
-            name="activity"
-            value={formData.activity}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Quantity</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all placeholder-slate-600"
+                    placeholder="e.g., 1500"
+                    required
+                  />
+                </div>
 
-          <label style={labelStyle}>Quantity</label>
+                <div>
+                  <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Unit of Measurement</label>
+                  <select
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all appearance-none"
+                    required
+                  >
+                    <option value="" className="bg-slate-900 text-slate-500">Select Unit</option>
+                    <option value="km" className="bg-slate-900">Kilometers (km)</option>
+                    <option value="kWh" className="bg-slate-900">Kilowatt-hours (kWh)</option>
+                    <option value="kg" className="bg-slate-900">Kilograms (kg)</option>
+                    <option value="litres" className="bg-slate-900">Litres</option>
+                  </select>
+                </div>
+              </div>
 
-          <input
-            type="number"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
+              <div>
+                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Date of Activity</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all"
+                  required
+                />
+              </div>
+            </div>
 
-          <label style={labelStyle}>Unit</label>
-
-          <select
-            name="unit"
-            value={formData.unit}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          >
-            <option value="">Select Unit</option>
-            <option value="km">km</option>
-            <option value="kWh">kWh</option>
-            <option value="kg">kg</option>
-            <option value="litres">litres</option>
-          </select>
-
-          <label style={labelStyle}>Date</label>
-
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            style={inputStyle}
-            required
-          />
-
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              marginTop: "25px",
-              background: "#22C55E",
-              color: "#FFFFFF",
-              border: "none",
-              padding: "16px",
-              borderRadius: "12px",
-              fontSize: "18px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            {id ? "✏️ Update Activity" : "💾 Save Activity"}
-          </button>
-        </form>
-      </div>
+            <div className="mt-8 pt-6 border-t border-white/5 flex gap-4">
+              <button
+                type="button"
+                onClick={() => navigate("/activities")}
+                className="flex-1 px-4 py-3 bg-slate-900 border border-white/10 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex-2 w-full btn-primary flex justify-center items-center gap-2"
+              >
+                {id ? <FileEdit size={18} /> : <Save size={18} />}
+                {id ? "Save Changes" : "Commit Record"}
+              </button>
+            </div>
+          </motion.form>
     </div>
   );
 }
-
-const labelStyle = {
-  display: "block",
-  marginBottom: "8px",
-  color: "#0F172A",
-  fontWeight: "600",
-  fontSize: "16px",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "14px",
-  marginTop: "8px",
-  marginBottom: "20px",
-  borderRadius: "10px",
-  border: "1px solid #CBD5E1",
-  fontSize: "16px",
-  color: "#0F172A",
-  background: "#FFFFFF",
-  boxSizing: "border-box",
-};
 
 export default LogActivity;

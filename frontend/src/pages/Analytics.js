@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
 import { fetchAuth } from "../api";
+import { motion } from "framer-motion";
+import BlurText from "../components/BlurText";
+import { BarChart3, PieChart as PieChartIcon, TrendingUp, Activity, ArrowUpRight, Zap, Target } from "lucide-react";
 import {
   PieChart,
   Pie,
@@ -14,8 +16,8 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
-function Analytics() {
 
+function Analytics() {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
@@ -55,182 +57,247 @@ function Analytics() {
       : { name: "-", value: 0 };
 
   const COLORS = [
-    "#22C55E",
-    "#3B82F6",
-    "#F59E0B",
-    "#EF4444",
-    "#8B5CF6",
+    "#22c55e", // brand-500
+    "#3b82f6", // blue-500
+    "#f59e0b", // amber-500
+    "#ef4444", // red-500
+    "#8b5cf6", // violet-500
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-slate-900 border border-white/10 p-3 rounded-lg shadow-xl">
+          <p className="text-slate-300 text-sm font-semibold mb-1">{label || payload[0].name}</p>
+          <p className="text-brand-400 font-bold text-lg">
+            {payload[0].value.toFixed(2)} <span className="text-xs text-slate-500 font-medium">kg CO₂e</span>
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        background: "#F1F5F9",
-        minHeight: "100vh",
-      }}
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="max-w-7xl mx-auto"
     >
-      <Sidebar />
-
-      <div
-        style={{
-          flex: 1,
-          marginLeft: "270px",
-          padding: "35px",
-        }}
-      >
-        <h1 style={{ color: "#0F172A" }}>
-          📊 Carbon Analytics
-        </h1>
-
-        <p style={{ color: "#64748B" }}>
-          Analyze your carbon footprint.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))",
-            gap: "20px",
-            marginTop: "30px",
-          }}
-        >
-          <div style={card}>
-            <h3 style={cardTitle}>🌍 Total Carbon</h3>
-            <h1 style={cardValue}>{totalCarbon.toFixed(2)} kg</h1>
-          </div>
-
-          <div style={card}>
-            <h3 style={cardTitle}>📋 Total Activities</h3>
-            <h1 style={cardValue}>{activities.length}</h1>
-          </div>
-
-          <div style={card}>
-            <h3 style={cardTitle}>🏆 Highest Category</h3>
-            <h2 style={cardValue}>{highest.name}</h2>
-          </div>
-
-          <div style={card}>
-            <h3 style={cardTitle}>📊 Average Emission</h3>
-            <h2 style={cardValue}>
-              {activities.length
-                ? (totalCarbon / activities.length).toFixed(2)
-                : "0.00"}{" "}
-              kg
-            </h2>
-          </div>
-        </div>
-
-        <div
-          style={{
-            marginTop: "35px",
-            background: "white",
-            borderRadius: "15px",
-            padding: "25px",
-            height: "420px",
-          }}
-        >
-          <h2>🥧 Carbon Emission by Category</h2>
-
-          <ResponsiveContainer width="100%" height={330}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={120}
-                label
-              >
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-
-              <Tooltip />
-
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <div
-          style={{
-            marginTop: "30px",
-            background: "#FFFFFF",
-            borderRadius: "15px",
-            padding: "25px",
-            boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-          }}
-        >
-          <h2 style={{ color: "#0F172A" }}>
-            📊 Carbon Emission Comparison
-          </h2>
-
-          <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar
-                dataKey="value"
-                fill="#22C55E"
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+              <motion.div variants={itemVariants} className="flex items-center gap-2 text-brand-400 mb-2">
+                <BarChart3 size={16} />
+                <span className="text-xs font-bold uppercase tracking-wider">Intelligence & Insights</span>
+              </motion.div>
+              <BlurText 
+                text="Carbon Analytics"
+                delay={40}
+                className="text-4xl font-extrabold text-white tracking-tight mb-2"
               />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+              <motion.p variants={itemVariants} className="text-slate-400 font-medium">
+                Deep dive into your emission data to discover trends and optimization opportunities.
+              </motion.p>
+            </div>
+            
+            <motion.div variants={itemVariants} className="flex items-center gap-4">
+              <button className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-sm font-semibold text-white hover:bg-slate-800 transition-colors shadow-lg">
+                <Zap size={16} className="text-accent" />
+                Generate Report
+              </button>
+            </motion.div>
+          </div>
 
-        <div
-          style={{
-            marginTop: "30px",
-            background: "white",
-            padding: "25px",
-            borderRadius: "15px",
-          }}
-        >
-          <h2>🌱 Carbon Reduction Tips</h2>
-
-          <ul
-            style={{
-              lineHeight: "35px",
-              fontSize: "18px",
-            }}
+          {/* KPI Cards */}
+          <motion.div 
+            variants={itemVariants}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           >
-            <li>🚲 Use bicycles for short distances.</li>
-            <li>🚆 Prefer public transportation.</li>
-            <li>💡 Switch off unused electrical appliances.</li>
-            <li>🌳 Plant more trees.</li>
-            <li>🥗 Reduce food waste.</li>
-          </ul>
-        </div>
+            <div className="glass-panel p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-brand-500/20 flex items-center justify-center border border-brand-500/20">
+                  <Activity size={20} className="text-brand-400" />
+                </div>
+                <div className="flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-brand-500/20 text-brand-400">
+                  <ArrowUpRight size={14} />
+                  Net Total
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Carbon</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-3xl font-bold text-white">{totalCarbon.toFixed(1)}</h2>
+                <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
+              </div>
+            </div>
 
-      </div>
-    </div>
+            <div className="glass-panel p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/20">
+                  <Target size={20} className="text-blue-400" />
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Activities</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-3xl font-bold text-white">{activities.length}</h2>
+                <span className="text-sm text-slate-500 font-medium">records</span>
+              </div>
+            </div>
+
+            <div className="glass-panel p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center border border-orange-500/20">
+                  <TrendingUp size={20} className="text-orange-400" />
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Highest Source</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-2xl font-bold text-white truncate">{highest.name}</h2>
+              </div>
+            </div>
+
+            <div className="glass-panel p-6 border-brand-500/30">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                  <PieChartIcon size={20} className="text-white" />
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-1">Avg Emission / Record</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-3xl font-bold text-white">
+                  {activities.length ? (totalCarbon / activities.length).toFixed(1) : "0.0"}
+                </h2>
+                <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            {/* Pie Chart */}
+            <motion.div variants={itemVariants} className="glass-panel p-8 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-lg font-bold text-white">Emission by Category</h3>
+                  <p className="text-sm text-slate-400">Distribution of carbon sources</p>
+                </div>
+              </div>
+              
+              <div className="flex-1 w-full min-h-[350px] relative">
+                {chartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={80}
+                        outerRadius={120}
+                        paddingAngle={5}
+                        stroke="none"
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend 
+                        verticalAlign="bottom" 
+                        height={36} 
+                        iconType="circle"
+                        formatter={(value) => <span className="text-slate-300 font-medium">{value}</span>}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <p className="text-slate-500 font-medium">No data available for charting.</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Bar Chart */}
+            <motion.div variants={itemVariants} className="glass-panel p-8 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-lg font-bold text-white">Category Comparison</h3>
+                  <p className="text-sm text-slate-400">Total emissions per category</p>
+                </div>
+              </div>
+
+              <div className="flex-1 w-full min-h-[350px] relative">
+                {chartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                      <XAxis dataKey="name" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<CustomTooltip />} cursor={{ fill: '#1e293b', opacity: 0.5 }} />
+                      <Bar dataKey="value" fill="#22c55e" radius={[6, 6, 0, 0]} maxBarSize={60}>
+                        {chartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <p className="text-slate-500 font-medium">No data available for charting.</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* AI Insights Section */}
+          <motion.div 
+            variants={itemVariants}
+            className="glass-panel border-brand-500/30 p-8 relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-[80px] -z-10" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-brand-500/20 p-2 rounded-lg border border-brand-500/30">
+                <Zap size={20} className="text-brand-400" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Avni Insights</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
+                <div className="text-2xl mb-3">🚲</div>
+                <h4 className="font-bold text-white mb-2">Micro-mobility Optimization</h4>
+                <p className="text-sm text-slate-400">Shifting 20% of short-distance commute to bicycles can reduce your transportation emissions by an estimated 15%.</p>
+              </div>
+              
+              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
+                <div className="text-2xl mb-3">💡</div>
+                <h4 className="font-bold text-white mb-2">Energy Efficiency</h4>
+                <p className="text-sm text-slate-400">Implementing automated lighting controls in corporate spaces usually yields a 10-12% decrease in electricity consumption.</p>
+              </div>
+
+              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
+                <div className="text-2xl mb-3">✈️</div>
+                <h4 className="font-bold text-white mb-2">Travel Policy Review</h4>
+                <p className="text-sm text-slate-400">Replacing one cross-country flight per quarter with virtual meetings can save approximately 2.5 tCO2e annually per executive.</p>
+              </div>
+            </div>
+          </motion.div>
+
+    </motion.div>
   );
 }
-
-const card = {
-  background: "#FFFFFF",
-  padding: "25px",
-  borderRadius: "15px",
-  boxShadow: "0 5px 15px rgba(0,0,0,.08)",
-  color: "#0F172A",
-};
-const cardTitle = {
-  color: "#64748B",
-  fontSize: "18px",
-  fontWeight: "600",
-  marginBottom: "15px",
-};
-
-const cardValue = {
-  color: "#0F172A",
-  fontSize: "36px",
-  fontWeight: "bold",
-  margin: 0,
-};
 
 export default Analytics;

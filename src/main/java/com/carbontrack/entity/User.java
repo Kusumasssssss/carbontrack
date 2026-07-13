@@ -67,6 +67,16 @@ public class User implements UserDetails {
         return passwordHash;
     }
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    public String getDisplayName() {
+        if (fullName != null && !fullName.trim().isEmpty()) {
+            return fullName;
+        }
+        return this.username;
+    }
+
     @Override
     public String getUsername() {
         return email; // We use email as the primary login principal

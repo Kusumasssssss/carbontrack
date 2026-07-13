@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 import "./styles/index.css";
 
@@ -11,6 +12,8 @@ import Activities from "./pages/Activities";
 import LogActivity from "./pages/LogActivity";
 import Analytics from "./pages/Analytics";
 import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
+import PageTransition from "./components/PageTransition";
+import Layout from "./components/Layout";
 
 const NotFound = () => (
   <div className="glass-panel p-8">
@@ -20,39 +23,45 @@ const NotFound = () => (
   </div>
 );
 
+function AnimatedRoutes() {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Landing Page */}
+        <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+
+        {/* Authentication */}
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
+
+        {/* Google OAuth2 Redirect */}
+        <Route
+          path="/oauth2/redirect"
+          element={<OAuth2RedirectHandler />}
+        />
+
+        {/* Dashboard Routes wrapped in Layout */}
+        <Route path="/dashboard" element={<Layout><PageTransition><Dashboard /></PageTransition></Layout>} />
+        <Route path="/activities" element={<Layout><PageTransition><Activities /></PageTransition></Layout>} />
+        <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
+        <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
+        <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
+
+        {/* 404 */}
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="flex min-h-screen">
-        <main className="flex-1 p-8 overflow-y-auto">
-          <Routes>
-            {/* Landing Page */}
-            <Route path="/" element={<LandingPage />} />
-
-            {/* Authentication */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-
-            {/* Google OAuth2 Redirect */}
-            <Route
-              path="/oauth2/redirect"
-              element={<OAuth2RedirectHandler />}
-            />
-
-            {/* Dashboard */}
-            <Route path="/dashboard" element={<Dashboard />} />
-
-            {/* Activities */}
-            <Route path="/activities" element={<Activities />} />
-            <Route path="/logactivity" element={<LogActivity />} />
-            <Route path="/logactivity/:id" element={<LogActivity />} />
-
-            {/* Analytics */}
-            <Route path="/analytics" element={<Analytics />} />
-
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+      <div className="flex min-h-screen bg-slate-900">
+        <main className="flex-1 overflow-x-hidden">
+          <AnimatedRoutes />
         </main>
       </div>
     </Router>

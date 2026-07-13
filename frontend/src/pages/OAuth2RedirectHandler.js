@@ -9,10 +9,14 @@ const OAuth2RedirectHandler = () => {
     // Extract token from URL query parameters
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
+    const username = queryParams.get('username');
+    const email = queryParams.get('email');
     const error = queryParams.get('error');
 
     if (token) {
       localStorage.setItem('token', token);
+      if (username) localStorage.setItem('username', username);
+      if (email) localStorage.setItem('email', email);
       navigate('/dashboard', { replace: true });
     } else {
       console.error("OAuth2 Error: ", error || "Unknown error");
