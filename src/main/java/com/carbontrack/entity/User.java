@@ -38,13 +38,16 @@ public class User implements UserDetails {
     @Column(name = "org_id")
     private Long orgId;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider", nullable = false)
     private AuthProvider authProvider = AuthProvider.LOCAL;
 
+    @Builder.Default
     @Column(name = "preferred_units")
     private String preferredUnits = "METRIC";
 
+    @Builder.Default
     @Column(name = "goal_visibility")
     private String goalVisibility = "PRIVATE";
 

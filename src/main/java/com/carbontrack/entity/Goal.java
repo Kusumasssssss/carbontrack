@@ -32,6 +32,7 @@ public class Goal {
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
+    @Builder.Default
     @Column(nullable = false)
     private String status = "ACTIVE"; // ACTIVE, ACHIEVED, MISSED
 }
