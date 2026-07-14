@@ -14,6 +14,7 @@ import Analytics from "./pages/Analytics";
 import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
 import PageTransition from "./components/PageTransition";
 import Layout from "./components/Layout";
+import Goals from "./pages/Goals";
 
 const NotFound = () => (
   <div className="glass-panel p-8">
@@ -48,6 +49,16 @@ function AnimatedRoutes() {
         <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
+        <Route
+            path="/goals"
+            element={
+                <Layout>
+                    <PageTransition>
+                        <Goals />
+                    </PageTransition>
+                </Layout>
+            }
+        />
 
         {/* 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
