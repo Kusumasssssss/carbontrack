@@ -54,6 +54,7 @@ public class ActivityLogService {
     }
 
     // Save Activity
+    @org.springframework.cache.annotation.CacheEvict(value = "footprints", allEntries = true)
     public ActivityLog saveActivity(ActivityLog activity) {
 
         User user = getLoggedInUser();
@@ -93,6 +94,7 @@ public class ActivityLogService {
     }
 
     // Update Activity
+    @org.springframework.cache.annotation.CacheEvict(value = "footprints", allEntries = true)
     public ActivityLog updateActivity(Long id, ActivityLog activity) {
 
         User user = getLoggedInUser();
@@ -120,6 +122,7 @@ public class ActivityLogService {
     }
 
     // Delete Activity
+    @org.springframework.cache.annotation.CacheEvict(value = "footprints", allEntries = true)
     public void deleteActivity(Long id) {
 
         User user = getLoggedInUser();
