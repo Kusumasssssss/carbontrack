@@ -57,24 +57,12 @@ function AnimatedRoutes() {
         <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
-<<<<<<< HEAD
+        {/* Goals Route */}
+        <Route path="/goals" element={<Layout><PageTransition><Goals /></PageTransition></Layout>} />
         
         {/* Placeholder Routes for Sidebar Tabs */}
-        <Route path="/goals" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
         <Route path="/badges" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
         <Route path="/settings" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
-=======
-        <Route
-            path="/goals"
-            element={
-                <Layout>
-                    <PageTransition>
-                        <Goals />
-                    </PageTransition>
-                </Layout>
-            }
-        />
->>>>>>> 389162bfc9092fb2f7bee89a13958ee48aea201a
 
         {/* Catch-all 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
