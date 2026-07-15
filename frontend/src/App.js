@@ -14,6 +14,7 @@ import Analytics from "./pages/Analytics";
 import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
 import PageTransition from "./components/PageTransition";
 import Layout from "./components/Layout";
+import Goals from "./pages/Goals";
 
 const NotFound = () => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] glass-panel p-8 text-center border-dashed border-2 border-white/10">
@@ -56,11 +57,24 @@ function AnimatedRoutes() {
         <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
+<<<<<<< HEAD
         
         {/* Placeholder Routes for Sidebar Tabs */}
         <Route path="/goals" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
         <Route path="/badges" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
         <Route path="/settings" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
+=======
+        <Route
+            path="/goals"
+            element={
+                <Layout>
+                    <PageTransition>
+                        <Goals />
+                    </PageTransition>
+                </Layout>
+            }
+        />
+>>>>>>> 389162bfc9092fb2f7bee89a13958ee48aea201a
 
         {/* Catch-all 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
