@@ -19,34 +19,54 @@ import { isAuthenticated, fetchAuth } from "../api";
 function Dashboard() {
   const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
+  const [dailyCarbon, setDailyCarbon] = useState(0);
+  const [weeklyCarbon, setWeeklyCarbon] = useState(0);
+  const [monthlyCarbon, setMonthlyCarbon] = useState(0);
 
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login");
+      return;
     }
+
+    const fetchData = () => {
+      // Fetch Recent Activities
+      fetchAuth("/activity")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setActivities(data);
+        })
+        .catch(console.error);
+
+      // Fetch Today's footprint
+      fetchAuth("/footprint/daily")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setDailyCarbon(data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0));
+        }).catch(console.error);
+
+      // Fetch This Week's footprint
+      fetchAuth("/footprint/weekly")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setWeeklyCarbon(data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0));
+        }).catch(console.error);
+
+      // Fetch This Month's footprint
+      fetchAuth("/footprint/monthly")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setMonthlyCarbon(data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0));
+        }).catch(console.error);
+    };
+
+    // Initial fetch
+    fetchData();
+
+    // Live update every 10 seconds
+    const intervalId = setInterval(fetchData, 10000);
+    return () => clearInterval(intervalId);
   }, [navigate]);
-
-  useEffect(() => {
-    fetchAuth("/activity")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setActivities(data);
-        } else {
-          setActivities([]);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setActivities([]);
-      });
-  }, []);
-
-  const today = new Date().toISOString().split("T")[0];
-  const todaysActivities = activities.filter((item) => item.date === today);
-
-  const totalCarbonEmission = activities.reduce((sum, item) => sum + Number(item.carbonEmission || 0), 0);
-  const todaysCarbonEmission = todaysActivities.reduce((sum, item) => sum + Number(item.carbonEmission || 0), 0);
   
   // Faux data for trends
   const trendPercent = 12.4; 
@@ -105,7 +125,35 @@ function Dashboard() {
             variants={itemVariants}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           >
-            {/* Total Carbon */}
+            {/* Today's Carbon */}
+            <div className="glass-panel p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center border border-accent/20">
+                  <Activity size={20} className="text-accent" />
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Today's Impact</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-3xl font-bold text-white">{dailyCarbon.toFixed(1)}</h2>
+                <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
+              </div>
+            </div>
+
+            {/* This Week's Carbon */}
+            <div className="glass-panel p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/20">
+                  <BarChart3 size={20} className="text-indigo-400" />
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">This Week</p>
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-3xl font-bold text-white">{weeklyCarbon.toFixed(1)}</h2>
+                <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
+              </div>
+            </div>
+
+            {/* Total Carbon (Monthly) */}
             <div className="glass-panel p-6">
               <div className="flex justify-between items-start mb-4">
                 <div className="w-10 h-10 rounded-xl bg-brand-500/20 flex items-center justify-center border border-brand-500/20">
@@ -116,38 +164,10 @@ function Dashboard() {
                   {trendPercent}%
                 </div>
               </div>
-              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Carbon</p>
+              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">This Month</p>
               <div className="flex items-baseline gap-2">
-                <h2 className="text-3xl font-bold text-white">{totalCarbonEmission.toFixed(1)}</h2>
+                <h2 className="text-3xl font-bold text-white">{monthlyCarbon.toFixed(1)}</h2>
                 <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
-              </div>
-            </div>
-
-            {/* Today's Carbon */}
-            <div className="glass-panel p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center border border-accent/20">
-                  <Activity size={20} className="text-accent" />
-                </div>
-              </div>
-              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Today's Impact</p>
-              <div className="flex items-baseline gap-2">
-                <h2 className="text-3xl font-bold text-white">{todaysCarbonEmission.toFixed(1)}</h2>
-                <span className="text-sm text-slate-500 font-medium">kg CO₂e</span>
-              </div>
-            </div>
-
-            {/* Total Activities */}
-            <div className="glass-panel p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/20">
-                  <BarChart3 size={20} className="text-indigo-400" />
-                </div>
-              </div>
-              <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Records Logged</p>
-              <div className="flex items-baseline gap-2">
-                <h2 className="text-3xl font-bold text-white">{activities.length}</h2>
-                <span className="text-sm text-slate-500 font-medium">entries</span>
               </div>
             </div>
 
@@ -162,7 +182,7 @@ function Dashboard() {
               <p className="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-1 relative z-10">Eco Score</p>
               <div className="flex items-baseline gap-2 relative z-10">
                 <h2 className="text-3xl font-bold text-white">
-                  {Math.max(100 - totalCarbonEmission.toFixed(0), 0)}
+                  {Math.max(100 - monthlyCarbon.toFixed(0), 0)}
                 </h2>
                 <span className="text-sm text-slate-500 font-medium">/ 100</span>
               </div>

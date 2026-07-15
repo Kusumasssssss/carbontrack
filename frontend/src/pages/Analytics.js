@@ -19,8 +19,11 @@ import {
 
 function Analytics() {
   const [activities, setActivities] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [totalCarbon, setTotalCarbon] = useState(0);
 
   useEffect(() => {
+    // Fetch raw activities for total count
     fetchAuth("/activity")
       .then((res) => res.json())
       .then((data) => {
@@ -29,27 +32,24 @@ function Analytics() {
         }
       })
       .catch(console.error);
+
+    // Fetch pre-aggregated footprint data from Redis cache
+    fetchAuth("/footprint/monthly")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formattedData = data.map(item => ({
+            name: item.category,
+            value: Number(item.totalCo2e || 0)
+          }));
+          setChartData(formattedData);
+
+          const sum = data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0);
+          setTotalCarbon(sum);
+        }
+      })
+      .catch(console.error);
   }, []);
-
-  const totalCarbon = activities.reduce(
-    (sum, item) => sum + Number(item.carbonEmission || 0),
-    0
-  );
-
-  const categories = {};
-
-  activities.forEach((item) => {
-    if (!categories[item.category]) {
-      categories[item.category] = 0;
-    }
-
-    categories[item.category] += Number(item.carbonEmission || 0);
-  });
-
-  const chartData = Object.keys(categories).map((key) => ({
-    name: key,
-    value: categories[key],
-  }));
 
   const highest =
     chartData.length > 0
