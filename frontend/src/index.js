@@ -1,4 +1,5 @@
 import React from 'react';
+import "react-circular-progressbar/dist/styles.css";
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import './styles/index.css';

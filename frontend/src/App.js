@@ -7,7 +7,7 @@ import "./styles/index.css";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import DashboardNew from "./pages/DashboardNew";
 import Activities from "./pages/Activities";
 import LogActivity from "./pages/LogActivity";
 import Analytics from "./pages/Analytics";
@@ -52,7 +52,16 @@ function AnimatedRoutes() {
         />
 
         {/* Dashboard Routes wrapped in Layout */}
-        <Route path="/dashboard" element={<Layout><PageTransition><Dashboard /></PageTransition></Layout>} />
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <PageTransition>
+                <DashboardNew />
+              </PageTransition>
+            </Layout>
+          }
+        />
         <Route path="/activities" element={<Layout><PageTransition><Activities /></PageTransition></Layout>} />
         <Route path="/logactivity" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />
         <Route path="/logactivity/:id" element={<Layout><PageTransition><LogActivity /></PageTransition></Layout>} />

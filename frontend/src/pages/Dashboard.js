@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { 
-  BarChart3, 
-  Leaf, 
-  Target, 
+import {
+  BarChart3,
+  Leaf,
+  Target,
   Activity,
   ArrowUpRight,
   ArrowDownRight,
-  Calendar,
-  CloudLightning,
-  AlertCircle,
-  Plus
+  AlertCircle
 } from "lucide-react";
 import CarbonChart from "../components/CarbonChart";
+import DashboardHeader from "../components/DashboardHeader";
 import { isAuthenticated, fetchAuth } from "../api";
 
 function Dashboard() {
@@ -90,35 +88,56 @@ function Dashboard() {
       className="max-w-7xl mx-auto"
     >
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          {/* Premium Header */}
+          <div className="flex flex-col lg:flex-row justify-between items-center mb-10">
+
             <div>
-              <motion.div variants={itemVariants} className="flex items-center gap-2 text-brand-400 mb-2">
-                <CloudLightning size={16} />
-                <span className="text-xs font-bold uppercase tracking-wider">Workspace Dashboard</span>
-              </motion.div>
-              <motion.h1 variants={itemVariants} className="text-4xl font-extrabold tracking-tight text-white mb-2">
-                Executive Summary
-              </motion.h1>
-              <motion.p variants={itemVariants} className="text-slate-400 font-medium">
-                Real-time overview of your organizational environmental impact.
-              </motion.p>
+
+              <span className="text-green-400 uppercase tracking-[5px] text-sm font-bold">
+                AVNI ENTERPRISE
+              </span>
+
+             <h1 className="text-5xl font-extrabold text-white mt-2">
+                 Welcome Back 👋
+             </h1>
+
+              <p className="text-slate-400 mt-4 text-lg max-w-2xl">
+                Monitor your carbon footprint, track sustainability goals,
+                and make smarter environmental decisions with real-time insights.
+              </p>
+
             </div>
-            
-            <motion.div variants={itemVariants} className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-slate-800/50 border border-white/10 rounded-xl px-4 py-2.5 shadow-inner">
-                <Calendar size={16} className="text-slate-400" />
-                <span className="text-sm font-medium text-slate-300">Last 30 Days</span>
-                <svg className="w-4 h-4 text-slate-500 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+
+            <div className="flex items-center gap-6 mt-8 lg:mt-0">
+
+              <div className="text-right">
+
+                <h2 className="text-white font-semibold">
+                    User
+                </h2>
+
+                <p className="text-slate-400 text-sm">
+                    Carbon Tracker
+                </p>
+
               </div>
-              <button 
+
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-black text-xl font-bold shadow-lg">
+                U
+              </div>
+
+              <button
                 onClick={() => navigate("/logactivity")}
-                className="btn-primary flex items-center gap-2"
+                className="bg-green-500 hover:bg-green-400 px-6 py-3 rounded-xl text-black font-semibold transition-all duration-300"
               >
-                <Plus size={18} />
-                <span>Log Data</span>
+                + Log Activity
               </button>
-            </motion.div>
+
+            </div>
+
           </div>
+            
+
 
           {/* Metric Cards */}
           <motion.div 
