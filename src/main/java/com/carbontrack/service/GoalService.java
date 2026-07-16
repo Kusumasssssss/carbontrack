@@ -32,19 +32,32 @@ public class GoalService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    // ==========================
     // Create Goal
+    // ==========================
     public Goal createGoal(Goal goal) {
 
         User user = getLoggedInUser();
 
+        LocalDate today = LocalDate.now();
+
         goal.setUser(user);
-        goal.setStartDate(LocalDate.now());
+
+        // Automatically set today's date
+        goal.setStartDate(today);
+
+        // Automatically calculate deadline
+        goal.setDeadline(today.plusDays(goal.getPeriodDays()));
+
+        // Default status
         goal.setStatus("ACTIVE");
 
         return goalRepository.save(goal);
     }
 
+    // ==========================
     // Get All Goals
+    // ==========================
     public List<Goal> getGoals() {
 
         User user = getLoggedInUser();
@@ -52,7 +65,9 @@ public class GoalService {
         return goalRepository.findByUser(user);
     }
 
+    // ==========================
     // Get Active Goal
+    // ==========================
     public Goal getActiveGoal() {
 
         User user = getLoggedInUser();
@@ -62,7 +77,9 @@ public class GoalService {
                 .orElse(null);
     }
 
+    // ==========================
     // Update Goal
+    // ==========================
     public Goal updateGoal(Long id, Goal updatedGoal) {
 
         Goal goal = goalRepository.findById(id)
@@ -71,10 +88,17 @@ public class GoalService {
         goal.setTargetReductionPct(updatedGoal.getTargetReductionPct());
         goal.setPeriodDays(updatedGoal.getPeriodDays());
 
+        // Recalculate deadline
+        goal.setDeadline(
+                goal.getStartDate().plusDays(goal.getPeriodDays())
+        );
+
         return goalRepository.save(goal);
     }
 
+    // ==========================
     // Delete Goal
+    // ==========================
     public void deleteGoal(Long id) {
 
         goalRepository.deleteById(id);

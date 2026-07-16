@@ -31,6 +31,8 @@ public class Goal {
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
+    @Column(name = "deadline", nullable = false)
+    private LocalDate deadline;
 
     @Builder.Default
     @Column(nullable = false)
