@@ -1,15 +1,17 @@
 package com.carbontrack.service;
 
+import com.carbontrack.dto.CategoryAggregation;
 import com.carbontrack.entity.ActivityLog;
-import com.carbontrack.entity.User;
 import com.carbontrack.entity.EmissionFactor;
-import com.carbontrack.repository.EmissionFactorRepository;
+import com.carbontrack.entity.User;
 import com.carbontrack.repository.ActivityLogRepository;
+import com.carbontrack.repository.EmissionFactorRepository;
 import com.carbontrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,18 +29,32 @@ public class ActivityLogService {
     // Calculate Carbon Emission
     public double calculateCarbonEmission(String activityType, Double quantity) {
 
+        System.out.println("========== EMISSION DEBUG ==========");
+        System.out.println("Activity Type Received: " + activityType);
+        System.out.println("Quantity: " + quantity);
+
         if (quantity == null) {
+            System.out.println("Quantity is NULL");
             return 0;
         }
 
-        EmissionFactor factor = emissionFactorRepository.findByActivityType(activityType)
+        EmissionFactor factor = emissionFactorRepository
+                .findByActivityTypeIgnoreCase(activityType)
                 .orElse(null);
 
         if (factor == null) {
+            System.out.println("Emission Factor NOT FOUND!");
             return 0;
         }
 
-        return quantity * factor.getKgCo2ePerUnit().doubleValue();
+        System.out.println("Factor Found: " + factor.getKgCo2ePerUnit());
+
+        double emission = quantity * factor.getKgCo2ePerUnit().doubleValue();
+
+        System.out.println("Calculated Emission: " + emission);
+        System.out.println("===================================");
+
+        return emission;
     }
 
     // Get Logged-in User
@@ -132,5 +148,22 @@ public class ActivityLogService {
         if (activity != null && activity.getUser().getId().equals(user.getId())) {
             repository.deleteById(id);
         }
+    }
+
+    // ==================================================
+    // Carbon Breakdown (Last 30 Days)
+    // ==================================================
+    public List<CategoryAggregation> getCarbonBreakdown() {
+
+        User user = getLoggedInUser();
+
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusDays(30);
+
+        return repository.findAggregatedFootprints(
+                user,
+                startDate,
+                endDate
+        );
     }
 }
