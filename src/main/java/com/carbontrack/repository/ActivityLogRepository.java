@@ -19,5 +19,5 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
             @org.springframework.data.repository.query.Param("user") User user, 
             @org.springframework.data.repository.query.Param("startDate") java.time.LocalDate startDate, 
             @org.springframework.data.repository.query.Param("endDate") java.time.LocalDate endDate);
-
+    List<ActivityLog> findTop3ByUserAndDateAfterOrderByCarbonEmissionDesc(User user, java.time.LocalDate date);
 }

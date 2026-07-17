@@ -27,9 +27,10 @@ public class ActivityLogService {
     private EmissionFactorRepository emissionFactorRepository;
 
     // Calculate Carbon Emission
-    public double calculateCarbonEmission(String activityType, Double quantity) {
+    public double calculateCarbonEmission(String category, String activityType, Double quantity) {
 
         System.out.println("========== EMISSION DEBUG ==========");
+        System.out.println("Category Received: " + category);
         System.out.println("Activity Type Received: " + activityType);
         System.out.println("Quantity: " + quantity);
 
@@ -38,13 +39,34 @@ public class ActivityLogService {
             return 0;
         }
 
+        // 1. Try exact match on activity description
         EmissionFactor factor = emissionFactorRepository
                 .findByActivityTypeIgnoreCase(activityType)
                 .orElse(null);
 
+        // 2. Try match on category
+        if (factor == null && category != null) {
+            factor = emissionFactorRepository
+                    .findByActivityTypeIgnoreCase(category)
+                    .orElse(null);
+        }
+
+        // 3. Hardcoded fallbacks if still not found
         if (factor == null) {
-            System.out.println("Emission Factor NOT FOUND!");
-            return 0;
+            System.out.println("Emission Factor NOT FOUND in DB! Using hardcoded defaults.");
+            double avg = 0.5; // generic default
+            if (category != null) {
+                switch(category.toLowerCase()) {
+                    case "transportation": avg = 0.22; break;
+                    case "electricity": avg = 0.45; break;
+                    case "food": avg = 3.30; break;
+                    case "waste": avg = 1.50; break;
+                }
+            }
+            double emission = quantity * avg;
+            System.out.println("Calculated Emission (Fallback): " + emission);
+            System.out.println("===================================");
+            return emission;
         }
 
         System.out.println("Factor Found: " + factor.getKgCo2ePerUnit());
@@ -78,6 +100,7 @@ public class ActivityLogService {
         activity.setUser(user);
 
         double emission = calculateCarbonEmission(
+                activity.getCategory(),
                 activity.getActivity(),
                 activity.getQuantity()
         );
@@ -128,6 +151,7 @@ public class ActivityLogService {
         existing.setDate(activity.getDate());
 
         double emission = calculateCarbonEmission(
+                activity.getCategory(),
                 activity.getActivity(),
                 activity.getQuantity()
         );
