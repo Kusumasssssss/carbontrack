@@ -28,7 +28,7 @@ public class EmissionCalculationTest {
 
     @BeforeEach
     public void setup() {
-        // We will mock responses in individual tests
+        // Mock responses are configured in each test
     }
 
     @ParameterizedTest
@@ -38,12 +38,18 @@ public class EmissionCalculationTest {
             "Bus, 20.0, 0.08, 1.6",
             "Electricity, 100.0, 0.82, 82.0"
     })
-    public void testCalculateCarbonEmission_ValidInputs(String activityType, double quantity, double factorValue, double expectedEmission) {
+    public void testCalculateCarbonEmission_ValidInputs(
+            String activityType,
+            double quantity,
+            double factorValue,
+            double expectedEmission) {
+
         EmissionFactor factor = new EmissionFactor();
         factor.setActivityType(activityType);
         factor.setKgCo2ePerUnit(BigDecimal.valueOf(factorValue));
 
-        when(emissionFactorRepository.findByActivityType(activityType)).thenReturn(Optional.of(factor));
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase(activityType))
+                .thenReturn(Optional.of(factor));
 
         double result = activityLogService.calculateCarbonEmission(activityType, quantity);
 
@@ -52,11 +58,13 @@ public class EmissionCalculationTest {
 
     @Test
     public void testCalculateCarbonEmission_ZeroQuantity() {
+
         EmissionFactor factor = new EmissionFactor();
         factor.setActivityType("Car");
         factor.setKgCo2ePerUnit(BigDecimal.valueOf(0.21));
 
-        when(emissionFactorRepository.findByActivityType("Car")).thenReturn(Optional.of(factor));
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase("Car"))
+                .thenReturn(Optional.of(factor));
 
         double result = activityLogService.calculateCarbonEmission("Car", 0.0);
 
@@ -65,13 +73,17 @@ public class EmissionCalculationTest {
 
     @Test
     public void testCalculateCarbonEmission_NullQuantity() {
+
         double result = activityLogService.calculateCarbonEmission("Car", null);
+
         assertEquals(0.0, result, 0.001);
     }
 
     @Test
     public void testCalculateCarbonEmission_UnknownActivityType() {
-        when(emissionFactorRepository.findByActivityType("Unknown")).thenReturn(Optional.empty());
+
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase("Unknown"))
+                .thenReturn(Optional.empty());
 
         double result = activityLogService.calculateCarbonEmission("Unknown", 100.0);
 

@@ -28,7 +28,8 @@ export default function CarbonPieChart() {
     fetchAuth("/activity/breakdown")
       .then(res => res.json())
       .then(result => {
-        setData(result);
+          console.log("Breakdown API:", result);
+          setData(result);
       })
       .catch(err => console.error(err));
 
