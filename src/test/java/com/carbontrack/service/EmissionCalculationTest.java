@@ -48,8 +48,12 @@ public class EmissionCalculationTest {
         factor.setActivityType(activityType);
         factor.setKgCo2ePerUnit(BigDecimal.valueOf(factorValue));
 
+<<<<<<< HEAD
         when(emissionFactorRepository.findByActivityTypeIgnoreCase(activityType))
                 .thenReturn(Optional.of(factor));
+=======
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase(activityType)).thenReturn(Optional.of(factor));
+>>>>>>> d598731575eca8ee8a8899840c95d334f39f9214
 
         double result = activityLogService.calculateCarbonEmission(activityType, quantity);
 
@@ -63,8 +67,12 @@ public class EmissionCalculationTest {
         factor.setActivityType("Car");
         factor.setKgCo2ePerUnit(BigDecimal.valueOf(0.21));
 
+<<<<<<< HEAD
         when(emissionFactorRepository.findByActivityTypeIgnoreCase("Car"))
                 .thenReturn(Optional.of(factor));
+=======
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase("Car")).thenReturn(Optional.of(factor));
+>>>>>>> d598731575eca8ee8a8899840c95d334f39f9214
 
         double result = activityLogService.calculateCarbonEmission("Car", 0.0);
 
@@ -81,9 +89,13 @@ public class EmissionCalculationTest {
 
     @Test
     public void testCalculateCarbonEmission_UnknownActivityType() {
+<<<<<<< HEAD
 
         when(emissionFactorRepository.findByActivityTypeIgnoreCase("Unknown"))
                 .thenReturn(Optional.empty());
+=======
+        when(emissionFactorRepository.findByActivityTypeIgnoreCase("Unknown")).thenReturn(Optional.empty());
+>>>>>>> d598731575eca8ee8a8899840c95d334f39f9214
 
         double result = activityLogService.calculateCarbonEmission("Unknown", 100.0);
 

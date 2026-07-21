@@ -8,7 +8,8 @@ import {
   Activity,
   ArrowUpRight,
   ArrowDownRight,
-  AlertCircle
+  AlertCircle,
+  Sparkles
 } from "lucide-react";
 import CarbonChart from "../components/CarbonChart";
 import DashboardHeader from "../components/DashboardHeader";
@@ -20,6 +21,8 @@ function Dashboard() {
   const [dailyCarbon, setDailyCarbon] = useState(0);
   const [weeklyCarbon, setWeeklyCarbon] = useState(0);
   const [monthlyCarbon, setMonthlyCarbon] = useState(0);
+  const [recommendations, setRecommendations] = useState(null);
+  const [loadingRecs, setLoadingRecs] = useState(true);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -56,6 +59,20 @@ function Dashboard() {
         .then((data) => {
           if (Array.isArray(data)) setMonthlyCarbon(data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0));
         }).catch(console.error);
+        
+      // Fetch AI Recommendations
+      fetchAuth("/recommendations")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.recommendations) {
+            setRecommendations(data.recommendations);
+          }
+          setLoadingRecs(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setLoadingRecs(false);
+        });
     };
 
     // Initial fetch
@@ -276,7 +293,40 @@ function Dashboard() {
               </div>
             </motion.div>
             
+            
           </div>
+
+          {/* AI Insights Section */}
+          <motion.div variants={itemVariants} className="mt-8">
+            <div className="glass-panel p-8 relative overflow-hidden group border-brand-500/20">
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-500/10 to-indigo-500/10 opacity-50" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-indigo-500 flex items-center justify-center shadow-lg">
+                    <Sparkles size={20} className="text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">AI Sustainability Coach</h3>
+                </div>
+                
+                {loadingRecs ? (
+                  <div className="animate-pulse flex space-x-4">
+                    <div className="flex-1 space-y-4 py-1">
+                      <div className="h-4 bg-slate-700 rounded w-3/4"></div>
+                      <div className="space-y-3">
+                        <div className="h-4 bg-slate-700 rounded"></div>
+                        <div className="h-4 bg-slate-700 rounded w-5/6"></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-slate-300 text-sm md:text-base leading-relaxed space-y-2 whitespace-pre-wrap">
+                    {recommendations || "No recommendations available at the moment. Keep logging your activities to get personalized insights!"}
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+
     </motion.div>
   );
 }

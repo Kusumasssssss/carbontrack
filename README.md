@@ -13,6 +13,9 @@ CarbonTrack is a full-stack Java carbon footprint tracking platform where users 
 - **Authentication**: Fully implemented JWT token-based authentication. 
   - The Spring Boot backend exposes `/api/auth/login` and `/api/auth/signup` and secures all other endpoints.
   - The React frontend handles auth state via `localStorage`, intercepting requests to inject the token.
+- **AI Integration**: Integrated Google Gemini AI to provide personalized AI insights on the dashboard and built an interactive floating AI Sustainability Coach Chatbot.
+- **Robust Carbon Calculation**: Implemented an intelligent emission calculation engine that maps generic user activities to emission factor categories (Electricity, Transport, Food, Waste) with reliable fallback multipliers.
+- **Performance**: Integrated Redis caching for lightning-fast dashboard metric aggregation.
 
 ## Setup Guide for Teammates
 
@@ -22,6 +25,7 @@ Welcome to CarbonTrack! Follow these instructions to get your local environment 
 - **Java 17** installed
 - **Node.js** (v18+) and **npm** installed
 - **MySQL** installed and running on port `3306`
+- **Redis** installed and running on port `6379`
 
 ### 1. Database Setup
 1. Open your MySQL client and create the database:
@@ -33,6 +37,15 @@ Welcome to CarbonTrack! Follow these instructions to get your local environment 
    spring.datasource.url=jdbc:mysql://localhost:3306/carbontrack?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
    spring.datasource.username=root
    spring.datasource.password=YOUR_MYSQL_PASSWORD
+   
+   # Redis Caching
+   spring.cache.type=redis
+   spring.data.redis.host=localhost
+   spring.data.redis.port=6379
+   
+   # Gemini AI Integration
+   gemini.api.key=YOUR_GEMINI_API_KEY
+   gemini.api.url=https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent
    ```
 
 ### 2. Running the Backend (Spring Boot)
