@@ -28,9 +28,17 @@ export default function CarbonPieChart() {
     fetchAuth("/activity/breakdown")
       .then(res => res.json())
       .then(result => {
-        setData(result);
+        if (Array.isArray(result)) {
+          setData(result);
+        } else {
+          console.error("Expected array from /activity/breakdown, received:", result);
+          setData([]); // Fallback to empty array to prevent crash
+        }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error("Error fetching breakdown:", err);
+        setData([]);
+      });
 
   }, []);
 

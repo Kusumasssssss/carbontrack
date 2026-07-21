@@ -25,7 +25,7 @@ Welcome to CarbonTrack! Follow these instructions to get your local environment 
 - **Java 17** installed
 - **Node.js** (v18+) and **npm** installed
 - **MySQL** installed and running on port `3306`
-- **Redis** installed and running on port `6379`
+- **Redis** installed and running on port `6379` *(See [REDIS_SETUP.md](file:///c:/Users/Lenovo/Documents/Github/carbontrack/REDIS_SETUP.md) for a quick Docker setup guide!)*
 
 ### 1. Database Setup
 1. Open your MySQL client and create the database:
