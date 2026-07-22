@@ -32,17 +32,18 @@ export default function CarbonPieChart() {
         return res.json();
       })
       .then(result => {
-          console.log("Breakdown API:", result);
-          if (Array.isArray(result)) {
-              setData(result);
-          } else {
-              console.error("Expected array from breakdown API but got:", result);
-              setData([]);
-          }
+        console.log("Breakdown API:", result);
+
+        if (Array.isArray(result)) {
+          setData(result);
+        } else {
+          console.error("Expected array from breakdown API but got:", result);
+          setData([]);
+        }
       })
       .catch(err => {
-          console.error("Error fetching carbon breakdown:", err);
-          setData([]);
+        console.error("Error fetching carbon breakdown:", err);
+        setData([]);
       });
   }, []);
 
@@ -74,7 +75,6 @@ export default function CarbonPieChart() {
         </Pie>
 
         <Tooltip />
-
         <Legend />
 
       </PieChart>
