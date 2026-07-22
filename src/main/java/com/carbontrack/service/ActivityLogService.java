@@ -10,15 +10,22 @@ import com.carbontrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import com.carbontrack.event.ActivityLoggedEvent;
+import org.springframework.context.ApplicationEventPublisher;
+
 
 import java.time.LocalDate;
 import java.util.List;
+
 
 @Service
 public class ActivityLogService {
 
     @Autowired
     private ActivityLogRepository repository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private UserRepository userRepository;
@@ -107,7 +114,13 @@ public class ActivityLogService {
 
         activity.setCarbonEmission(emission);
 
-        return repository.save(activity);
+        ActivityLog savedActivity = repository.save(activity);
+
+        eventPublisher.publishEvent(
+                new ActivityLoggedEvent(savedActivity)
+        );
+
+        return savedActivity;
     }
 
     // Get Logged-in User Activities

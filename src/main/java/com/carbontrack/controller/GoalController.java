@@ -1,5 +1,6 @@
 package com.carbontrack.controller;
 
+import com.carbontrack.dto.GoalProgressDTO;
 import com.carbontrack.entity.Goal;
 import com.carbontrack.service.GoalService;
 import jakarta.validation.Valid;
@@ -38,6 +39,14 @@ public class GoalController {
     @GetMapping("/active")
     public Goal getActiveGoal() {
         return goalService.getActiveGoal();
+    }
+
+    // ==========================
+    // Get Goal Progress
+    // ==========================
+    @GetMapping("/progress")
+    public GoalProgressDTO getGoalProgress() {
+        return goalService.getGoalProgress();
     }
 
     // ==========================
