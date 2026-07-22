@@ -23,6 +23,7 @@ function Dashboard() {
   const [monthlyCarbon, setMonthlyCarbon] = useState(0);
   const [recommendations, setRecommendations] = useState(null);
   const [loadingRecs, setLoadingRecs] = useState(true);
+  const [goalProgress, setGoalProgress] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -59,6 +60,19 @@ function Dashboard() {
         .then((data) => {
           if (Array.isArray(data)) setMonthlyCarbon(data.reduce((acc, curr) => acc + Number(curr.totalCo2e || 0), 0));
         }).catch(console.error);
+
+        // Fetch Goal Progress
+        fetchAuth("/goals/progress")
+          .then((res) => {
+            if (!res.ok) throw new Error("No active goal");
+            return res.json();
+          })
+          .then((data) => {
+            setGoalProgress(data);
+          })
+          .catch(() => {
+            setGoalProgress(null);
+          });
         
       // Fetch AI Recommendations
       fetchAuth("/recommendations")
@@ -207,23 +221,87 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Eco Score */}
+            {/* Goal Progress */}
             <div className="glass-panel p-6 border-brand-500/30 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
-                  <Target size={20} className="text-white" />
+
+              <div className="relative z-10">
+
+                <div className="flex justify-between items-center mb-4">
+
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-lg">
+                    <Target size={20} className="text-white" />
+                  </div>
+
+                  {goalProgress && (
+                    <span className="text-green-400 font-bold text-lg">
+                      {goalProgress.progressPercentage.toFixed(0)}%
+                    </span>
+                  )}
+
                 </div>
-              </div>
-              <p className="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-1 relative z-10">Eco Score</p>
-              <div className="flex items-baseline gap-2 relative z-10">
-                <h2 className="text-3xl font-bold text-white">
-                  {Math.max(100 - monthlyCarbon.toFixed(0), 0)}
-                </h2>
-                <span className="text-sm text-slate-500 font-medium">/ 100</span>
+
+                <p className="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-3">
+                  Goal Progress
+                </p>
+
+                {goalProgress ? (
+                  <>
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+
+                      <div
+                        className="bg-green-500 h-3 rounded-full transition-all duration-700"
+                        style={{
+                          width: `${goalProgress.progressPercentage}%`
+                        }}
+                      />
+
+                    </div>
+
+                    <p className="text-slate-300 mt-4">
+                      Target :
+                      <span className="text-white font-bold">
+                        {" "}
+                        {goalProgress.targetReduction}%
+                      </span>
+                    </p>
+
+                    <p className="text-slate-300 mt-2">
+                      Days Remaining :
+                      <span className="text-white font-bold">
+                        {" "}
+                        {goalProgress.daysRemaining}
+                      </span>
+                    </p>
+
+                    <p
+                      className={`mt-3 font-semibold ${
+                        goalProgress.onTrack
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {goalProgress.onTrack ? "🟢 On Track" : "🔴 Behind"}
+                    </p>
+                    <div className="mt-4 p-3 rounded-lg bg-slate-800 border border-slate-700">
+                      <p className="text-slate-300 text-sm">
+                        💡 {goalProgress.message}
+                      </p>
+                    </div>
+
+                  </>
+                ) : (
+
+                  <p className="text-slate-400 mt-4">
+                    No Active Goal
+                  </p>
+
+                )}
+
               </div>
             </div>
-          </motion.div>
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">

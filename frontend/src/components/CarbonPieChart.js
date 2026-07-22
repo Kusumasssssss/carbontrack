@@ -24,15 +24,26 @@ export default function CarbonPieChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-
     fetchAuth("/activity/breakdown")
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(result => {
           console.log("Breakdown API:", result);
-          setData(result);
+          if (Array.isArray(result)) {
+              setData(result);
+          } else {
+              console.error("Expected array from breakdown API but got:", result);
+              setData([]);
+          }
       })
-      .catch(err => console.error(err));
-
+      .catch(err => {
+          console.error("Error fetching carbon breakdown:", err);
+          setData([]);
+      });
   }, []);
 
   return (
