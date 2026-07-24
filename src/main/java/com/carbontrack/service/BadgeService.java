@@ -21,7 +21,7 @@ public class BadgeService {
     private UserRepository userRepository;
 
     // ==========================
-    // Logged-in User
+    // Get Logged-in User
     // ==========================
     private User getLoggedInUser() {
 
@@ -54,9 +54,9 @@ public class BadgeService {
 
         User user = getLoggedInUser();
 
-        // Prevent duplicate badges
+        // Prevent duplicate badge
         if (badgeRepository.findByUserAndName(user, name).isPresent()) {
-            return null;
+            return badgeRepository.findByUserAndName(user, name).get();
         }
 
         Badge badge = Badge.builder()

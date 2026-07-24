@@ -101,6 +101,7 @@ public class ActivityLogService {
     // Save Activity
     @org.springframework.cache.annotation.CacheEvict(value = "footprints", allEntries = true)
     public ActivityLog saveActivity(ActivityLog activity) {
+        System.out.println("SAVE ACTIVITY METHOD CALLED");
 
         User user = getLoggedInUser();
 
