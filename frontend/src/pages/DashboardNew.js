@@ -6,6 +6,7 @@ import SummaryCards from "../components/SummaryCards";
 import GoalProgressCard from "../components/GoalProgressCard";
 import CarbonPieChart from "../components/CarbonPieChart";
 import CarbonTrendChart from "../components/CarbonTrendChart";
+import PeerBenchmarking from "../components/PeerBenchmarking";
 import Chatbot from "../components/Chatbot";
 function DashboardNew() {
 const [activities, setActivities] = useState([]);
@@ -63,6 +64,9 @@ const totalCarbon = activities.reduce(
 
             {/* Carbon Overview */}
             <CarbonOverview totalCarbon={totalCarbon} />
+
+            {/* Peer Benchmarking & Standing */}
+            <PeerBenchmarking />
 
             {/* Bottom Charts */}
             <div className="grid grid-cols-2 gap-6 mt-6 items-stretch">

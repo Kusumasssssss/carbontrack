@@ -106,7 +106,7 @@ const Login = ({ onLoginSuccess }) => {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <label htmlFor="password" className="block text-sm font-medium text-slate-300">Password</label>
-                <a href="#" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">Forgot password?</a>
+                <button type="button" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">Forgot password?</button>
               </div>
               <input
                 type="password"

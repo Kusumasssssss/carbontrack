@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -9,131 +9,255 @@ import {
   Settings,
   LogOut,
   Leaf,
-  PlusCircle
+  PlusCircle,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
 
-function Sidebar({ isOpen, setIsOpen }) {
-  const location = useLocation();
-  const navigate = useNavigate();
+const MENU = [
+  { name: "Dashboard",   icon: LayoutDashboard, path: "/dashboard" },
+  { name: "Log Activity",icon: PlusCircle,       path: "/logactivity" },
+  { name: "Activities",  icon: ActivitySquare,   path: "/activities" },
+  { name: "Analytics",   icon: BarChart3,        path: "/analytics" },
+  { name: "Goals",       icon: Target,           path: "/goals" },
+  { name: "Badges",      icon: Award,            path: "/badges" },
+];
 
-  const menu = [
-    { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard" },
-    { name: "Log Activity", icon: <PlusCircle size={20} />, path: "/logactivity" },
-    { name: "Activities", icon: <ActivitySquare size={20} />, path: "/activities" },
-    { name: "Analytics", icon: <BarChart3 size={20} />, path: "/analytics" },
-    { name: "Goals", icon: <Target size={20} />, path: "/goals" },
-    { name: "Badges", icon: <Award size={20} />, path: "/badges" },
-    { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
-  ];
+const BOTTOM_MENU = [
+  { name: "Settings",    icon: Settings,         path: "/settings" },
+];
+
+function Sidebar({ isOpen, setIsOpen }) {
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const [collapsed, setCollapsed] = useState(false);
+
+  const username  = localStorage.getItem("username") || localStorage.getItem("email") || "User";
+  const initials  = username.substring(0, 2).toUpperCase();
+
+  const NavItem = ({ item, onClick }) => {
+    const Icon     = item.icon;
+    const isActive = location.pathname === item.path;
+
+    return (
+      <Link
+        to={item.path}
+        onClick={onClick}
+        className="block outline-none"
+        title={collapsed ? item.name : undefined}
+      >
+        <motion.div
+          whileHover={{ x: collapsed ? 0 : 3 }}
+          whileTap={{ scale: 0.97 }}
+          className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 relative group cursor-pointer
+            ${collapsed ? "px-4 py-3 justify-center" : "px-3 py-2.5"}
+            ${isActive
+              ? "text-brand-400 bg-brand-500/10"
+              : "text-slate-400 hover:text-slate-100 hover:bg-white/5"
+            }`}
+        >
+          {/* Active indicator bar */}
+          {isActive && (
+            <motion.div
+              layoutId="sidebar-active"
+              className="absolute left-0 top-2 bottom-2 w-[3px] bg-brand-500 rounded-r-full"
+              initial={false}
+              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            />
+          )}
+
+          <span className={`flex-shrink-0 transition-colors ${isActive ? "text-brand-400" : "text-slate-500 group-hover:text-slate-300"}`}>
+            <Icon size={19} />
+          </span>
+
+          <AnimatePresence>
+            {!collapsed && (
+              <motion.span
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: "auto" }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.18 }}
+                className="overflow-hidden whitespace-nowrap relative z-10"
+              >
+                {item.name}
+              </motion.span>
+            )}
+          </AnimatePresence>
+
+          {/* Tooltip when collapsed */}
+          {collapsed && (
+            <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded-lg border border-white/10 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+              {item.name}
+            </div>
+          )}
+        </motion.div>
+      </Link>
+    );
+  };
 
   return (
-    <div className={`w-[280px] h-screen bg-bg-panel border-r border-white/5 flex flex-col fixed left-0 top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.2)] transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
-      {/* Brand Header */}
-      <div className="p-8 pb-6 border-b border-white/5 relative">
-        {/* Mobile Close Button */}
-        <button 
-          onClick={() => setIsOpen?.(false)}
-          className="lg:hidden absolute top-6 right-6 p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white transition-colors"
-        >
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
-            <Leaf size={20} className="text-white" />
-          </div>
-          <span className="text-2xl font-bold tracking-tight text-white">Avni</span>
-        </div>
-        
-        {/* Workspace Selector Mockup */}
-        <div className="px-3 py-2.5 bg-slate-800/50 rounded-lg border border-white/5 flex items-center justify-between cursor-pointer hover:bg-slate-800 transition-colors">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <div className="w-6 h-6 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold shrink-0">
-              C
-            </div>
-            <span className="text-sm font-medium text-slate-300 truncate">Corp Workspace</span>
-          </div>
-          <div className="w-4 h-4 text-slate-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 10 12 14 16 10"></polyline></svg>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Menu */}
-      <div className="flex-1 px-4 py-6 overflow-y-auto space-y-1.5 custom-scrollbar">
-        <div className="px-4 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-          Main Menu
-        </div>
-        {menu.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.name}
-              to={item.path}
-              className="block outline-none"
-              onClick={() => setIsOpen?.(false)}
-            >
-              <motion.div
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 relative group
-                  ${
-                    isActive
-                      ? "text-brand-400 bg-brand-500/10 shadow-inner"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
-                  }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="sidebar-active-indicator"
-                    className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-brand-500 rounded-r-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                
-                <span className={`transition-colors ${isActive ? "text-brand-400" : "text-slate-500 group-hover:text-slate-300"}`}>
-                  {item.icon}
-                </span>
-                <span className="tracking-wide relative z-10">{item.name}</span>
-              </motion.div>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* User Profile / Logout */}
-      <div className="p-4 border-t border-white/5 bg-slate-900/30">
-        <button
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-red-500/10 text-slate-400 hover:text-red-400 transition-colors group"
-        >
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 shrink-0">
-              <span className="text-xs font-bold text-slate-300">
-                {localStorage.getItem('username') ? localStorage.getItem('username').substring(0, 2).toUpperCase() : 'U'}
-              </span>
-            </div>
-            <div className="text-left overflow-hidden">
-              <div className="text-sm font-medium text-slate-300 group-hover:text-red-300 transition-colors truncate">
-                {localStorage.getItem('username') || localStorage.getItem('email') || 'User'}
+    <>
+      {/* ── Desktop / fixed sidebar ──────────────────────────────────── */}
+      <motion.aside
+        animate={{ width: collapsed ? 72 : 260 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className={`hidden lg:flex flex-col h-screen bg-bg-panel border-r border-white/5 fixed left-0 top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.25)] overflow-hidden`}
+      >
+        {/* Brand */}
+        <div className={`flex items-center border-b border-white/5 flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
+          {!collapsed && (
+            <Link to="/dashboard" className="flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30">
+                <Leaf size={18} className="text-white" />
               </div>
-              <div className="text-xs text-slate-500 truncate">Sign out</div>
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-xl font-bold tracking-tight text-white"
+              >
+                Avni
+              </motion.span>
+            </Link>
+          )}
+
+          {collapsed && (
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg">
+              <Leaf size={18} className="text-white" />
             </div>
-          </div>
-          <LogOut size={18} className="opacity-50 group-hover:opacity-100 shrink-0" />
-        </button>
-      </div>
-    </div>
+          )}
+
+          {/* Collapse toggle */}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className={`p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors ${collapsed ? "mt-3" : ""}`}
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
+          </button>
+        </div>
+
+        {/* Main nav */}
+        <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto custom-scrollbar">
+          {!collapsed && (
+            <p className="px-3 mb-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+              Main Menu
+            </p>
+          )}
+          {MENU.map((item) => (
+            <NavItem key={item.name} item={item} />
+          ))}
+        </nav>
+
+        {/* Bottom items */}
+        <div className="px-2 py-3 border-t border-white/5 space-y-0.5">
+          {BOTTOM_MENU.map((item) => (
+            <NavItem key={item.name} item={item} />
+          ))}
+
+          {/* User / logout */}
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={() => { logout(); navigate("/login"); }}
+            title="Sign out"
+            className={`w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all mt-1 text-slate-400 hover:text-red-400 hover:bg-red-500/8 group
+              ${collapsed ? "px-4 py-3 justify-center" : "px-3 py-2.5"}`}
+          >
+            <div className={`flex-shrink-0 w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 group-hover:border-red-500/40 transition-colors ${collapsed ? "" : ""}`}>
+              {initials}
+            </div>
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.div
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  className="flex-1 text-left overflow-hidden"
+                >
+                  <p className="text-sm font-medium text-slate-300 group-hover:text-red-300 truncate transition-colors leading-none mb-0.5">{username}</p>
+                  <p className="text-xs text-slate-500 leading-none">Sign out</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {!collapsed && <LogOut size={16} className="flex-shrink-0 opacity-40 group-hover:opacity-100" />}
+            {collapsed && (
+              <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded-lg border border-white/10 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+                Sign out
+              </div>
+            )}
+          </motion.button>
+        </div>
+      </motion.aside>
+
+      {/* ── Mobile overlay sidebar ─────────────────────────────────────── */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setIsOpen?.(false)}
+            />
+
+            {/* Slide-in panel */}
+            <motion.aside
+              initial={{ x: -280 }}
+              animate={{ x: 0 }}
+              exit={{ x: -280 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed left-0 top-0 h-screen w-[260px] bg-bg-panel border-r border-white/5 z-50 flex flex-col shadow-2xl lg:hidden"
+            >
+              {/* Brand + close */}
+              <div className="flex items-center justify-between px-5 py-5 border-b border-white/5">
+                <Link to="/dashboard" onClick={() => setIsOpen?.(false)} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
+                    <Leaf size={18} className="text-white" />
+                  </div>
+                  <span className="text-xl font-bold tracking-tight text-white">Avni</span>
+                </Link>
+                <button
+                  onClick={() => setIsOpen?.(false)}
+                  className="p-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white transition-colors"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+              </div>
+
+              {/* Nav */}
+              <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto">
+                <p className="px-3 mb-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">Main Menu</p>
+                {MENU.map((item) => (
+                  <NavItem key={item.name} item={item} onClick={() => setIsOpen?.(false)} />
+                ))}
+              </nav>
+
+              <div className="px-2 py-3 border-t border-white/5 space-y-0.5">
+                {BOTTOM_MENU.map((item) => (
+                  <NavItem key={item.name} item={item} onClick={() => setIsOpen?.(false)} />
+                ))}
+                <button
+                  onClick={() => { logout(); navigate("/login"); }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/8 transition-all group mt-1"
+                >
+                  <div className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300">
+                    {initials}
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="text-sm font-medium text-slate-300 group-hover:text-red-300 truncate">{username}</p>
+                    <p className="text-xs text-slate-500">Sign out</p>
+                  </div>
+                  <LogOut size={16} className="opacity-40 group-hover:opacity-100" />
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 

@@ -4,6 +4,14 @@ import { motion } from "framer-motion";
 import { Save, FileEdit, Database, ArrowLeft } from "lucide-react";
 import BlurText from "../components/BlurText";
 import { fetchAuth } from "../api";
+import LottieAnimation from "../components/LottieAnimation";
+
+const CATEGORY_LOTTIE = {
+  Transportation: "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json",
+  Electricity: "https://assets7.lottiefiles.com/packages/lf20_m6cu980y.json",
+  Food: "https://assets8.lottiefiles.com/packages/lf20_ygiq7r3q.json",
+  Waste: "https://assets10.lottiefiles.com/packages/lf20_49rdyysj.json",
+};
 
 function LogActivity() {
   const { id } = useParams();
@@ -81,12 +89,12 @@ function LogActivity() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-10">
+          <div className="mb-8">
             <button 
               onClick={() => navigate("/activities")}
-              className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors mb-6"
+              className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors mb-4"
             >
               <ArrowLeft size={16} /> Back to Activities
             </button>
@@ -95,7 +103,7 @@ function LogActivity() {
               <span className="text-xs font-bold uppercase tracking-wider">Data Repository</span>
             </div>
             <BlurText 
-              text={id ? "Edit Record" : "New Entry"}
+              text={id ? "Edit Activity Record" : "Log Carbon Activity"}
               delay={40}
               className="text-4xl font-extrabold text-white tracking-tight mb-2"
             />
@@ -105,17 +113,18 @@ function LogActivity() {
               transition={{ delay: 0.3 }}
               className="text-lg text-slate-400 font-medium"
             >
-              {id ? "Update the details of this logged activity." : "Record a new activity to calculate organizational carbon footprint."}
+              {id ? "Update the details of this logged activity." : "Record a new activity to calculate your carbon footprint."}
             </motion.p>
           </div>
 
-          <motion.form
-            variants={formVariants}
-            initial="hidden"
-            animate="visible"
-            onSubmit={handleSubmit}
-            className="glass-panel p-8"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <motion.form
+              variants={formVariants}
+              initial="hidden"
+              animate="visible"
+              onSubmit={handleSubmit}
+              className="glass-panel p-8 md:col-span-2"
+            >
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Category</label>
@@ -210,6 +219,20 @@ function LogActivity() {
               </button>
             </div>
           </motion.form>
+
+          {/* Lottie Animation Side Panel */}
+          <div className="hidden md:flex flex-col items-center justify-center bg-slate-900/60 border border-white/10 p-6 rounded-3xl backdrop-blur-xl">
+            <div className="w-full aspect-square flex items-center justify-center">
+              <LottieAnimation
+                src={CATEGORY_LOTTIE[formData.category] || "https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json"}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+            <p className="text-xs text-center text-slate-400 font-medium mt-2">
+              {formData.category ? `Category: ${formData.category}` : "Select a category to view animated impact"}
+            </p>
+          </div>
+        </div>
     </div>
   );
 }

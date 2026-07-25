@@ -18,7 +18,8 @@ public class BadgeEventListener {
 
             case "GOAL":
 
-                badgeService.awardBadge(
+                badgeService.awardBadgeForUser(
+                        event.getUser(),
                         "First Goal",
                         "Congratulations! You achieved your first goal.",
                         "GOAL",
@@ -29,7 +30,8 @@ public class BadgeEventListener {
 
             case "STREAK":
 
-                badgeService.awardBadge(
+                badgeService.awardBadgeForUser(
+                        event.getUser(),
                         "7 Day Streak",
                         "Logged activities for 7 consecutive days.",
                         "STREAK",
@@ -40,7 +42,8 @@ public class BadgeEventListener {
 
             case "REDUCTION10":
 
-                badgeService.awardBadge(
+                badgeService.awardBadgeForUser(
+                        event.getUser(),
                         "10kg Saver",
                         "Reduced 10kg of CO₂ emissions.",
                         "REDUCTION",
@@ -51,7 +54,8 @@ public class BadgeEventListener {
 
             case "REDUCTION25":
 
-                badgeService.awardBadge(
+                badgeService.awardBadgeForUser(
+                        event.getUser(),
                         "25kg Saver",
                         "Reduced 25kg of CO₂ emissions.",
                         "REDUCTION",
@@ -62,7 +66,8 @@ public class BadgeEventListener {
 
             case "REDUCTION50":
 
-                badgeService.awardBadge(
+                badgeService.awardBadgeForUser(
+                        event.getUser(),
                         "50kg Saver",
                         "Reduced 50kg of CO₂ emissions.",
                         "REDUCTION",

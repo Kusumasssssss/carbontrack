@@ -47,12 +47,21 @@ public class BadgeService {
     // ==========================
     // Award Badge
     // ==========================
-    public Badge awardBadge(String name,
-                            String description,
-                            String triggerType,
-                            Integer threshold) {
+    @Autowired
+    private com.carbontrack.repository.ActivityLogRepository activityLogRepository;
 
-        User user = getLoggedInUser();
+    // ==========================
+    // Award Badge (User Explicit)
+    // ==========================
+    public Badge awardBadgeForUser(User user,
+                                   String name,
+                                   String description,
+                                   String triggerType,
+                                   Integer threshold) {
+
+        if (user == null) {
+            return null;
+        }
 
         // Prevent duplicate badges
         if (badgeRepository.findByUserAndName(user, name).isPresent()) {
@@ -72,4 +81,59 @@ public class BadgeService {
         return badgeRepository.save(badge);
     }
 
+    // ==========================
+    // Award Badge (Security Context)
+    // ==========================
+    public Badge awardBadge(String name,
+                            String description,
+                            String triggerType,
+                            Integer threshold) {
+
+        User user = getLoggedInUser();
+        return awardBadgeForUser(user, name, description, triggerType, threshold);
+    }
+
+    // ==========================
+    // Check & Award Automated Badges
+    // ==========================
+    public void checkAndAwardActivityBadges(User user) {
+        if (user == null) return;
+
+        // 1. Award "First Activity" Badge
+        awardBadgeForUser(user, "First Activity", "Congratulations! You logged your first eco-friendly activity.", "ACTIVITY", 1);
+
+        // 2. Check 7-day streak
+        List<LocalDate> dates = activityLogRepository.findDistinctDatesByUserOrderByDateDesc(user);
+        if (dates != null && !dates.isEmpty()) {
+            int streak = 1;
+            LocalDate prev = dates.get(0);
+            for (int i = 1; i < dates.size(); i++) {
+                LocalDate current = dates.get(i);
+                if (prev.minusDays(1).equals(current)) {
+                    streak++;
+                    prev = current;
+                } else {
+                    break;
+                }
+            }
+
+            if (streak >= 7) {
+                awardBadgeForUser(user, "7 Day Streak", "Logged activities for 7 consecutive days.", "STREAK", 7);
+            }
+        }
+
+        // 3. Check CO2e reduction thresholds
+        Double totalCo2e = activityLogRepository.findTotalCarbonEmissionByUser(user);
+        if (totalCo2e != null) {
+            if (totalCo2e >= 10.0) {
+                awardBadgeForUser(user, "10kg Saver", "Reduced 10kg of CO₂ emissions.", "REDUCTION", 10);
+            }
+            if (totalCo2e >= 25.0) {
+                awardBadgeForUser(user, "25kg Saver", "Reduced 25kg of CO₂ emissions.", "REDUCTION", 25);
+            }
+            if (totalCo2e >= 50.0) {
+                awardBadgeForUser(user, "50kg Saver", "Reduced 50kg of CO₂ emissions.", "REDUCTION", 50);
+            }
+        }
+    }
 }

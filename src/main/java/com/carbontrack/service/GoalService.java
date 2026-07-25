@@ -1,5 +1,6 @@
 package com.carbontrack.service;
 
+import com.carbontrack.dto.GoalDTO;
 import com.carbontrack.dto.GoalProgressDTO;
 import com.carbontrack.entity.Goal;
 import com.carbontrack.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GoalService {
@@ -42,11 +44,35 @@ public class GoalService {
     }
 
     // ==========================
+    // Goal -> DTO mapper
+    // ==========================
+    private GoalDTO toDTO(Goal goal) {
+        if (goal == null) return null;
+        return GoalDTO.builder()
+                .id(goal.getId())
+                .targetReductionPct(goal.getTargetReductionPct())
+                .periodDays(goal.getPeriodDays())
+                .startDate(goal.getStartDate())
+                .deadline(goal.getDeadline())
+                .status(goal.getStatus())
+                .build();
+    }
+
+    // ==========================
     // Create Goal
     // ==========================
-    public Goal createGoal(Goal goal) {
+    public GoalDTO createGoal(Goal goal) {
 
         User user = getLoggedInUser();
+
+        // Deactivate any existing active goals
+        List<Goal> existingActiveGoals = goalRepository.findByUser(user);
+        for (Goal g : existingActiveGoals) {
+            if ("ACTIVE".equals(g.getStatus())) {
+                g.setStatus("SUPERSEDED");
+                goalRepository.save(g);
+            }
+        }
 
         LocalDate today = LocalDate.now();
 
@@ -65,29 +91,32 @@ public class GoalService {
                 new BadgeAwardEvent(user, "GOAL")
         );
 
-        return savedGoal;
+        return toDTO(savedGoal);
     }
 
     // ==========================
     // Get All Goals
     // ==========================
-    public List<Goal> getGoals() {
+    public List<GoalDTO> getGoals() {
 
         User user = getLoggedInUser();
 
-        return goalRepository.findByUser(user);
+        return goalRepository.findByUser(user)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     // ==========================
     // Get Active Goal
     // ==========================
-    public Goal getActiveGoal() {
+    public GoalDTO getActiveGoal() {
 
         User user = getLoggedInUser();
 
-        return goalRepository
-                .findByUserAndStatus(user, "ACTIVE")
-                .orElse(null);
+        return toDTO(goalRepository
+                .findFirstByUserAndStatusOrderByIdDesc(user, "ACTIVE")
+                .orElse(null));
     }
 
     // ==========================
@@ -95,10 +124,14 @@ public class GoalService {
     // ==========================
     public GoalProgressDTO getGoalProgress() {
 
-        Goal goal = getActiveGoal();
+        User user = getLoggedInUser();
+
+        Goal goal = goalRepository
+                .findFirstByUserAndStatusOrderByIdDesc(user, "ACTIVE")
+                .orElse(null);
 
         if (goal == null) {
-            throw new RuntimeException("No active goal found");
+            return null;
         }
 
         LocalDate today = LocalDate.now();
@@ -173,7 +206,7 @@ public class GoalService {
     // ==========================
     // Update Goal
     // ==========================
-    public Goal updateGoal(Long id, Goal updatedGoal) {
+    public GoalDTO updateGoal(Long id, Goal updatedGoal) {
 
         Goal goal = goalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Goal not found"));
@@ -186,7 +219,7 @@ public class GoalService {
                 goal.getStartDate().plusDays(goal.getPeriodDays())
         );
 
-        return goalRepository.save(goal);
+        return toDTO(goalRepository.save(goal));
     }
 
     // ==========================

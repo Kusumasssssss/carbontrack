@@ -7,7 +7,8 @@ import "./styles/index.css";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import DashboardNew from "./pages/DashboardNew";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
 import Activities from "./pages/Activities";
 import LogActivity from "./pages/LogActivity";
 import Analytics from "./pages/Analytics";
@@ -58,7 +59,7 @@ function AnimatedRoutes() {
           element={
             <Layout>
               <PageTransition>
-                <DashboardNew />
+                <Dashboard />
               </PageTransition>
             </Layout>
           }
@@ -81,7 +82,7 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
-        <Route path="/settings" element={<Layout><PageTransition><NotFound /></PageTransition></Layout>} />
+        <Route path="/settings" element={<Layout><PageTransition><Settings /></PageTransition></Layout>} />
 
         {/* Catch-all 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Plus, Trash2, Search, Filter, AlertCircle, Database, 
-  Edit2, Car, Zap, Utensils, ShoppingBag, Trash, ChevronDown, ChevronUp, X, Check, ArrowRight
+  Plus, Trash2, Search, AlertCircle, Database, 
+  Edit2, Car, Zap, Utensils, ShoppingBag, Trash, ChevronDown, ChevronUp, X
 } from "lucide-react";
 import { fetchAuth } from "../api";
 import BlurText from "../components/BlurText";

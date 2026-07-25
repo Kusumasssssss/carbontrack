@@ -3,6 +3,7 @@ import { fetchAuth } from "../api";
 import { motion } from "framer-motion";
 import BlurText from "../components/BlurText";
 import { BarChart3, PieChart as PieChartIcon, TrendingUp, Activity, ArrowUpRight, Zap, Target } from "lucide-react";
+import LottieAnimation from "../components/LottieAnimation";
 import {
   PieChart,
   Pie,
@@ -21,6 +22,8 @@ function Analytics() {
   const [activities, setActivities] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [totalCarbon, setTotalCarbon] = useState(0);
+  const [recommendations, setRecommendations] = useState(null);
+  const [loadingRecs, setLoadingRecs] = useState(true);
 
   useEffect(() => {
     // Fetch raw activities for total count
@@ -49,6 +52,17 @@ function Analytics() {
         }
       })
       .catch(console.error);
+
+    // Fetch live AI Recommendations from Gemini
+    fetchAuth("/recommendations")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.recommendations) {
+          setRecommendations(data.recommendations);
+        }
+        setLoadingRecs(false);
+      })
+      .catch(() => setLoadingRecs(false));
   }, []);
 
   const highest =
@@ -96,7 +110,7 @@ function Analytics() {
       className="max-w-7xl mx-auto"
     >
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10 bg-slate-900/60 border border-white/10 p-8 rounded-3xl backdrop-blur-xl">
             <div>
               <motion.div variants={itemVariants} className="flex items-center gap-2 text-brand-400 mb-2">
                 <BarChart3 size={16} />
@@ -107,17 +121,17 @@ function Analytics() {
                 delay={40}
                 className="text-4xl font-extrabold text-white tracking-tight mb-2"
               />
-              <motion.p variants={itemVariants} className="text-slate-400 font-medium">
-                Deep dive into your emission data to discover trends and optimization opportunities.
+              <motion.p variants={itemVariants} className="text-slate-400 font-medium max-w-xl">
+                Deep dive into your emission data to discover trends and optimization opportunities powered by Redis caching.
               </motion.p>
             </div>
             
-            <motion.div variants={itemVariants} className="flex items-center gap-4">
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-sm font-semibold text-white hover:bg-slate-800 transition-colors shadow-lg">
-                <Zap size={16} className="text-accent" />
-                Generate Report
-              </button>
-            </motion.div>
+            <div className="w-32 h-32 flex-shrink-0">
+              <LottieAnimation
+                src="https://assets3.lottiefiles.com/packages/lf20_q5pk6p1k.json"
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
           </div>
 
           {/* KPI Cards */}
@@ -262,7 +276,7 @@ function Analytics() {
             </motion.div>
           </div>
 
-          {/* AI Insights Section */}
+          {/* AI Insights Section — Live Gemini */}
           <motion.div 
             variants={itemVariants}
             className="glass-panel border-brand-500/30 p-8 relative overflow-hidden"
@@ -272,28 +286,31 @@ function Analytics() {
               <div className="bg-brand-500/20 p-2 rounded-lg border border-brand-500/30">
                 <Zap size={20} className="text-brand-400" />
               </div>
-              <h2 className="text-xl font-bold text-white">Avni Insights</h2>
+              <div>
+                <h2 className="text-xl font-bold text-white">AI Sustainability Coach</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Personalised tips based on your top emission sources</p>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
-                <div className="text-2xl mb-3">🚲</div>
-                <h4 className="font-bold text-white mb-2">Micro-mobility Optimization</h4>
-                <p className="text-sm text-slate-400">Shifting 20% of short-distance commute to bicycles can reduce your transportation emissions by an estimated 15%.</p>
+            {loadingRecs ? (
+              <div className="animate-pulse space-y-3">
+                <div className="h-4 bg-slate-700 rounded w-3/4" />
+                <div className="h-4 bg-slate-700 rounded w-5/6" />
+                <div className="h-4 bg-slate-700 rounded w-2/3" />
+                <div className="h-4 bg-slate-700 rounded w-4/5" />
               </div>
-              
-              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
-                <div className="text-2xl mb-3">💡</div>
-                <h4 className="font-bold text-white mb-2">Energy Efficiency</h4>
-                <p className="text-sm text-slate-400">Implementing automated lighting controls in corporate spaces usually yields a 10-12% decrease in electricity consumption.</p>
+            ) : recommendations ? (
+              <div className="bg-slate-900/50 rounded-xl border border-white/5 p-5">
+                <p className="text-slate-300 text-sm whitespace-pre-wrap leading-relaxed">{recommendations}</p>
               </div>
-
-              <div className="bg-slate-900/50 p-5 rounded-xl border border-white/5 hover:border-brand-500/30 transition-colors">
-                <div className="text-2xl mb-3">✈️</div>
-                <h4 className="font-bold text-white mb-2">Travel Policy Review</h4>
-                <p className="text-sm text-slate-400">Replacing one cross-country flight per quarter with virtual meetings can save approximately 2.5 tCO2e annually per executive.</p>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-3xl mb-3">🌱</div>
+                <p className="text-slate-500 text-sm">
+                  No recommendations yet. Keep logging activities to get personalised AI insights!
+                </p>
               </div>
-            </div>
+            )}
           </motion.div>
 
     </motion.div>

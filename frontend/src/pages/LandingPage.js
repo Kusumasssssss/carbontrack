@@ -5,6 +5,7 @@ import { Leaf, BarChart3, Globe2, ShieldCheck, ArrowRight, Activity, Zap } from 
 import Login from "./Login";
 import { isAuthenticated } from "../api";
 import SplitText from "../components/SplitText";
+import LottieAnimation from "../components/LottieAnimation";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -136,68 +137,49 @@ function LandingPage() {
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.4 }}
               className="relative"
             >
-              <div className="glass-panel p-2 z-10 relative">
-                <div className="rounded-xl overflow-hidden bg-slate-900 border border-slate-800 relative group aspect-[4/3]">
-                  {/* Faux Dashboard UI inside image container */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800 p-6 flex flex-col">
-                    <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-700">
-                      <div className="h-4 w-32 bg-slate-700 rounded animate-pulse" />
-                      <div className="h-8 w-8 bg-brand-500/20 rounded-full" />
-                    </div>
-                    <div className="flex-1 grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 flex flex-col justify-between">
-                        <div className="h-3 w-20 bg-slate-600 rounded mb-4" />
-                        <div>
-                          <div className="text-3xl font-bold text-white mb-1">1,245<span className="text-sm text-slate-400"> tCO2e</span></div>
-                          <div className="text-xs text-brand-400">-12.4% vs last month</div>
-                        </div>
-                      </div>
-                      <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden flex items-end">
-                         <div className="w-full h-full flex items-end gap-2 p-4">
-                           {[40, 70, 45, 90, 65, 30].map((h, i) => (
-                             <div key={i} className="flex-1 bg-brand-500 rounded-t-sm opacity-80 hover:opacity-100 transition-opacity" style={{ height: `${h}%` }} />
-                           ))}
-                         </div>
-                      </div>
-                    </div>
-                    <div className="h-24 bg-slate-800 rounded-xl border border-slate-700 p-4">
-                       <div className="h-3 w-1/3 bg-slate-700 rounded mb-3" />
-                       <div className="h-2 w-full bg-slate-700 rounded mb-2" />
-                       <div className="h-2 w-2/3 bg-slate-700 rounded" />
-                    </div>
-                  </div>
+              <div className="glass-panel p-4 z-10 relative flex flex-col items-center justify-center min-h-[400px] border border-white/10 shadow-2xl rounded-3xl overflow-hidden bg-slate-900/60 backdrop-blur-xl">
+                <div className="w-full max-w-[420px] aspect-square flex items-center justify-center">
+                  <LottieAnimation
+                    src="https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json"
+                    style={{ width: '100%', height: '100%' }}
+                  />
                 </div>
-                
-                {/* Floating Metric */}
-                <motion.div 
-                  animate={{ y: [-10, 10, -10] }}
-                  transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -left-8 glass-panel border border-brand-500/30 p-5 rounded-2xl shadow-2xl flex items-center gap-4"
-                >
-                  <div className="bg-brand-500/20 p-3 rounded-xl border border-brand-500/30">
-                    <Activity className="w-6 h-6 text-brand-400" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Real-time Reduction</p>
-                    <p className="text-2xl font-bold text-white">45.2% <span className="text-brand-400 text-sm font-medium">↑ this month</span></p>
-                  </div>
-                </motion.div>
-
-                {/* Floating Alert */}
-                <motion.div 
-                  animate={{ y: [10, -10, 10] }}
-                  transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-                  className="absolute -top-6 -right-8 glass-panel border border-accent/30 p-4 rounded-2xl shadow-2xl flex items-center gap-4"
-                >
-                  <div className="bg-accent/20 p-2.5 rounded-xl border border-accent/30">
-                    <Zap className="w-5 h-5 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">Target Reached</p>
-                    <p className="text-xs text-slate-400">Q3 Emission limit secured</p>
-                  </div>
-                </motion.div>
+                <div className="mt-2 text-center">
+                  <span className="text-xs uppercase tracking-widest text-brand-400 font-semibold bg-brand-500/10 px-3 py-1 rounded-full border border-brand-500/20">
+                    Real-time Eco Monitoring
+                  </span>
+                </div>
               </div>
+
+              {/* Floating Metric */}
+              <motion.div
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="absolute -bottom-6 -left-8 z-20 glass-panel border border-brand-500/30 p-5 rounded-2xl shadow-2xl flex items-center gap-4"
+              >
+                <div className="bg-brand-500/20 p-3 rounded-xl border border-brand-500/30">
+                  <Activity className="w-6 h-6 text-brand-400" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Real-time Reduction</p>
+                  <p className="text-2xl font-bold text-white">45.2% <span className="text-brand-400 text-sm font-medium">↑ this month</span></p>
+                </div>
+              </motion.div>
+
+              {/* Floating Alert */}
+              <motion.div
+                animate={{ y: [10, -10, 10] }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+                className="absolute -top-6 -right-8 z-20 glass-panel border border-accent/30 p-4 rounded-2xl shadow-2xl flex items-center gap-4"
+              >
+                <div className="bg-accent/20 p-2.5 rounded-xl border border-accent/30">
+                  <Zap className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white">Target Reached</p>
+                  <p className="text-xs text-slate-400">Q3 Emission limit secured</p>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </main>
@@ -259,8 +241,8 @@ function LandingPage() {
               © {new Date().getFullYear()} Avni Intelligence Inc. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-slate-500">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              <button type="button" className="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
+              <button type="button" className="hover:text-white transition-colors cursor-pointer">Terms of Service</button>
             </div>
           </div>
         </footer>

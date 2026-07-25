@@ -23,12 +23,7 @@ public class ActivityBadgeListener {
         System.out.println("Carbon : " + activity.getCarbonEmission());
         System.out.println("=================================");
 
-        // Award First Activity Badge
-        badgeService.awardBadge(
-                "First Activity",
-                "Congratulations! You logged your first eco-friendly activity.",
-                "ACTIVITY",
-                1
-        );
+        // Trigger automatic rule evaluator for activity, streak, and reduction thresholds
+        badgeService.checkAndAwardActivityBadges(activity.getUser());
     }
 }
