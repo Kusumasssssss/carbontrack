@@ -36,8 +36,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Public APIs
+                        // Public APIs & Swagger UI
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
                         // Activity APIs require login
                         .requestMatchers("/api/activity/**").authenticated()

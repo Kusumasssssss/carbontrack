@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Leaf, ArrowRight, Server, Globe, BarChart3 } from 'lucide-react';
+import { ArrowRight, Server, Globe, BarChart3 } from 'lucide-react';
 import { signup } from '../api';
 import { motion } from 'framer-motion';
 
@@ -28,7 +28,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex w-full bg-bg-dark text-slate-50 font-sans">
-      
+
       {/* Left Registration Form Panel */}
       <div className="flex-1 flex flex-col justify-center items-center p-8 lg:p-12 relative z-10">
         <div className="w-full max-w-md">
@@ -38,8 +38,8 @@ const Signup = () => {
           </div>
 
           {error && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} 
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-3"
             >
@@ -88,8 +88,8 @@ const Signup = () => {
               />
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={loading}
               className="w-full mt-6 bg-brand-500 hover:bg-brand-400 text-slate-950 font-semibold py-3.5 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.4)] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2 group"
             >
@@ -105,7 +105,7 @@ const Signup = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <a 
+            <a
               href="http://localhost:8080/oauth2/authorization/google"
               className="flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium py-3 px-4 rounded-xl border border-slate-800 transition-all"
             >
@@ -117,7 +117,7 @@ const Signup = () => {
               </svg>
               Google
             </a>
-            <a 
+            <a
               href="http://localhost:8080/oauth2/authorization/github"
               className="flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium py-3 px-4 rounded-xl border border-slate-800 transition-all"
             >
@@ -142,10 +142,10 @@ const Signup = () => {
       {/* Right Value Prop Panel */}
       <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-center p-12 overflow-hidden border-l border-white/5 bg-slate-900/50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-800 via-bg-dark to-bg-dark z-0" />
-        
+
         <div className="relative z-10 max-w-lg mx-auto">
           <div className="grid gap-8">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="flex gap-5 items-start"
             >
@@ -158,7 +158,7 @@ const Signup = () => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
               className="flex gap-5 items-start"
             >
@@ -171,7 +171,7 @@ const Signup = () => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
               className="flex gap-5 items-start"
             >

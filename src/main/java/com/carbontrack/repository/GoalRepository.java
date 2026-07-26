@@ -13,6 +13,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 
     List<Goal> findByUser(User user);
 
-    Optional<Goal> findByUserAndStatus(User user, String status);
+    Optional<Goal> findFirstByUserAndStatusOrderByIdDesc(User user, String status);
 
 }
