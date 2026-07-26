@@ -1,6 +1,6 @@
 package com.carbontrack.service;
 
-import com.carbontrack.dto.GoalDTO;
+import com.carbontrack.repository.ActivityLogRepository;
 import com.carbontrack.dto.GoalProgressDTO;
 import com.carbontrack.entity.Goal;
 import com.carbontrack.entity.User;
@@ -22,6 +22,9 @@ public class GoalService {
 
     @Autowired
     private GoalRepository goalRepository;
+
+    @Autowired
+    private ActivityLogRepository activityLogRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -152,43 +155,58 @@ public class GoalService {
             daysRemaining = 0;
         }
 
+        // Total carbon emission during goal period
+        Double totalEmission = activityLogRepository.getTotalCarbonEmission(
+                getLoggedInUser(),
+                goal.getStartDate(),
+                today
+        );
+
+// Temporary baseline (can be improved later)
+        double baselineEmission = 100.0;
+
+// Target emission based on goal
+        double targetEmission =
+                baselineEmission -
+                        (baselineEmission * goal.getTargetReductionPct().doubleValue() / 100);
+
+// Calculate progress
         double progressPercentage = 0;
 
-        if (goal.getPeriodDays() > 0) {
+        if (targetEmission > 0) {
+
             progressPercentage =
-                    ((double) daysElapsed / goal.getPeriodDays()) * 100;
+                    ((baselineEmission - totalEmission) /
+                            (baselineEmission - targetEmission)) * 100;
+        }
+
+        if (progressPercentage < 0) {
+            progressPercentage = 0;
         }
 
         if (progressPercentage > 100) {
             progressPercentage = 100;
         }
 
-        if (progressPercentage > 100) {
-            progressPercentage = 100;
-        }
-
-        boolean onTrack;
-
-// A newly created goal should not be marked as behind
-        if (daysElapsed == 0) {
-            onTrack = true;
-        } else {
-            onTrack = progressPercentage >= 50;
-        }
+        boolean onTrack = progressPercentage >= 50;
 
         String message;
 
-        if (daysElapsed == 0) {
+        if (progressPercentage == 0) {
 
-            message = "🎉 Great! Your goal has been created. Start logging eco-friendly activities to begin tracking your progress.";
+            message = "🎯 Start logging eco-friendly activities to begin your goal.";
+
+        } else if (progressPercentage >= 100) {
+
+            message = "🏆 Congratulations! Goal achieved.";
 
         } else if (onTrack) {
 
-            message = "🌱 Excellent! You're on track to achieve your carbon reduction goal.";
+            message = "🌱 Great! Keep reducing your carbon footprint.";
 
         } else {
 
-            message = "⚠ You're falling behind. Try logging more eco-friendly activities to stay on track.";
+            message = "⚠ Keep logging eco-friendly activities to reach your goal.";
 
         }
 

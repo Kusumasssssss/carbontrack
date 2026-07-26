@@ -27,22 +27,4 @@ public class BadgeController {
         return badgeService.getMyBadges();
     }
 
-    // ==========================
-    // Award Badge (Testing Only)
-    // ==========================
-    @PostMapping("/award")
-    @Operation(summary = "Award Badge (Testing/Manual)", description = "Manually awards a specific badge to the user")
-    public Badge awardBadge(
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam String triggerType,
-            @RequestParam Integer threshold) {
-
-        return badgeService.awardBadge(
-                name,
-                description,
-                triggerType,
-                threshold
-        );
-    }
 }
