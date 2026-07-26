@@ -7,6 +7,8 @@ import com.carbontrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import com.carbontrack.repository.ActivityLogRepository;
+import java.time.LocalDate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +18,9 @@ public class BadgeService {
 
     @Autowired
     private BadgeRepository badgeRepository;
+
+    @Autowired
+    private ActivityLogRepository activityLogRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -70,6 +75,67 @@ public class BadgeService {
                 .build();
 
         return badgeRepository.save(badge);
+    }
+    // ==========================
+// Check Activity Badges
+// ==========================
+    public void checkActivityBadges() {
+
+        User user = getLoggedInUser();
+
+        // ---------- 7 Day Streak ----------
+        Long activeDays = activityLogRepository.countActiveDays(
+                user,
+                LocalDate.now().minusDays(6)
+        );
+
+        if (activeDays >= 7) {
+
+            awardBadge(
+                    "7 Day Streak",
+                    "Logged activities for 7 consecutive days.",
+                    "STREAK",
+                    7
+            );
+        }
+
+        // ---------- Carbon Reduction ----------
+        Double totalEmission =
+                activityLogRepository.getTotalCarbonEmission(
+                        user,
+                        LocalDate.MIN,
+                        LocalDate.now()
+                );
+
+        if (totalEmission <= 90) {
+
+            awardBadge(
+                    "10kg Saver",
+                    "Reduced 10kg of CO₂ emissions.",
+                    "REDUCTION",
+                    10
+            );
+        }
+
+        if (totalEmission <= 75) {
+
+            awardBadge(
+                    "25kg Saver",
+                    "Reduced 25kg of CO₂ emissions.",
+                    "REDUCTION",
+                    25
+            );
+        }
+
+        if (totalEmission <= 50) {
+
+            awardBadge(
+                    "50kg Saver",
+                    "Reduced 50kg of CO₂ emissions.",
+                    "REDUCTION",
+                    50
+            );
+        }
     }
 
 }

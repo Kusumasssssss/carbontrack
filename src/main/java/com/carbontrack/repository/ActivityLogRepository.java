@@ -14,18 +14,34 @@ import java.util.List;
 @Repository
 public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> {
 
+    // ==========================
+    // Get All Activities
+    // ==========================
     List<ActivityLog> findByUser(User user);
 
-    @Query("SELECT new com.carbontrack.dto.CategoryAggregation(a.category, SUM(a.carbonEmission)) " +
-            "FROM ActivityLog a " +
-            "WHERE a.user = :user AND a.date >= :startDate AND a.date <= :endDate " +
-            "GROUP BY a.category")
+    // ==========================
+    // Carbon Breakdown
+    // ==========================
+    @Query("""
+           SELECT new com.carbontrack.dto.CategoryAggregation(
+               a.category,
+               SUM(a.carbonEmission)
+           )
+           FROM ActivityLog a
+           WHERE a.user = :user
+           AND a.date >= :startDate
+           AND a.date <= :endDate
+           GROUP BY a.category
+           """)
     List<CategoryAggregation> findAggregatedFootprints(
             @Param("user") User user,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
 
+    // ==========================
+    // Top 3 Highest Emissions
+    // ==========================
     List<ActivityLog> findTop3ByUserAndDateAfterOrderByCarbonEmissionDesc(
             User user,
             LocalDate date
@@ -45,4 +61,19 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    // ==========================
+    // Count Active Days
+    // ==========================
+    @Query("""
+           SELECT COUNT(DISTINCT a.date)
+           FROM ActivityLog a
+           WHERE a.user = :user
+           AND a.date >= :startDate
+           """)
+    Long countActiveDays(
+            @Param("user") User user,
+            @Param("startDate") LocalDate startDate
+    );
+
 }
