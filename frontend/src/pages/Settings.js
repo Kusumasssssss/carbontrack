@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { logout, fetchAuth } from "../api";
 import LottieAnimation from "../components/LottieAnimation";
+import { useTheme } from "../context/ThemeContext";
 
 const LOTTIE_SETTINGS = "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json";
 
@@ -37,22 +38,6 @@ function applyAccent(colorId) {
   const palette = ACCENT_PALETTES[colorId];
   if (!palette) return;
   document.documentElement.style.setProperty("--accent-brand", palette.css);
-}
-
-// Apply theme class to document
-function applyTheme(theme) {
-  if (theme === "light") {
-    document.documentElement.classList.add("light-mode");
-    document.documentElement.classList.remove("dark-mode");
-  } else if (theme === "dark") {
-    document.documentElement.classList.remove("light-mode");
-    document.documentElement.classList.add("dark-mode");
-  } else {
-    // system
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    document.documentElement.classList.toggle("light-mode", !prefersDark);
-    document.documentElement.classList.toggle("dark-mode", prefersDark);
-  }
 }
 
 // ── Tab definitions ───────────────────────────────────────────────────────
@@ -159,6 +144,7 @@ function Toast({ message, type = "success", onClose }) {
 // ─────────────────────────────────────────────────────────────────────────
 export default function Settings() {
   const navigate = useNavigate();
+  const { theme: contextTheme, setTheme: setContextTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("profile");
   const [toasts, setToasts]       = useState([]);
   const [saving, setSaving]       = useState(false);
@@ -182,14 +168,13 @@ export default function Settings() {
   }));
 
   // ── Appearance ────────────────────────────────────────────────────────
-  const [theme, setTheme]   = useState(LS.get("s_theme", "dark"));
+  const [theme, setTheme]   = useState(contextTheme);
   const [accent, setAccent] = useState(LS.get("s_accent", "green"));
   const [compact, setCompact] = useState(LS.get("s_compact", false));
   const [animations, setAnimations] = useState(LS.get("s_animations", true));
 
-  // Apply saved theme/accent on mount
+  // Apply saved accent on mount; theme is already applied by ThemeProvider
   useEffect(() => {
-    applyTheme(theme);
     applyAccent(accent);
     if (compact) document.documentElement.classList.add("compact");
     else document.documentElement.classList.remove("compact");
@@ -258,11 +243,10 @@ export default function Settings() {
 
   // ── Save appearance ───────────────────────────────────────────────────
   const saveAppearance = () => {
-    LS.set("s_theme", theme);
     LS.set("s_accent", accent);
     LS.set("s_compact", compact);
     LS.set("s_animations", animations);
-    applyTheme(theme);
+    setContextTheme(theme);  // persists + applies via ThemeContext
     applyAccent(accent);
     if (compact) document.documentElement.classList.add("compact");
     else document.documentElement.classList.remove("compact");

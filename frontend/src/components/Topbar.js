@@ -13,10 +13,13 @@ import {
   Menu,
   X,
   ChevronDown,
-  Bell
+  Bell,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
+import { useTheme } from "../context/ThemeContext";
 
 const NAV_ITEMS = [
   { name: "Dashboard",    icon: LayoutDashboard, path: "/dashboard" },
@@ -33,6 +36,7 @@ export default function Topbar() {
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const { isDark, setTheme } = useTheme();
 
   const username = localStorage.getItem("username") || localStorage.getItem("email") || "User";
   const initials = username.substring(0, 2).toUpperCase();
@@ -57,8 +61,8 @@ export default function Topbar() {
     <>
       {/* ── Main Topbar ───────────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 h-16
-        bg-slate-900/80 backdrop-blur-xl border-b border-white/5
-        shadow-[0_1px_0_rgba(255,255,255,0.04),0_4px_24px_rgba(0,0,0,0.4)]"
+        bg-slate-900/80 dark:bg-slate-900/80 light:bg-white/85 backdrop-blur-xl border-b border-white/5
+        shadow-[0_1px_0_rgba(255,255,255,0.04),0_4px_24px_rgba(0,0,0,0.4)] transition-colors duration-300"
       >
         <div className="max-w-screen-2xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between gap-4">
 
@@ -105,6 +109,19 @@ export default function Topbar() {
 
           {/* Right side actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
+
+            {/* Dark / Light toggle */}
+            <motion.button
+              key={isDark ? "dark" : "light"}
+              initial={{ rotate: -30, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </motion.button>
 
             {/* Settings icon */}
             <Link to="/settings">
