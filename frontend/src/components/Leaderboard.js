@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchAuth } from "../api";
-import { Users, Trophy, TrendingDown, Award, Medal, Crown } from "lucide-react";
+import { Users, Trophy, TrendingDown, Award } from "lucide-react";
 import LottieAnimation from "./LottieAnimation";
 
 const BADGE_LOTTIE = {
@@ -60,13 +60,6 @@ export default function Leaderboard() {
       );
     }
     return <span className={`text-2xl font-black ${getRankColor(rank)}`}>#{rank}</span>;
-  };
-
-  const getRankBadgeSmall = (rank) => {
-    if (rank === 1) return <Crown size={18} className="text-yellow-400" />;
-    if (rank === 2) return <Medal size={18} className="text-slate-300" />;
-    if (rank === 3) return <Award size={18} className="text-orange-400" />;
-    return <span className={`font-bold ${getRankColor(rank)}`}>#{rank}</span>;
   };
 
   if (loading) {
