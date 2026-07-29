@@ -52,8 +52,6 @@ public class BadgeService {
     // ==========================
     // Award Badge
     // ==========================
-    @Autowired
-    private com.carbontrack.repository.ActivityLogRepository activityLogRepository;
 
     // ==========================
     // Award Badge (User Explicit)

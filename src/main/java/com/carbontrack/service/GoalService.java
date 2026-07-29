@@ -2,6 +2,7 @@ package com.carbontrack.service;
 
 import com.carbontrack.repository.ActivityLogRepository;
 import com.carbontrack.dto.GoalProgressDTO;
+import com.carbontrack.dto.GoalDTO;
 import com.carbontrack.entity.Goal;
 import com.carbontrack.entity.User;
 import com.carbontrack.event.BadgeAwardEvent;

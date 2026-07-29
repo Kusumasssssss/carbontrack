@@ -76,4 +76,35 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
             @Param("startDate") LocalDate startDate
     );
 
+    // ==========================
+    // Distinct Activity Dates
+    // ==========================
+    @Query("SELECT DISTINCT a.date FROM ActivityLog a WHERE a.user = :user ORDER BY a.date DESC")
+    List<LocalDate> findDistinctDatesByUserOrderByDateDesc(@Param("user") User user);
+
+    // ==========================
+    // Total Carbon Emission By User
+    // ==========================
+    @Query("SELECT COALESCE(SUM(a.carbonEmission), 0.0) FROM ActivityLog a WHERE a.user = :user")
+    Double findTotalCarbonEmissionByUser(@Param("user") User user);
+
+    // ==========================
+    // Total Carbon Emissions Per User (List of all totals)
+    // ==========================
+    @Query("SELECT COALESCE(SUM(a.carbonEmission), 0.0) FROM ActivityLog a GROUP BY a.user")
+    List<Double> findTotalCarbonEmissionsPerUser();
+
+    // ==========================
+    // Platform Category Averages
+    // ==========================
+    @Query("""
+           SELECT new com.carbontrack.dto.CategoryAggregation(
+               a.category,
+               AVG(a.carbonEmission)
+           )
+           FROM ActivityLog a
+           GROUP BY a.category
+           """)
+    List<CategoryAggregation> findPlatformCategoryAverages();
+
 }
