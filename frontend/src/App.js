@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { ThemeProvider } from "./context/ThemeContext";
 
 import "./styles/index.css";
 
@@ -17,6 +18,7 @@ import PageTransition from "./components/PageTransition";
 import Layout from "./components/Layout";
 import Goals from "./pages/Goals";
 import Badges from "./pages/Badges";
+import LeaderboardPage from "./pages/Leaderboard";
 
 const NotFound = () => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] glass-panel p-8 text-center border-dashed border-2 border-white/10">
@@ -82,6 +84,16 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
+        <Route
+          path="/leaderboard"
+          element={
+            <Layout>
+              <PageTransition>
+                <LeaderboardPage />
+              </PageTransition>
+            </Layout>
+          }
+        />
         <Route path="/settings" element={<Layout><PageTransition><Settings /></PageTransition></Layout>} />
 
         {/* Catch-all 404 */}
@@ -93,13 +105,15 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <Router>
-      <div className="flex min-h-screen bg-slate-900">
-        <main className="flex-1 overflow-x-hidden">
-          <AnimatedRoutes />
-        </main>
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <div className="flex min-h-screen bg-slate-900 dark:bg-slate-900 light:bg-white">
+          <main className="flex-1 overflow-x-hidden">
+            <AnimatedRoutes />
+          </main>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

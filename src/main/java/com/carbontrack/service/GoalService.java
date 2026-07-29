@@ -50,9 +50,9 @@ public class GoalService {
     // ==========================
     // Goal -> DTO mapper
     // ==========================
-    private GoalDTO toDTO(Goal goal) {
+    private com.carbontrack.dto.GoalDTO toDTO(Goal goal) {
         if (goal == null) return null;
-        return GoalDTO.builder()
+        return com.carbontrack.dto.GoalDTO.builder()
                 .id(goal.getId())
                 .targetReductionPct(goal.getTargetReductionPct())
                 .periodDays(goal.getPeriodDays())
@@ -65,7 +65,7 @@ public class GoalService {
     // ==========================
     // Create Goal
     // ==========================
-    public GoalDTO createGoal(Goal goal) {
+    public com.carbontrack.dto.GoalDTO createGoal(Goal goal) {
 
         User user = getLoggedInUser();
 
@@ -101,7 +101,7 @@ public class GoalService {
     // ==========================
     // Get All Goals
     // ==========================
-    public List<GoalDTO> getGoals() {
+    public List<com.carbontrack.dto.GoalDTO> getGoals() {
 
         User user = getLoggedInUser();
 
@@ -114,7 +114,7 @@ public class GoalService {
     // ==========================
     // Get Active Goal
     // ==========================
-    public GoalDTO getActiveGoal() {
+    public com.carbontrack.dto.GoalDTO getActiveGoal() {
 
         User user = getLoggedInUser();
 
@@ -225,7 +225,7 @@ public class GoalService {
     // ==========================
     // Update Goal
     // ==========================
-    public GoalDTO updateGoal(Long id, Goal updatedGoal) {
+    public com.carbontrack.dto.GoalDTO updateGoal(Long id, Goal updatedGoal) {
 
         Goal goal = goalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Goal not found"));

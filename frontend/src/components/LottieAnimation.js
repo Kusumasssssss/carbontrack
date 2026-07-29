@@ -1,6 +1,5 @@
 import React from 'react';
-import { DotLottiePlayer } from '@dotlottie/react-player';
-import '@dotlottie/react-player/dist/index.css';
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const LottieAnimation = ({ 
   src, 
@@ -11,7 +10,7 @@ const LottieAnimation = ({
 }) => {
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <DotLottiePlayer
+      <DotLottieReact
         src={src}
         autoplay={autoplay}
         loop={loop}
