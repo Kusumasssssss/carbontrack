@@ -18,6 +18,7 @@ import PageTransition from "./components/PageTransition";
 import Layout from "./components/Layout";
 import Goals from "./pages/Goals";
 import Badges from "./pages/Badges";
+import LeaderboardPage from "./pages/Leaderboard";
 
 const NotFound = () => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] glass-panel p-8 text-center border-dashed border-2 border-white/10">
@@ -79,6 +80,16 @@ function AnimatedRoutes() {
             <Layout>
               <PageTransition>
                 <Badges />
+              </PageTransition>
+            </Layout>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <Layout>
+              <PageTransition>
+                <LeaderboardPage />
               </PageTransition>
             </Layout>
           }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.carbontrack.dto.
 
 import java.time.LocalDate;
 import java.util.List;
@@ -58,4 +59,13 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
     @Query("SELECT new com.carbontrack.dto.CategoryAggregation(a.category, COALESCE(AVG(a.carbonEmission), 0)) " +
             "FROM ActivityLog a GROUP BY a.category")
     List<CategoryAggregation> findPlatformCategoryAverages();
+
+    // ==========================
+    // Leaderboard
+    // ==========================
+    @Query("SELECT new com.carbontrack.dto.UserLeaderboardEntry(u.id, u.username, COALESCE(SUM(a.carbonEmission), 0)) " +
+            "FROM ActivityLog a RIGHT JOIN a.user u " +
+            "GROUP BY u.id, u.username " +
+            "ORDER BY COALESCE(SUM(a.carbonEmission), 0) ASC")
+    List<UserLeaderboardEntry> findLeaderboardEntries();
 }

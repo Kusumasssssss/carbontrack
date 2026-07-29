@@ -11,7 +11,8 @@ import {
   Leaf,
   PlusCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Trophy
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
@@ -23,6 +24,7 @@ const MENU = [
   { name: "Analytics",   icon: BarChart3,        path: "/analytics" },
   { name: "Goals",       icon: Target,           path: "/goals" },
   { name: "Badges",      icon: Award,            path: "/badges" },
+  { name: "Leaderboard", icon: Trophy,           path: "/leaderboard" },
 ];
 
 const BOTTOM_MENU = [
