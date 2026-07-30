@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
+import LottieAnimation from "./LottieAnimation";
 
 const MENU = [
   { name: "Dashboard",   icon: LayoutDashboard, path: "/dashboard" },
@@ -111,8 +112,14 @@ function Sidebar({ isOpen, setIsOpen }) {
         <div className={`flex items-center border-b border-white/5 flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
           {!collapsed && (
             <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30">
-                <Leaf size={18} className="text-white" />
+              <div className="relative w-10 h-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur-md opacity-50 group-hover:opacity-70 transition-opacity"></div>
+                <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform duration-300">
+                  <LottieAnimation 
+                    src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                </div>
               </div>
               <motion.span
                 initial={{ opacity: 0 }}
@@ -125,8 +132,14 @@ function Sidebar({ isOpen, setIsOpen }) {
           )}
 
           {collapsed && (
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg">
-              <Leaf size={18} className="text-white" />
+            <div className="relative w-8 h-8">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur-sm opacity-40"></div>
+              <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-600 flex items-center justify-center shadow-lg">
+                <LottieAnimation 
+                  src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                  style={{ width: "18px", height: "18px" }}
+                />
+              </div>
             </div>
           )}
 
