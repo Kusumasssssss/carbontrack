@@ -68,13 +68,13 @@ public class RecommendationService {
 
         String requestBody;
         try {
-            java.util.Map<String, Object> part = java.util.Map.of("text", prompt);
+            java.util.Map<String, String> part = java.util.Map.of("text", prompt);
             java.util.Map<String, Object> content = java.util.Map.of("parts", java.util.List.of(part));
             java.util.Map<String, Object> body = java.util.Map.of("contents", java.util.List.of(content));
             requestBody = objectMapper.writeValueAsString(body);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return "Failed to construct API request.";
+            return "Failed to construct API request: " + e.getMessage();
         }
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
@@ -82,11 +82,11 @@ public class RecommendationService {
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
             return parseGeminiResponse(response.getBody());
+        } catch (org.springframework.web.client.HttpStatusCodeException e) {
+            e.printStackTrace();
+            return "Oops! API Error (" + e.getStatusCode() + "): " + e.getResponseBodyAsString();
         } catch (Exception e) {
             e.printStackTrace();
-            if (e instanceof org.springframework.web.client.HttpStatusCodeException) {
-                return "Oops! API Error: " + ((org.springframework.web.client.HttpStatusCodeException) e).getResponseBodyAsString();
-            }
             return "Oops! We encountered an error while contacting the AI coach: " + e.getMessage();
         }
     }
