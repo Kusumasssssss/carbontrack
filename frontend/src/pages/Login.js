@@ -9,7 +9,7 @@ const Login = ({ onLoginSuccess }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [error, setError] = useState('');
@@ -46,9 +46,7 @@ const Login = ({ onLoginSuccess }) => {
 
     setLoading(true);
     try {
-      // Using the signup() export from ../api.
-      // Adjust argument order/shape here if your signup() signature differs.
-      await signup(name, email, password);
+      await signup(username, email, password);
       goToDashboard();
     } catch (err) {
       setError(err.message);
@@ -159,9 +157,9 @@ const Login = ({ onLoginSuccess }) => {
 
             <input
               type="text"
-              placeholder="Full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className="w-full bg-slate-800/70 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-4 py-3 my-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             />
