@@ -176,7 +176,7 @@ export default function Benchmarking() {
                           {isBetter ? "Better" : "Higher"} than avg
                         </span>
                         <span className="text-sm text-slate-400">
-                          {cat.userValue.toFixed(2)} kg
+                          {cat.userValue !== undefined ? cat.userValue.toFixed(2) : 'N/A'} kg
                         </span>
                       </div>
                     </div>
@@ -193,7 +193,7 @@ export default function Benchmarking() {
                     </div>
                     <div className="flex justify-between text-xs text-slate-500 mt-1">
                       <span>0</span>
-                      <span>Community Avg: {cat.communityAverageValue.toFixed(2)} kg</span>
+                      <span>Community Avg: {cat.communityAverageValue !== undefined ? cat.communityAverageValue.toFixed(2) : 'N/A'} kg</span>
                       <span>High</span>
                     </div>
                   </div>

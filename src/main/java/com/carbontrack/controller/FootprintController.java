@@ -1,6 +1,7 @@
 package com.carbontrack.controller;
 
 import com.carbontrack.dto.CategoryAggregation;
+import com.carbontrack.dto.MonthlySummaryDto;
 import com.carbontrack.service.FootprintAggregationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,5 +38,11 @@ public class FootprintController {
     @Operation(summary = "Get Monthly Footprint Aggregation", description = "Retrieves Redis-cached monthly category emissions")
     public List<CategoryAggregation> getMonthlyFootprint() {
         return aggregationService.getMonthlyAggregation();
+    }
+
+    @GetMapping("/monthly-summary")
+    @Operation(summary = "Get Monthly Summary", description = "Retrieves comprehensive monthly stats including totals, best categories, and trends")
+    public MonthlySummaryDto getMonthlySummary() {
+        return aggregationService.getMonthlySummary();
     }
 }

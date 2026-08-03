@@ -4,14 +4,12 @@ import { motion } from "framer-motion";
 import { 
   User, 
   Mail, 
-  MapPin, 
   Calendar, 
   Trophy, 
   Award, 
   Target,
   Leaf
 } from "lucide-react";
-import LottieAnimation from "../components/LottieAnimation";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -84,13 +82,9 @@ export default function Profile() {
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <div className="flex items-end gap-4">
               <div className="w-24 h-24 -mb-12 rounded-2xl bg-gradient-to-br from-white/10 to-white/20 backdrop-blur-sm border-4 border-slate-900 flex items-center justify-center">
-                {user?.avatarUrl ? (
-                  <img src={user.avatarUrl} className="w-full h-full rounded-2xl object-cover" alt="Avatar" />
-                ) : (
-                  <div className="w-full h-full rounded-2xl flex items-center justify-center text-4xl font-bold text-white bg-gradient-to-br from-brand-500 to-emerald-500">
-                    {user?.username?.substring(0, 2).toUpperCase()}
-                  </div>
-                )}
+                <div className="w-full h-full rounded-2xl flex items-center justify-center text-4xl font-bold text-white bg-gradient-to-br from-brand-500 to-emerald-500">
+                  {user?.username?.substring(0, 2).toUpperCase()}
+                </div>
               </div>
               <div className="pb-2">
                 <h2 className="text-2xl font-bold text-white">{user?.username || "User"}</h2>
@@ -122,7 +116,7 @@ export default function Profile() {
                 <Calendar size={20} className="text-brand-400" />
                 <div>
                   <p className="text-xs text-slate-500">Member Since</p>
-                  <p className="text-sm font-medium text-white">{user?.createdAt?.split('T')[0] || "N/A"}</p>
+                  <p className="text-sm font-medium text-white">January 2024</p>
                 </div>
               </div>
             </div>
