@@ -100,12 +100,12 @@ function Dashboard() {
         className="relative overflow-hidden rounded-3xl"
       >
         {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 via-cyan-500/5 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1a] via-[#1a1a1a] to-[#1a1a1a]"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-[#1a1a1a]/5 to-transparent"></div>
         
         {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#1a1a1a]/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
         
         <div className="relative z-10 p-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -114,9 +114,9 @@ function Dashboard() {
             <div className="flex items-center gap-6">
               {/* Main Avatar - Large with Ring */}
               <div className="relative group">
-                <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
-                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 p-0.5">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden">
+                <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-[#fb923c] rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-[#f97316] p-0.5">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center overflow-hidden">
                     <LottieAnimation 
                       src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
                       style={{ width: "60px", height: "60px" }} 
@@ -124,7 +124,7 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* Level Badge */}
-                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg border-2 border-[#1a1a1a]">
                   <span className="text-xs font-black text-white">5</span>
                 </div>
               </div>
@@ -132,8 +132,8 @@ function Dashboard() {
               {/* Avatar Stack */}
               <div className="flex -space-x-4">
                 {/* Avatar 2 */}
-                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-violet-400 to-purple-600 p-0.5 ring-2 ring-slate-800 hover:scale-110 transition-transform cursor-pointer">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#a855f7] to-[#7c3aed] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
                     <LottieAnimation 
                       src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json"
                       style={{ width: "40px", height: "40px" }} 
@@ -141,8 +141,8 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* Avatar 3 */}
-                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-rose-400 to-pink-600 p-0.5 ring-2 ring-slate-800 hover:scale-110 transition-transform cursor-pointer">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#ec4899] to-[#be185d] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
                     <LottieAnimation 
                       src="https://assets4.lottiefiles.com/packages/lf20_touohxv0.json"
                       style={{ width: "40px", height: "40px" }} 
@@ -150,8 +150,8 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* Avatar 4 */}
-                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 p-0.5 ring-2 ring-slate-800 hover:scale-110 transition-transform cursor-pointer">
-                  <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#2563eb] to-[#1d4ed8] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
                     <LottieAnimation 
                       src="https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json"
                       style={{ width: "40px", height: "40px" }} 
@@ -161,15 +161,15 @@ function Dashboard() {
               </div>
 
               {/* Stats Text */}
-              <div className="hidden sm:block pl-4 border-l border-slate-700">
+              <div className="hidden sm:block pl-4 border-l border-[#2a2a2a]">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Level 5</span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-xs font-medium text-slate-400">Eco Champion</span>
+                  <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Level 5</span>
+                  <span className="text-[#a3a3a3]">•</span>
+                  <span className="text-xs font-medium text-[#737373]">Eco Champion</span>
                 </div>
                 <div className="flex items-center gap-4 mt-1">
-                  <span className="text-xs text-slate-500">🔥 7 day streak</span>
-                  <span className="text-xs text-slate-500">🏆 12 badges</span>
+                  <span className="text-xs text-[#a3a3a3]">🔥 7 day streak</span>
+                  <span className="text-xs text-[#a3a3a3]">🏆 12 badges</span>
                 </div>
               </div>
             </div>
@@ -177,21 +177,21 @@ function Dashboard() {
             {/* Right Side - Action */}
             <div className="flex items-center gap-4">
               {/* Quick Stats */}
-              <div className="hidden lg:flex items-center gap-6 pr-6 border-r border-slate-700">
+              <div className="hidden lg:flex items-center gap-6 pr-6 border-r border-[#2a2a2a]">
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-white">{dailyCarbon.toFixed(1)}</p>
-                  <p className="text-xs text-slate-400">Today (kg)</p>
+                  <p className="text-2xl font-bold text-[#e5e5e5]">{dailyCarbon.toFixed(1)}</p>
+                  <p className="text-xs text-[#737373]">Today (kg)</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-emerald-400">{activities.length}</p>
-                  <p className="text-xs text-slate-400">Activities</p>
+                  <p className="text-2xl font-bold text-orange-400">{activities.length}</p>
+                  <p className="text-xs text-[#737373]">Activities</p>
                 </div>
               </div>
 
               {/* CTA Button */}
               <button
                 onClick={() => navigate("/logactivity")}
-                className="group relative overflow-hidden bg-gradient-to-r from-emerald-500 to-cyan-600 hover:from-emerald-400 hover:to-cyan-500 px-6 py-3 rounded-xl text-white font-bold transition-all shadow-lg hover:shadow-emerald-500/25 hover:scale-105 flex items-center gap-2"
+                className="group relative overflow-hidden bg-gradient-to-r from-orange-500 to-[#f97316] hover:from-orange-400 hover:to-[#f97316] px-6 py-3 rounded-xl text-white font-bold transition-all shadow-lg hover:shadow-orange-500/25 hover:scale-105 flex items-center gap-2"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
                 <svg className="w-5 h-5 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">

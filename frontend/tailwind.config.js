@@ -30,23 +30,23 @@ module.exports = {
       },
       colors: {
         brand: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          900: '#14532d',
-          950: '#052e16',
+          50: '#fff7ed',
+          100: '#ffedd5',
+          400: '#fb923c',
+          500: '#f97316',
+          600: '#ea580c',
+          700: '#c2410c',
+          900: '#7c2d12',
+          950: '#431407',
         },
         accent: {
-          DEFAULT: '#06b6d4',
-          hover: '#0891b2',
+          DEFAULT: '#f97316',
+          hover: '#ea580c',
         },
         bg: {
-          dark: '#030712',
-          card: 'rgba(17, 24, 39, 0.7)',
-          panel: '#111827',
+          dark: '#0f0f0f',
+          card: 'rgba(23, 23, 23, 0.8)',
+          panel: '#1a1a1a',
         }
       },
       backgroundImage: {

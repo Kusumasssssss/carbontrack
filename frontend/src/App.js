@@ -19,6 +19,9 @@ import Layout from "./components/Layout";
 import Goals from "./pages/Goals";
 import Badges from "./pages/Badges";
 import LeaderboardPage from "./pages/Leaderboard";
+import Benchmarking from "./pages/Benchmarking";
+import Profile from "./pages/Profile";
+import Chatbot from "./pages/Chatbot";
 
 const NotFound = () => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] glass-panel p-8 text-center border-dashed border-2 border-white/10">
@@ -90,6 +93,36 @@ function AnimatedRoutes() {
             <Layout>
               <PageTransition>
                 <LeaderboardPage />
+              </PageTransition>
+            </Layout>
+          }
+        />
+        <Route
+          path="/benchmarking"
+          element={
+            <Layout>
+              <PageTransition>
+                <Benchmarking />
+              </PageTransition>
+            </Layout>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Layout>
+              <PageTransition>
+                <Profile />
+              </PageTransition>
+            </Layout>
+          }
+        />
+        <Route
+          path="/chatbot"
+          element={
+            <Layout>
+              <PageTransition>
+                <Chatbot />
               </PageTransition>
             </Layout>
           }
