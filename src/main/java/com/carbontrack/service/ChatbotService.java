@@ -31,12 +31,34 @@ public class ChatbotService {
         this.objectMapper = objectMapper;
     }
 
-    public String chatWithAI(String userMessage) {
+    public String chatWithAI(String userMessage, String language) {
+
         if (groqApiKey == null || groqApiKey.contains("your_default_api_key_here")) {
-            return "Please configure your Groq API Key in application.properties to chat with me.";
+            return "Please configure your Groq API Key.";
         }
 
-        String systemPrompt = "You are CarbonTrack's friendly AI Sustainability Coach. Answer the user's questions about reducing carbon emissions, eco-friendly habits, and climate change in a concise, encouraging way. Do not use markdown formatting like **bold** in your responses. Keep responses brief (1-3 sentences).\n\nUser: ";
+        String languageName = switch (language) {
+            case "hi" -> "Hindi";
+            case "kn" -> "Kannada";
+            case "ta" -> "Tamil";
+            case "te" -> "Telugu";
+            default -> "English";
+        };
+
+        String systemPrompt = String.format("""
+        You are CarbonTrack's friendly AI Sustainability Coach.
+
+        Answer ONLY in %s.
+
+        Answer questions about reducing carbon emissions, eco-friendly habits, and climate change.
+
+        Keep responses short (1-3 sentences).
+
+        Do not use markdown formatting.
+
+        User:
+        """, languageName);
+
         String prompt = systemPrompt + userMessage;
 
         return callGroqApi(prompt);

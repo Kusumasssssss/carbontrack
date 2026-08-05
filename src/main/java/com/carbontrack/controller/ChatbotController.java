@@ -29,7 +29,10 @@ public class ChatbotController {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
 
-        String responseMessage = chatbotService.chatWithAI(request.getMessage());
+        String responseMessage = chatbotService.chatWithAI(
+                request.getMessage(),
+                request.getLanguage()
+        );
         return ResponseEntity.ok(Map.of("response", responseMessage));
     }
 }
