@@ -25,11 +25,14 @@ public class RecommendationService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${gemini.api.key}")
-    private String geminiApiKey;
+    @Value("${groq.api.key}")
+    private String groqApiKey;
 
-    @Value("${gemini.api.url}")
-    private String geminiApiUrl;
+    @Value("${groq.api.url}")
+    private String groqApiUrl;
+
+    @Value("${groq.api.model}")
+    private String groqModel;
 
     public RecommendationService(ActivityLogRepository activityLogRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.activityLogRepository = activityLogRepository;
@@ -38,8 +41,8 @@ public class RecommendationService {
     }
 
     public String getAIRecommendations(User user) {
-        if (geminiApiKey == null || geminiApiKey.contains("your_default_api_key_here")) {
-            return "Please configure your Gemini API Key in application.properties to see personalised recommendations.";
+        if (groqApiKey == null || groqApiKey.contains("your_default_api_key_here")) {
+            return "Please configure your Groq API Key in application.properties to see personalised recommendations.";
         }
 
         LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
@@ -57,20 +60,23 @@ public class RecommendationService {
                 activitySummary +
                 "\nProvide 3 short, actionable, and encouraging bullet points on how they can reduce their footprint. Do not use markdown bolding.";
 
-        return callGeminiApi(prompt);
+        return callGroqApi(prompt);
     }
 
-    private String callGeminiApi(String prompt) {
-        String url = geminiApiUrl + "?key=" + geminiApiKey;
+    private String callGroqApi(String prompt) {
+        String url = groqApiUrl;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + groqApiKey);
 
         String requestBody;
         try {
-            java.util.Map<String, String> part = java.util.Map.of("text", prompt);
-            java.util.Map<String, Object> content = java.util.Map.of("parts", java.util.List.of(part));
-            java.util.Map<String, Object> body = java.util.Map.of("contents", java.util.List.of(content));
+            java.util.Map<String, String> userMessage = java.util.Map.of("role", "user", "content", prompt);
+            java.util.Map<String, Object> body = java.util.Map.of(
+                "model", groqModel,
+                "messages", java.util.List.of(userMessage)
+            );
             requestBody = objectMapper.writeValueAsString(body);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -81,7 +87,7 @@ public class RecommendationService {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-            return parseGeminiResponse(response.getBody());
+            return parseGroqResponse(response.getBody());
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
             e.printStackTrace();
             return "Oops! API Error (" + e.getStatusCode() + "): " + e.getResponseBodyAsString();
@@ -91,16 +97,13 @@ public class RecommendationService {
         }
     }
 
-    private String parseGeminiResponse(String jsonResponse) {
+    private String parseGroqResponse(String jsonResponse) {
         try {
             JsonNode root = objectMapper.readTree(jsonResponse);
-            JsonNode candidates = root.path("candidates");
-            if (candidates.isArray() && candidates.size() > 0) {
-                JsonNode content = candidates.get(0).path("content");
-                JsonNode parts = content.path("parts");
-                if (parts.isArray() && parts.size() > 0) {
-                    return parts.get(0).path("text").asText();
-                }
+            JsonNode choices = root.path("choices");
+            if (choices.isArray() && choices.size() > 0) {
+                JsonNode message = choices.get(0).path("message");
+                return message.path("content").asText();
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
