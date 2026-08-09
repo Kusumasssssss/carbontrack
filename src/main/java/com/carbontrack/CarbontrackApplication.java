@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.cache.annotation.EnableCaching;
-import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv	.Dotenv;
 
 @SpringBootApplication
 @EnableCaching
