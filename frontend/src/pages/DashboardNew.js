@@ -8,20 +8,22 @@ import CarbonPieChart from "../components/CarbonPieChart";
 import CarbonTrendChart from "../components/CarbonTrendChart";
 import PeerBenchmarking from "../components/PeerBenchmarking";
 import Chatbot from "../components/Chatbot";
-function DashboardNew() {
-const [activities, setActivities] = useState([]);
-const [recommendations, setRecommendations] = useState(null);
-const [loadingRecs, setLoadingRecs] = useState(true);
+import { Sparkles } from "lucide-react";
 
-useEffect(() => {
+function DashboardNew() {
+  const [activities, setActivities] = useState([]);
+  const [recommendations, setRecommendations] = useState(null);
+  const [loadingRecs, setLoadingRecs] = useState(true);
+
+  useEffect(() => {
     fetchAuth("/activity")
-        .then((res) => res.json())
-        .then((data) => {
-            if (Array.isArray(data)) {
-                setActivities(data);
-            }
-        })
-        .catch((err) => console.error(err));
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setActivities(data);
+        }
+      })
+      .catch((err) => console.error(err));
 
     // Fetch AI Recommendations
     fetchAuth("/recommendations")
@@ -36,156 +38,104 @@ useEffect(() => {
         console.error(err);
         setLoadingRecs(false);
       });
-}, []);
-const totalCarbon = activities.reduce(
+  }, []);
+
+  const totalCarbon = activities.reduce(
     (sum, activity) => sum + Number(activity.carbonEmission || 0),
     0
-);
-  return (
-    <div className="min-h-screen bg-[#07111d] text-white">
+  );
 
+  return (
+    <div className="min-h-screen bg-[#F7F9FC] text-[#111827] font-sans">
       {/* Header */}
       <DashboardHeader />
 
-       <SummaryCards
-           totalCarbon={totalCarbon}
-           activities={activities}
-       />
+      <SummaryCards totalCarbon={totalCarbon} activities={activities} />
 
       {/* Dashboard */}
-      <div className="px-10 pb-10 flex gap-6 items-start">
-
-
+      <div className="px-6 sm:px-10 pb-10 flex flex-col lg:flex-row gap-6 items-start">
         {/* LEFT */}
+        <div className="flex-1 w-full space-y-6">
+          {/* Carbon Overview */}
+          <CarbonOverview totalCarbon={totalCarbon} />
 
-        {/* LEFT */}
+          {/* Peer Benchmarking & Standing */}
+          <PeerBenchmarking />
 
-        <div className="flex-1 space-y-6">
-
-            {/* Carbon Overview */}
-            <CarbonOverview totalCarbon={totalCarbon} />
-
-            {/* Peer Benchmarking & Standing */}
-            <PeerBenchmarking />
-
-            {/* Bottom Charts */}
-            <div className="grid grid-cols-2 gap-6 mt-6 items-stretch">
-
-                {/* Weekly Trend */}
-                <div className="rounded-3xl bg-[#111827] p-6 h-[360px] shadow-xl border border-slate-700">
-
-                    <h2 className="text-xl font-semibold mb-4">
-                        Weekly Trend
-                    </h2>
-
-                    <CarbonTrendChart />
-
-                </div>
-
-                {/* Carbon Breakdown */}
-                <div className="rounded-3xl bg-[#111827] p-6 h-[360px] shadow-xl border border-slate-700">
-
-                    <h2 className="text-xl font-semibold mb-4">
-                        Carbon Breakdown
-                    </h2>
-
-                    <CarbonPieChart />
-
-                </div>
-
+          {/* Bottom Charts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 items-stretch">
+            {/* Weekly Trend */}
+            <div className="rounded-2xl bg-white p-6 h-[360px] shadow-[0_1px_2px_rgba(17,24,39,0.04)] hover:shadow-[0_4px_16px_rgba(17,24,39,0.06)] transition-shadow duration-300 border border-[#E5E7EB]">
+              <h2 className="text-[15px] font-bold text-[#111827] mb-4">Weekly Trend</h2>
+              <CarbonTrendChart />
             </div>
 
+            {/* Carbon Breakdown */}
+            <div className="rounded-2xl bg-white p-6 h-[360px] shadow-[0_1px_2px_rgba(17,24,39,0.04)] hover:shadow-[0_4px_16px_rgba(17,24,39,0.06)] transition-shadow duration-300 border border-[#E5E7EB]">
+              <h2 className="text-[15px] font-bold text-[#111827] mb-4">Carbon Breakdown</h2>
+              <CarbonPieChart />
+            </div>
+          </div>
         </div>
+
         {/* RIGHT */}
-
-        <div className="w-[360px] space-y-6">
-
+        <div className="w-full lg:w-[360px] space-y-6">
           {/* Goal */}
           <GoalProgressCard />
 
-
-
-
           {/* AI Sustainability Coach */}
-          <div className="rounded-3xl bg-gradient-to-br from-[#111827] to-[#1a2333] p-6 shadow-xl border border-indigo-500/20 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-500/10 to-indigo-500/10 opacity-50" />
+          <div className="rounded-2xl bg-gradient-to-br from-[#111827] via-[#1F2937] to-[#111827] p-6 shadow-[0_8px_30px_rgba(17,24,39,0.25)] relative overflow-hidden group">
+            <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#22C55E]/20 blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#2563EB]/20 blur-3xl" />
             <div className="relative z-10">
-              <h2 className="text-xl font-semibold flex items-center gap-2 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-400">
-                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
-                </svg>
+              <h2 className="text-[15px] font-bold flex items-center gap-2 text-white">
+                <Sparkles className="w-4 h-4 text-[#4ADE80]" strokeWidth={2.2} />
                 AI Insights
               </h2>
-              <div className="text-slate-400 mt-5 text-sm space-y-3 whitespace-pre-wrap">
+              <div className="text-white/70 mt-5 text-[13px] leading-relaxed space-y-3 whitespace-pre-wrap">
                 {loadingRecs ? (
                   <div className="animate-pulse flex flex-col space-y-3">
-                    <div className="h-4 bg-slate-700 rounded w-3/4"></div>
-                    <div className="h-4 bg-slate-700 rounded w-5/6"></div>
-                    <div className="h-4 bg-slate-700 rounded w-2/3"></div>
+                    <div className="h-3.5 bg-white/10 rounded w-3/4"></div>
+                    <div className="h-3.5 bg-white/10 rounded w-5/6"></div>
+                    <div className="h-3.5 bg-white/10 rounded w-2/3"></div>
                   </div>
                 ) : (
-                  recommendations || "No recommendations available at the moment. Keep logging your activities to get personalized insights!"
+                  recommendations ||
+                  "No recommendations available at the moment. Keep logging your activities to get personalized insights!"
                 )}
               </div>
             </div>
           </div>
 
           {/* Recent Activities */}
+          <div className="rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(17,24,39,0.04)] border border-[#E5E7EB]">
+            <h2 className="text-[15px] font-bold text-[#111827] mb-5">Recent Activities</h2>
 
-          <div className="rounded-3xl bg-[#111827] p-6 shadow-xl border border-slate-700">
+            <div className="space-y-2.5">
+              {activities.length === 0 ? (
+                <p className="text-[13.5px] text-[#6B7280]">No activities found.</p>
+              ) : (
+                activities.slice(0, 5).map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between items-center bg-[#F7F9FC] rounded-xl p-4 border border-transparent hover:border-[#E5E7EB] hover:bg-white hover:shadow-[0_2px_8px_rgba(17,24,39,0.06)] transition-all duration-200"
+                  >
+                    <div>
+                      <h3 className="font-semibold text-[13.5px] text-[#111827]">
+                        {item.activity}
+                      </h3>
+                      <p className="text-[12px] text-[#6B7280] mt-0.5">{item.category}</p>
+                    </div>
 
-            <h2 className="text-xl font-semibold mb-6">
-
-              Recent Activities
-
-            </h2>
-
-            <div className="space-y-3">
-
-            {activities.length === 0 ? (
-
-                <p className="text-slate-400">
-                    No activities found.
-                </p>
-
-            ) : (
-
-            activities.slice(0,5).map((item)=>(
-            <div
-            key={item.id}
-            className="flex justify-between items-center bg-[#1b2435] rounded-xl p-4 hover:bg-[#243041] transition-all duration-300"
-            >
-
-            <div>
-
-            <h3 className="font-semibold text-white">
-            {item.activity}
-            </h3>
-
-            <p className="text-sm text-slate-400">
-            {item.category}
-            </p>
-
-            </div>
-
-            <div className="text-right">
-
-            <p className="text-green-400 font-bold">
-            {item.carbonEmission} kg
-            </p>
-
-            <p className="text-xs text-slate-500">
-            {item.date}
-            </p>
-
-            </div>
-
-            </div>
-
-            ))
-
-            )}
-
+                    <div className="text-right">
+                      <p className="text-[#22C55E] font-bold text-[13.5px]">
+                        {item.carbonEmission} kg
+                      </p>
+                      <p className="text-[11px] text-[#9CA3AF] mt-0.5">{item.date}</p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
