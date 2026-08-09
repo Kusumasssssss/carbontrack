@@ -6,24 +6,24 @@
 
 /* ── Theme CSS variables ──────────────────────────────────────────────── */
 :root {
-  --bg-base:    #030712;
-  --bg-card:    rgba(17, 24, 39, 0.7);
-  --bg-panel:   #111827;
-  --text-base:  #f1f5f9;
-  --text-muted: #94a3b8;
-  --border:     rgba(255,255,255,0.05);
-  --scrollbar:  rgba(100, 116, 139, 0.5);
+  --bg-base:    #0f0f0f;
+  --bg-card:    rgba(23, 23, 23, 0.8);
+  --bg-panel:   #1a1a1a;
+  --text-base:  #e5e5e5;
+  --text-muted: #a3a3a3;
+  --border:     rgba(255,255,255,0.1);
+  --scrollbar:  rgba(163, 163, 163, 0.5);
 }
 
 /* Light mode overrides */
 .light {
-  --bg-base:    #f8fafc;
-  --bg-card:    rgba(255, 255, 255, 0.85);
-  --bg-panel:   #ffffff;
-  --text-base:  #0f172a;
-  --text-muted: #64748b;
+  --bg-base:    #ffffff;
+  --bg-card:    rgba(245, 245, 245, 0.85);
+  --bg-panel:   #f5f5f5;
+  --text-base:  #0f0f0f;
+  --text-muted: #737373;
   --border:     rgba(0,0,0,0.08);
-  --scrollbar:  rgba(148, 163, 184, 0.6);
+  --scrollbar:  rgba(115, 115, 115, 0.6);
 }
 
 @layer base {

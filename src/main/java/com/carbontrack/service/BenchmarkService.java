@@ -2,6 +2,7 @@ package com.carbontrack.service;
 
 import com.carbontrack.dto.BenchmarkDTO;
 import com.carbontrack.dto.CategoryAggregation;
+import com.carbontrack.dto.UserLeaderboardEntry;
 import com.carbontrack.entity.User;
 import com.carbontrack.repository.ActivityLogRepository;
 import com.carbontrack.repository.UserRepository;
@@ -79,5 +80,13 @@ public class BenchmarkService {
                 .standingSummary(summary)
                 .categoryAverages(categoryAverages)
                 .build();
+    }
+
+    public List<UserLeaderboardEntry> getLeaderboard(int limit) {
+        List<UserLeaderboardEntry> entries = activityLogRepository.findLeaderboardEntries();
+        if (entries == null) {
+            return Collections.emptyList();
+        }
+        return entries.subList(0, Math.min(limit, entries.size()));
     }
 }

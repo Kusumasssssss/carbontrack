@@ -20,10 +20,9 @@ public class ActivityBadgeListener {
         System.out.println("=================================");
         System.out.println("Activity Logged Event Received");
         System.out.println("Activity : " + activity.getActivity());
-        System.out.println("Carbon : " + activity.getCarbonEmission());
+        System.out.println("Carbon Emission : " + activity.getCarbonEmission());
         System.out.println("=================================");
 
-        // Trigger automatic rule evaluator for activity, streak, and reduction thresholds
         badgeService.checkAndAwardActivityBadges(activity.getUser());
     }
 }

@@ -1,12 +1,16 @@
 package com.carbontrack.dto;
 
 public class ChatRequest {
+
     private String message;
+    private String language;
 
-    public ChatRequest() {}
+    public ChatRequest() {
+    }
 
-    public ChatRequest(String message) {
+    public ChatRequest(String message, String language) {
         this.message = message;
+        this.language = language;
     }
 
     public String getMessage() {
@@ -15,5 +19,13 @@ public class ChatRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

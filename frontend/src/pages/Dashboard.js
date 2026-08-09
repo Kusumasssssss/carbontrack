@@ -6,7 +6,13 @@ import {
   Sparkles,
   Calendar,
   TrendingDown,
-  BarChart2
+  BarChart2,
+  Users,
+  MessageSquare,
+  User,
+  Award,
+  Trophy,
+  Target
 } from "lucide-react";
 import { isAuthenticated, fetchAuth } from "../api";
 import LottieAnimation from "../components/LottieAnimation";
@@ -18,22 +24,26 @@ const ThreeCarbonChart = React.lazy(() =>
 
 // ── Lottie URLs for each card ──────────────────────────────────────────────
 const LOTTIE = {
-  today:   "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json",  // transport/motion
-  week:    "https://assets7.lottiefiles.com/packages/lf20_m6cu980y.json",  // electricity
-  month:   "https://assets1.lottiefiles.com/packages/lf20_vnik4lq6.json",  // leaf/eco
-  goal:    "https://assets4.lottiefiles.com/packages/lf20_touohxv0.json",  // trophy
-  ai:      "https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json",  // globe
+  today:   "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json",
+  week:    "https://assets7.lottiefiles.com/packages/lf20_m6cu980y.json",
+  month:   "https://assets1.lottiefiles.com/packages/lf20_vnik4lq6.json",
+  goal:    "https://assets4.lottiefiles.com/packages/lf20_touohxv0.json",
+  ai:      "https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json",
+  leaderboard: "https://assets4.lottiefiles.com/packages/lf20_9m3q8j7k.json",
+  benchmark: "https://assets7.lottiefiles.com/packages/lf20_w8n5p0yq.json",
+  chatbot: "https://assets4.lottiefiles.com/packages/lf20_3k_d5q0x.json",
+  profile: "https://assets2.lottiefiles.com/packages/lf20_6f_0w07x.json",
 };
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [activities, setActivities]       = useState([]);
-  const [dailyCarbon, setDailyCarbon]     = useState(0);
-  const [weeklyCarbon, setWeeklyCarbon]   = useState(0);
+  const [activities, setActivities] = useState([]);
+  const [dailyCarbon, setDailyCarbon] = useState(0);
+  const [weeklyCarbon, setWeeklyCarbon] = useState(0);
   const [monthlyCarbon, setMonthlyCarbon] = useState(0);
   const [recommendations, setRecommendations] = useState(null);
-  const [loadingRecs, setLoadingRecs]     = useState(true);
-  const [goalProgress, setGoalProgress]   = useState(null);
+  const [loadingRecs, setLoadingRecs] = useState(true);
+  const [goalProgress, setGoalProgress] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated()) { navigate("/login"); return; }
@@ -75,7 +85,7 @@ function Dashboard() {
   }, [navigate]);
 
   const trendPercent = 12.4;
-  const isTrendDown  = true;
+  const isTrendDown = true;
 
   const containerVariants = {
     hidden:  { opacity: 0 },
@@ -93,34 +103,141 @@ function Dashboard() {
       animate="visible"
       className="max-w-7xl mx-auto space-y-8"
     >
-
-      {/* ── HEADER ──────────────────────────────────────────────────────── */}
+      {/* ── HERO SECTION WITH AVATARS ───────────────────────────────────────────────────── */}
       <motion.div
         variants={itemVariants}
-        className="flex flex-col lg:flex-row justify-between items-center bg-slate-900/60 border border-white/10 p-8 rounded-3xl backdrop-blur-xl gap-6"
+        className="relative overflow-hidden rounded-3xl"
       >
-        <div className="flex items-center gap-6">
-          {/* Lottie hero animation */}
-          <div className="w-28 h-28 flex-shrink-0 hidden sm:block">
-            <LottieAnimation src={LOTTIE.ai} style={{ width: "100%", height: "100%" }} />
-          </div>
-          <div>
-            <span className="text-brand-400 uppercase tracking-[5px] text-xs font-bold">
-              AVNI ENTERPRISE PLATFORM
-            </span>
-            <h1 className="text-4xl font-extrabold text-white mt-1">Welcome Back 👋</h1>
-            <p className="text-slate-400 mt-2 text-sm max-w-xl">
-              Monitor carbon footprints, track reduction targets, and leverage real-time AI insights.
-            </p>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1a] via-[#1a1a1a] to-[#1a1a1a]"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-[#1a1a1a]/5 to-transparent"></div>
+        
+        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#1a1a1a]/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div className="relative z-10 p-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            
+            {/* Left Side - Avatars Row */}
+            <div className="flex items-center gap-6">
+              <div className="relative group">
+                <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-[#fb923c] rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-[#f97316] p-0.5">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center overflow-hidden">
+                    <LottieAnimation 
+                      src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                      style={{ width: "60px", height: "60px" }} 
+                    />
+                  </div>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg border-2 border-[#1a1a1a]">
+                  <span className="text-xs font-black text-white">5</span>
+                </div>
+              </div>
+
+              <div className="flex -space-x-4">
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#a855f7] to-[#7c3aed] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
+                    <LottieAnimation 
+                      src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json"
+                      style={{ width: "40px", height: "40px" }} 
+                    />
+                  </div>
+                </div>
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#ec4899] to-[#be185d] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
+                    <LottieAnimation 
+                      src="https://assets4.lottiefiles.com/packages/lf20_touohxv0.json"
+                      style={{ width: "40px", height: "40px" }} 
+                    />
+                  </div>
+                </div>
+                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#2563eb] to-[#1d4ed8] p-0.5 ring-2 ring-[#1a1a1a] hover:scale-110 transition-transform cursor-pointer">
+                  <div className="w-full h-full rounded-full bg-[#0f0f0f] flex items-center justify-center">
+                    <LottieAnimation 
+                      src="https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json"
+                      style={{ width: "40px", height: "40px" }} 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block pl-4 border-l border-[#2a2a2a]">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Level 5</span>
+                  <span className="text-[#a3a3a3]">•</span>
+                  <span className="text-xs font-medium text-[#737373]">Eco Champion</span>
+                </div>
+                <div className="flex items-center gap-4 mt-1">
+                  <span className="text-xs text-[#a3a3a3]">🔥 7 day streak</span>
+                  <span className="text-xs text-[#a3a3a3]">🏆 12 badges</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="hidden lg:flex items-center gap-6 pr-6 border-r border-[#2a2a2a]">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#e5e5e5]">{dailyCarbon.toFixed(1)}</p>
+                  <p className="text-xs text-[#737373]">Today (kg)</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-orange-400">{activities.length}</p>
+                  <p className="text-xs text-[#737373]">Activities</p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate("/logactivity")}
+                className="group relative overflow-hidden bg-gradient-to-r from-orange-500 to-[#f97316] hover:from-orange-400 hover:to-[#f97316] px-6 py-3 rounded-xl text-white font-bold transition-all shadow-lg hover:shadow-orange-500/25 hover:scale-105 flex items-center gap-2"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                <svg className="w-5 h-5 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                </svg>
+                <span className="relative z-10">Log Activity</span>
+              </button>
+            </div>
           </div>
         </div>
+      </motion.div>
 
-        <button
-          onClick={() => navigate("/logactivity")}
-          className="flex-shrink-0 bg-brand-500 hover:bg-brand-400 px-6 py-3 rounded-xl text-slate-950 font-bold transition-all shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.4)]"
-        >
-          + Log New Activity
-        </button>
+      {/* ── QUICK ACTIONS CARDS ────────────────────────────────────────────────── */}
+      <motion.div variants={itemVariants}>
+        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <QuickActionCard 
+            icon={Trophy} 
+            title="Leaderboard" 
+            description="See how you rank" 
+            lottie={LOTTIE.leaderboard}
+            onClick={() => navigate("/leaderboard")}
+            gradient="from-yellow-500 to-amber-500"
+          />
+          <QuickActionCard 
+            icon={Users} 
+            title="Benchmarking" 
+            description="Compare with community" 
+            lottie={LOTTIE.benchmark}
+            onClick={() => navigate("/benchmarking")}
+            gradient="from-emerald-500 to-green-500"
+          />
+          <QuickActionCard 
+            icon={User} 
+            title="Profile" 
+            description="View your stats" 
+            lottie={LOTTIE.profile}
+            onClick={() => navigate("/profile")}
+            gradient="from-blue-500 to-indigo-500"
+          />
+          <QuickActionCard 
+            icon={MessageSquare} 
+            title="AI Coach" 
+            description="Get tips & advice" 
+            lottie={LOTTIE.chatbot}
+            onClick={() => navigate("/chatbot")}
+            gradient="from-purple-500 to-pink-500"
+          />
+        </div>
       </motion.div>
 
       {/* ── METRIC CARDS ───────────────────────────────────────────────── */}
@@ -128,7 +245,6 @@ function Dashboard() {
         variants={itemVariants}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
       >
-        {/* Today */}
         <MetricCard
           lottie={LOTTIE.today}
           label="Today's Impact"
@@ -139,7 +255,6 @@ function Dashboard() {
           glow="bg-amber-500/10"
         />
 
-        {/* Week */}
         <MetricCard
           lottie={LOTTIE.week}
           label="This Week"
@@ -150,7 +265,6 @@ function Dashboard() {
           glow="bg-indigo-500/10"
         />
 
-        {/* Month */}
         <MetricCard
           lottie={LOTTIE.month}
           label="This Month"
@@ -167,7 +281,6 @@ function Dashboard() {
           }
         />
 
-        {/* Goal Progress */}
         <div className="glass-panel p-5 flex flex-col gap-3 relative overflow-hidden group border border-brand-500/20">
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="relative z-10 flex flex-col h-full">
@@ -205,8 +318,6 @@ function Dashboard() {
 
       {/* ── CHART + RECENT LOGS ────────────────────────────────────────── */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-
-        {/* Three.js 3D Chart */}
         <motion.div variants={itemVariants} className="xl:col-span-2">
           <div className="glass-panel p-6 h-full flex flex-col">
             <div className="flex justify-between items-center mb-4">
@@ -222,7 +333,6 @@ function Dashboard() {
               </span>
             </div>
 
-            {/* Three.js canvas */}
             <div className="flex-1 rounded-2xl overflow-hidden bg-slate-950/50 border border-white/5">
               <Suspense
                 fallback={
@@ -237,7 +347,6 @@ function Dashboard() {
           </div>
         </motion.div>
 
-        {/* Recent Logs */}
         <motion.div variants={itemVariants} className="xl:col-span-1">
           <div className="glass-panel p-6 h-full flex flex-col">
             <div className="flex justify-between items-center mb-5">
@@ -298,8 +407,6 @@ function Dashboard() {
         <div className="glass-panel p-8 relative overflow-hidden border-brand-500/20">
           <div className="absolute inset-0 bg-gradient-to-r from-brand-500/10 to-indigo-500/10" />
           <div className="relative z-10 flex flex-col lg:flex-row gap-6">
-
-            {/* Lottie icon */}
             <div className="w-20 h-20 flex-shrink-0 hidden lg:block">
               <LottieAnimation src={LOTTIE.month} style={{ width: "100%", height: "100%" }} />
             </div>
@@ -351,6 +458,31 @@ function MetricCard({ lottie, label, value, unit, accent, border, glow, badge })
         </div>
       </div>
     </div>
+  );
+}
+
+// ── Quick Action Card Component ────────────────────────────────────────────
+function QuickActionCard({ icon: Icon, title, description, lottie, onClick, gradient }) {
+  return (
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className="glass-panel p-5 rounded-3xl flex items-center gap-4 group border border-white/5 hover:border-white/10 transition-all"
+    >
+      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
+        <Icon size={28} className="text-white" />
+      </div>
+      <div className="text-left">
+        <h3 className="text-white font-bold mb-1">{title}</h3>
+        <p className="text-xs text-slate-400">{description}</p>
+      </div>
+      <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+        <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </motion.button>
   );
 }
 

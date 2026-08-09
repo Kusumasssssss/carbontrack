@@ -1,0 +1,439 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.carbontrack:carbontrack >---------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ carbontrack ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ carbontrack ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 52 source files with javac [debug parameters release 17] to target\classes
+[INFO] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/ApplicationConfig.java: C:\Users\kusum\OneDrive\Desktop\carbontrack\src\main\java\com\carbontrack\config\ApplicationConfig.java uses or overrides a deprecated API.
+[INFO] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/ApplicationConfig.java: Recompile with -Xlint:deprecation for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[56,62] variable activityLogRepository is already defined in class com.carbontrack.service.BadgeService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[52,13] cannot find symbol
+  symbol:   class GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[67,12] cannot find symbol
+  symbol:   class GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[103,17] cannot find symbol
+  symbol:   class GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[116,12] cannot find symbol
+  symbol:   class GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[227,12] cannot find symbol
+  symbol:   class GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[47,30] cannot find symbol
+  symbol:   method getAuthProvider()
+  location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[48,29] cannot find symbol
+  symbol:   method setAuthProvider(com.carbontrack.entity.AuthProvider)
+  location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[51,46] cannot find symbol
+  symbol:   method getFullName()
+  location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[51,84] cannot find symbol
+  symbol:   method getFullName()
+  location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[52,29] cannot find symbol
+  symbol:   method setFullName(java.lang.String)
+  location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[60,32] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/OAuth2AuthenticationSuccessHandler.java:[53,46] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[79,53] cannot find symbol
+  symbol:   method getKgCo2ePerUnit()
+  location: variable factor of type com.carbontrack.entity.EmissionFactor
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[81,44] cannot find symbol
+  symbol:   method getKgCo2ePerUnit()
+  location: variable factor of type com.carbontrack.entity.EmissionFactor
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[142,52] cannot find symbol
+  symbol:   method getId()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[142,72] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[157,52] cannot find symbol
+  symbol:   method getId()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[157,72] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[186,51] cannot find symbol
+  symbol:   method getId()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[186,71] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[24,45] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[27,48] cannot find symbol
+  symbol:   method getUsername()
+  location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[31,24] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[32,34] cannot find symbol
+  symbol:   method getUsername()
+  location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[33,31] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[34,61] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[40,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.dto.AuthResponse
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[50,32] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[51,32] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[54,50] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[57,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.dto.AuthResponse
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[76,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.entity.Badge
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[172,54] cannot find symbol
+  symbol:   method findDistinctDatesByUserOrderByDateDesc(com.carbontrack.entity.User)
+  location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[192,49] cannot find symbol
+  symbol:   method findTotalCarbonEmissionByUser(com.carbontrack.entity.User)
+  location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[33,49] cannot find symbol
+  symbol:   method findTotalCarbonEmissionByUser(com.carbontrack.entity.User)
+  location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[38,59] cannot find symbol
+  symbol:   method findTotalCarbonEmissionsPerUser()
+  location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[70,75] cannot find symbol
+  symbol:   method findPlatformCategoryAverages()
+  location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[75,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.dto.BenchmarkDTO
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/FootprintAggregationService.java:[58,33] cannot find symbol
+  symbol:   method getId()
+  location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[54,16] cannot find symbol
+  symbol:   variable GoalDTO
+  location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[55,25] cannot find symbol
+  symbol:   method getId()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[56,41] cannot find symbol
+  symbol:   method getTargetReductionPct()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[57,33] cannot find symbol
+  symbol:   method getPeriodDays()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[58,32] cannot find symbol
+  symbol:   method getStartDate()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[59,31] cannot find symbol
+  symbol:   method getDeadline()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[60,29] cannot find symbol
+  symbol:   method getStatus()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[74,34] cannot find symbol
+  symbol:   method getStatus()
+  location: variable g of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[75,18] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable g of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[82,13] cannot find symbol
+  symbol:   method setUser(com.carbontrack.entity.User)
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[83,13] cannot find symbol
+  symbol:   method setStartDate(java.time.LocalDate)
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[86,45] cannot find symbol
+  symbol:   method getPeriodDays()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[88,13] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[142,34] cannot find symbol
+  symbol:   method getDeadline()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[145,21] cannot find symbol
+  symbol:   method getStartDate()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[161,21] cannot find symbol
+  symbol:   method getStartDate()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[171,49] cannot find symbol
+  symbol:   method getTargetReductionPct()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[213,31] cannot find symbol
+  symbol:   method builder()
+  location: class com.carbontrack.dto.GoalProgressDTO
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[214,38] cannot find symbol
+  symbol:   method getTargetReductionPct()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[215,33] cannot find symbol
+  symbol:   method getPeriodDays()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[232,47] cannot find symbol
+  symbol:   method getTargetReductionPct()
+  location: variable updatedGoal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[233,39] cannot find symbol
+  symbol:   method getPeriodDays()
+  location: variable updatedGoal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[237,21] cannot find symbol
+  symbol:   method getStartDate()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[237,50] cannot find symbol
+  symbol:   method getPeriodDays()
+  location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/controller/UserController.java:[37,56] cannot find symbol
+  symbol:   method getPreferredUnits()
+  location: variable dto of type com.carbontrack.dto.UserPreferenceDto
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/controller/UserController.java:[37,81] cannot find symbol
+  symbol:   method getGoalVisibility()
+  location: variable dto of type com.carbontrack.dto.UserPreferenceDto
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/UserService.java:[31,17] cannot find symbol
+  symbol:   method setPreferredUnits(java.lang.String)
+  location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/UserService.java:[34,17] cannot find symbol
+  symbol:   method setGoalVisibility(java.lang.String)
+  location: variable user of type com.carbontrack.entity.User
+[INFO] 68 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.479 s
+[INFO] Finished at: 2026-07-26T10:18:50+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project carbontrack: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[56,62] variable activityLogRepository is already defined in class com.carbontrack.service.BadgeService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[52,13] cannot find symbol
+[ERROR]   symbol:   class GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[67,12] cannot find symbol
+[ERROR]   symbol:   class GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[103,17] cannot find symbol
+[ERROR]   symbol:   class GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[116,12] cannot find symbol
+[ERROR]   symbol:   class GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[227,12] cannot find symbol
+[ERROR]   symbol:   class GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[47,30] cannot find symbol
+[ERROR]   symbol:   method getAuthProvider()
+[ERROR]   location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[48,29] cannot find symbol
+[ERROR]   symbol:   method setAuthProvider(com.carbontrack.entity.AuthProvider)
+[ERROR]   location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[51,46] cannot find symbol
+[ERROR]   symbol:   method getFullName()
+[ERROR]   location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[51,84] cannot find symbol
+[ERROR]   symbol:   method getFullName()
+[ERROR]   location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[52,29] cannot find symbol
+[ERROR]   symbol:   method setFullName(java.lang.String)
+[ERROR]   location: variable existingUser of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/CustomOAuth2UserService.java:[60,32] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/config/OAuth2AuthenticationSuccessHandler.java:[53,46] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[79,53] cannot find symbol
+[ERROR]   symbol:   method getKgCo2ePerUnit()
+[ERROR]   location: variable factor of type com.carbontrack.entity.EmissionFactor
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[81,44] cannot find symbol
+[ERROR]   symbol:   method getKgCo2ePerUnit()
+[ERROR]   location: variable factor of type com.carbontrack.entity.EmissionFactor
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[142,52] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[142,72] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[157,52] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[157,72] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[186,51] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/ActivityLogService.java:[186,71] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[24,45] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[27,48] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[31,24] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[32,34] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[33,31] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[34,61] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.carbontrack.dto.SignupRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[40,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.dto.AuthResponse
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[50,32] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[51,32] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[54,50] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.carbontrack.dto.AuthRequest
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/AuthService.java:[57,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.dto.AuthResponse
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[76,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.entity.Badge
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[172,54] cannot find symbol
+[ERROR]   symbol:   method findDistinctDatesByUserOrderByDateDesc(com.carbontrack.entity.User)
+[ERROR]   location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BadgeService.java:[192,49] cannot find symbol
+[ERROR]   symbol:   method findTotalCarbonEmissionByUser(com.carbontrack.entity.User)
+[ERROR]   location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[33,49] cannot find symbol
+[ERROR]   symbol:   method findTotalCarbonEmissionByUser(com.carbontrack.entity.User)
+[ERROR]   location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[38,59] cannot find symbol
+[ERROR]   symbol:   method findTotalCarbonEmissionsPerUser()
+[ERROR]   location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[70,75] cannot find symbol
+[ERROR]   symbol:   method findPlatformCategoryAverages()
+[ERROR]   location: variable activityLogRepository of type com.carbontrack.repository.ActivityLogRepository
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/BenchmarkService.java:[75,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.dto.BenchmarkDTO
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/FootprintAggregationService.java:[58,33] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[54,16] cannot find symbol
+[ERROR]   symbol:   variable GoalDTO
+[ERROR]   location: class com.carbontrack.service.GoalService
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[55,25] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[56,41] cannot find symbol
+[ERROR]   symbol:   method getTargetReductionPct()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[57,33] cannot find symbol
+[ERROR]   symbol:   method getPeriodDays()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[58,32] cannot find symbol
+[ERROR]   symbol:   method getStartDate()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[59,31] cannot find symbol
+[ERROR]   symbol:   method getDeadline()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[60,29] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[74,34] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable g of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[75,18] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable g of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[82,13] cannot find symbol
+[ERROR]   symbol:   method setUser(com.carbontrack.entity.User)
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[83,13] cannot find symbol
+[ERROR]   symbol:   method setStartDate(java.time.LocalDate)
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[86,45] cannot find symbol
+[ERROR]   symbol:   method getPeriodDays()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[88,13] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[142,34] cannot find symbol
+[ERROR]   symbol:   method getDeadline()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[145,21] cannot find symbol
+[ERROR]   symbol:   method getStartDate()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[161,21] cannot find symbol
+[ERROR]   symbol:   method getStartDate()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[171,49] cannot find symbol
+[ERROR]   symbol:   method getTargetReductionPct()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[213,31] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.carbontrack.dto.GoalProgressDTO
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[214,38] cannot find symbol
+[ERROR]   symbol:   method getTargetReductionPct()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[215,33] cannot find symbol
+[ERROR]   symbol:   method getPeriodDays()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[232,47] cannot find symbol
+[ERROR]   symbol:   method getTargetReductionPct()
+[ERROR]   location: variable updatedGoal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[233,39] cannot find symbol
+[ERROR]   symbol:   method getPeriodDays()
+[ERROR]   location: variable updatedGoal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[237,21] cannot find symbol
+[ERROR]   symbol:   method getStartDate()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/GoalService.java:[237,50] cannot find symbol
+[ERROR]   symbol:   method getPeriodDays()
+[ERROR]   location: variable goal of type com.carbontrack.entity.Goal
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/controller/UserController.java:[37,56] cannot find symbol
+[ERROR]   symbol:   method getPreferredUnits()
+[ERROR]   location: variable dto of type com.carbontrack.dto.UserPreferenceDto
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/controller/UserController.java:[37,81] cannot find symbol
+[ERROR]   symbol:   method getGoalVisibility()
+[ERROR]   location: variable dto of type com.carbontrack.dto.UserPreferenceDto
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/UserService.java:[31,17] cannot find symbol
+[ERROR]   symbol:   method setPreferredUnits(java.lang.String)
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] /C:/Users/kusum/OneDrive/Desktop/carbontrack/src/main/java/com/carbontrack/service/UserService.java:[34,17] cannot find symbol
+[ERROR]   symbol:   method setGoalVisibility(java.lang.String)
+[ERROR]   location: variable user of type com.carbontrack.entity.User
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

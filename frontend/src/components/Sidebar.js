@@ -11,10 +11,13 @@ import {
   Leaf,
   PlusCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Trophy,
+  Users
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
+import LottieAnimation from "./LottieAnimation";
 
 const MENU = [
   { name: "Dashboard",   icon: LayoutDashboard, path: "/dashboard" },
@@ -23,6 +26,8 @@ const MENU = [
   { name: "Analytics",   icon: BarChart3,        path: "/analytics" },
   { name: "Goals",       icon: Target,           path: "/goals" },
   { name: "Badges",      icon: Award,            path: "/badges" },
+  { name: "Leaderboard", icon: Trophy,           path: "/leaderboard" },
+  { name: "Benchmarking",icon: Users,            path: "/benchmarking" },
 ];
 
 const BOTTOM_MENU = [
@@ -106,16 +111,22 @@ function Sidebar({ isOpen, setIsOpen }) {
         className={`hidden lg:flex flex-col h-screen bg-bg-panel border-r border-white/5 fixed left-0 top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.25)] overflow-hidden`}
       >
         {/* Brand */}
-        <div className={`flex items-center border-b border-white/5 flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
+        <div className={`flex items-center border-b border-[#2a2a2a] flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
           {!collapsed && (
             <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30">
-                <Leaf size={18} className="text-white" />
+              <div className="relative w-10 h-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#fb923c] rounded-xl blur-md opacity-50 group-hover:opacity-70 transition-opacity"></div>
+                <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform duration-300">
+                  <LottieAnimation 
+                    src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                </div>
               </div>
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-xl font-bold tracking-tight text-white"
+                className="text-xl font-bold tracking-tight text-[#e5e5e5]"
               >
                 Avni
               </motion.span>
@@ -123,15 +134,21 @@ function Sidebar({ isOpen, setIsOpen }) {
           )}
 
           {collapsed && (
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg">
-              <Leaf size={18} className="text-white" />
+            <div className="relative w-8 h-8">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#fb923c] rounded-xl blur-sm opacity-40"></div>
+              <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg">
+                <LottieAnimation 
+                  src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                  style={{ width: "18px", height: "18px" }}
+                />
+              </div>
             </div>
           )}
 
           {/* Collapse toggle */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className={`p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors ${collapsed ? "mt-3" : ""}`}
+            className={`p-1.5 rounded-lg bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors ${collapsed ? "mt-3" : ""}`}
             title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
@@ -209,19 +226,22 @@ function Sidebar({ isOpen, setIsOpen }) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed left-0 top-0 h-screen w-[260px] bg-bg-panel border-r border-white/5 z-50 flex flex-col shadow-2xl lg:hidden"
+              className="fixed left-0 top-0 h-screen w-[260px] bg-[#1a1a1a] border-r border-[#2a2a2a] z-50 flex flex-col shadow-2xl lg:hidden"
             >
               {/* Brand + close */}
-              <div className="flex items-center justify-between px-5 py-5 border-b border-white/5">
+              <div className="flex items-center justify-between px-5 py-5 border-b border-[#2a2a2a]">
                 <Link to="/dashboard" onClick={() => setIsOpen?.(false)} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
-                    <Leaf size={18} className="text-white" />
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg shadow-orange-500/30">
+                    <LottieAnimation 
+                      src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
+                      style={{ width: "24px", height: "24px" }}
+                    />
                   </div>
-                  <span className="text-xl font-bold tracking-tight text-white">Avni</span>
+                  <span className="text-xl font-bold tracking-tight text-[#e5e5e5]">Avni</span>
                 </Link>
                 <button
                   onClick={() => setIsOpen?.(false)}
-                  className="p-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white transition-colors"
+                  className="p-1.5 rounded-lg bg-[#2a2a2a] text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>

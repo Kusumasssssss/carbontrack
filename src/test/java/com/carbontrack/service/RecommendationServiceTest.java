@@ -45,15 +45,16 @@ public class RecommendationServiceTest {
     public void setup() {
         // Since ObjectMapper is instantiated in the real service, we can inject it
         recommendationService = new RecommendationService(activityLogRepository, restTemplate, objectMapper);
-        ReflectionTestUtils.setField(recommendationService, "geminiApiKey", "dummy-api-key");
-        ReflectionTestUtils.setField(recommendationService, "geminiApiUrl", "http://dummy-gemini-api");
+        ReflectionTestUtils.setField(recommendationService, "groqApiKey", "dummy-api-key");
+        ReflectionTestUtils.setField(recommendationService, "groqApiUrl", "http://dummy-groq-api");
+        ReflectionTestUtils.setField(recommendationService, "groqModel", "llama3");
     }
 
     @Test
     public void testGetAIRecommendations_NoApiKey() {
-        ReflectionTestUtils.setField(recommendationService, "geminiApiKey", "your_default_api_key_here");
+        ReflectionTestUtils.setField(recommendationService, "groqApiKey", "your_default_api_key_here");
         String result = recommendationService.getAIRecommendations(new User());
-        assertTrue(result.contains("Please configure your Gemini API Key"));
+        assertTrue(result.contains("Please configure your Groq API Key"));
     }
 
     @Test
@@ -76,22 +77,18 @@ public class RecommendationServiceTest {
         when(activityLogRepository.findTop3ByUserAndDateAfterOrderByCarbonEmissionDesc(eq(user), any(LocalDate.class)))
                 .thenReturn(Arrays.asList(log1));
 
-        String mockGeminiResponse = "{\n" +
-                "  \"candidates\": [\n" +
+        String mockGroqResponse = "{\n" +
+                "  \"choices\": [\n" +
                 "    {\n" +
-                "      \"content\": {\n" +
-                "        \"parts\": [\n" +
-                "          {\n" +
-                "            \"text\": \"Consider taking a train instead of flying.\"\n" +
-                "          }\n" +
-                "        ]\n" +
+                "      \"message\": {\n" +
+                "        \"content\": \"Consider taking a train instead of flying.\"\n" +
                 "      }\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
 
-        when(restTemplate.postForEntity(ArgumentMatchers.startsWith("http://dummy-gemini-api"), any(HttpEntity.class), eq(String.class)))
-                .thenReturn(new ResponseEntity<>(mockGeminiResponse, HttpStatus.OK));
+        when(restTemplate.postForEntity(ArgumentMatchers.startsWith("http://dummy-groq-api"), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(mockGroqResponse, HttpStatus.OK));
 
         String result = recommendationService.getAIRecommendations(user);
         assertEquals("Consider taking a train instead of flying.", result);

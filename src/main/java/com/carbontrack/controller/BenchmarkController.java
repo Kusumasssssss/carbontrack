@@ -1,11 +1,14 @@
 package com.carbontrack.controller;
 
 import com.carbontrack.dto.BenchmarkDTO;
+import com.carbontrack.dto.UserLeaderboardEntry;
 import com.carbontrack.service.BenchmarkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/benchmarks")
@@ -20,5 +23,11 @@ public class BenchmarkController {
     @Operation(summary = "Get Peer Benchmark Statistics", description = "Calculates user percentile standing and platform-wide category averages")
     public BenchmarkDTO getPeerBenchmark() {
         return benchmarkService.getPeerBenchmark();
+    }
+
+    @GetMapping("/leaderboard")
+    @Operation(summary = "Get Community Leaderboard", description = "Returns top users ranked by lowest carbon footprint")
+    public List<UserLeaderboardEntry> getLeaderboard(@RequestParam(defaultValue = "50") int limit) {
+        return benchmarkService.getLeaderboard(limit);
     }
 }

@@ -10,6 +10,7 @@ function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [language, setLanguage] = useState("en");
   const messagesEndRef = useRef(null);
 
   // Auto-scroll to bottom of chat
@@ -44,7 +45,10 @@ function Chatbot() {
 
       const res = await fetchAuth('/chat', {
         method: 'POST',
-        body: JSON.stringify({ message: fullContext })
+        body: JSON.stringify({
+          message: fullContext,
+          language: language
+        })
       });
       
       if (res.ok) {
@@ -134,6 +138,21 @@ function Chatbot() {
                 </div>
               )}
               <div ref={messagesEndRef} />
+            </div>
+
+            {/* Language Selection */}
+            <div className="px-3 pt-2 bg-slate-900">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 mb-2"
+              >
+                <option value="en">🇺🇸 English</option>
+                <option value="hi">🇮🇳 Hindi</option>
+                <option value="kn">ಕರ್ನಾಟಕ Kannada</option>
+                <option value="te">తెలుగు Telugu</option>
+                <option value="ta">தமிழ் Tamil</option>
+              </select>
             </div>
 
             {/* Chat Input */}

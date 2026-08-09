@@ -72,11 +72,11 @@ export default function PeerBenchmarking() {
             Platform Average Emissions by Category
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {benchmark.categoryAverages.map((cat, idx) => (
+            {benchmark.categoryAverages && benchmark.categoryAverages.map((cat, idx) => (
               <div key={idx} className="bg-gray-950/40 border border-gray-800 rounded-lg p-3">
                 <div className="text-xs text-gray-400 capitalize">{cat.category}</div>
                 <div className="text-sm font-bold text-gray-200 mt-1">
-                  {Math.round(cat.totalCo2e * 100) / 100} kg
+                  {cat.totalCo2e !== undefined ? Math.round(cat.totalCo2e * 100) / 100 : 'N/A'} kg
                 </div>
               </div>
             ))}

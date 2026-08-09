@@ -17,39 +17,67 @@ public class ChatbotService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${gemini.api.key}")
-    private String geminiApiKey;
+    @Value("${groq.api.key}")
+    private String groqApiKey;
 
-    @Value("${gemini.api.url}")
-    private String geminiApiUrl;
+    @Value("${groq.api.url}")
+    private String groqApiUrl;
+
+    @Value("${groq.api.model}")
+    private String groqModel;
 
     public ChatbotService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
-    public String chatWithAI(String userMessage) {
-        if (geminiApiKey == null || geminiApiKey.contains("your_default_api_key_here")) {
-            return "Please configure your Gemini API Key in application.properties to chat with me.";
+    public String chatWithAI(String userMessage, String language) {
+
+        if (groqApiKey == null || groqApiKey.contains("your_default_api_key_here")) {
+            return "Please configure your Groq API Key.";
         }
 
-        String systemPrompt = "You are CarbonTrack's friendly AI Sustainability Coach. Answer the user's questions about reducing carbon emissions, eco-friendly habits, and climate change in a concise, encouraging way. Do not use markdown formatting like **bold** in your responses. Keep responses brief (1-3 sentences).\n\nUser: ";
+        String languageName = switch (language) {
+            case "hi" -> "Hindi";
+            case "kn" -> "Kannada";
+            case "ta" -> "Tamil";
+            case "te" -> "Telugu";
+            default -> "English";
+        };
+
+        String systemPrompt = String.format("""
+        You are CarbonTrack's friendly AI Sustainability Coach.
+
+        Answer ONLY in %s.
+
+        Answer questions about reducing carbon emissions, eco-friendly habits, and climate change.
+
+        Keep responses short (1-3 sentences).
+
+        Do not use markdown formatting.
+
+        User:
+        """, languageName);
+
         String prompt = systemPrompt + userMessage;
 
-        return callGeminiApi(prompt);
+        return callGroqApi(prompt);
     }
 
-    private String callGeminiApi(String prompt) {
-        String url = geminiApiUrl + "?key=" + geminiApiKey;
+    private String callGroqApi(String prompt) {
+        String url = groqApiUrl;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + groqApiKey);
 
         String requestBody;
         try {
-            java.util.Map<String, Object> part = java.util.Map.of("text", prompt);
-            java.util.Map<String, Object> content = java.util.Map.of("parts", java.util.List.of(part));
-            java.util.Map<String, Object> body = java.util.Map.of("contents", java.util.List.of(content));
+            java.util.Map<String, String> userMessage = java.util.Map.of("role", "user", "content", prompt);
+            java.util.Map<String, Object> body = java.util.Map.of(
+                "model", groqModel,
+                "messages", java.util.List.of(userMessage)
+            );
             requestBody = objectMapper.writeValueAsString(body);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -60,23 +88,20 @@ public class ChatbotService {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-            return parseGeminiResponse(response.getBody());
+            return parseGroqResponse(response.getBody());
         } catch (Exception e) {
             e.printStackTrace();
             return "Oops! I'm having trouble connecting to my brain right now. Please try again later.";
         }
     }
 
-    private String parseGeminiResponse(String jsonResponse) {
+    private String parseGroqResponse(String jsonResponse) {
         try {
             JsonNode root = objectMapper.readTree(jsonResponse);
-            JsonNode candidates = root.path("candidates");
-            if (candidates.isArray() && candidates.size() > 0) {
-                JsonNode content = candidates.get(0).path("content");
-                JsonNode parts = content.path("parts");
-                if (parts.isArray() && parts.size() > 0) {
-                    return parts.get(0).path("text").asText();
-                }
+            JsonNode choices = root.path("choices");
+            if (choices.isArray() && choices.size() > 0) {
+                JsonNode message = choices.get(0).path("message");
+                return message.path("content").asText();
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();

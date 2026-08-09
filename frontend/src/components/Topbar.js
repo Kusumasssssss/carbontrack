@@ -16,24 +16,26 @@ import {
   Bell,
   Sun,
   Moon,
+  Trophy
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
 import { useTheme } from "../context/ThemeContext";
 
 const NAV_ITEMS = [
-  { name: "Dashboard",    icon: LayoutDashboard, path: "/dashboard" },
-  { name: "Log Activity", icon: PlusCircle,      path: "/logactivity" },
-  { name: "Activities",   icon: ActivitySquare,  path: "/activities" },
-  { name: "Analytics",    icon: BarChart3,       path: "/analytics" },
-  { name: "Goals",        icon: Target,          path: "/goals" },
-  { name: "Badges",       icon: Award,           path: "/badges" },
+  { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+  { name: "Log Activity", icon: PlusCircle, path: "/logactivity" },
+  { name: "Activities", icon: ActivitySquare, path: "/activities" },
+  { name: "LeaderBoard", icon: Trophy, path: "/leaderboard" },
+  { name: "Analytics", icon: BarChart3, path: "/analytics" },
+  { name: "Goals", icon: Target, path: "/goals" },
+  { name: "Badges", icon: Award, path: "/badges" },
 ];
 
 export default function Topbar() {
-  const location  = useLocation();
-  const navigate  = useNavigate();
-  const [mobileOpen, setMobileOpen]   = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
   const { isDark, setTheme } = useTheme();
@@ -77,7 +79,7 @@ export default function Topbar() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {NAV_ITEMS.map((item) => {
-              const Icon     = item.icon;
+              const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link key={item.name} to={item.path}>
@@ -127,11 +129,10 @@ export default function Topbar() {
             <Link to="/settings">
               <button
                 title="Settings"
-                className={`p-2 rounded-xl transition-all ${
-                  location.pathname === "/settings"
+                className={`p-2 rounded-xl transition-all ${location.pathname === "/settings"
                     ? "bg-brand-500/10 text-brand-400"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
-                }`}
+                  }`}
               >
                 <Settings size={18} />
               </button>
@@ -226,7 +227,7 @@ export default function Topbar() {
             >
               <nav className="p-3 grid grid-cols-2 gap-1.5">
                 {[...NAV_ITEMS, { name: "Settings", icon: Settings, path: "/settings" }].map((item) => {
-                  const Icon     = item.icon;
+                  const Icon = item.icon;
                   const isActive = location.pathname === item.path;
                   return (
                     <Link
