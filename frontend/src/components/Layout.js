@@ -3,11 +3,11 @@ import Topbar from "./Topbar";
 
 function Layout({ children }) {
   return (
-    <div className="min-h-screen bg-bg-dark dark:bg-bg-dark light:bg-[#f8fafc] text-slate-50 dark:text-slate-50 light:text-slate-900 relative selection:bg-brand-500/30 transition-colors duration-300">
-      {/* Ambient background blobs */}
+    <div className="min-h-screen bg-surface-base text-ink-900 relative selection:bg-brand-200 transition-colors duration-300">
+      {/* Ambient background accents — subtle on light surface */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-500/5 rounded-full mix-blend-screen filter blur-[120px] animate-blob" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-accent/5 rounded-full mix-blend-screen filter blur-[120px] animate-blob animation-delay-2000" />
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-200/30 rounded-full mix-blend-multiply filter blur-[120px] animate-blob" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-accent/10 rounded-full mix-blend-multiply filter blur-[120px] animate-blob animation-delay-2000" />
       </div>
 
       {/* Horizontal topbar — fixed, z-50 */}

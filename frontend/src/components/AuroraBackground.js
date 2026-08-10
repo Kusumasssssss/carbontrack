@@ -3,13 +3,11 @@ import { motion } from 'framer-motion';
 
 const AuroraBackground = ({ children, className = '' }) => {
   return (
-    <div className={`relative flex flex-col min-h-screen bg-slate-900 overflow-hidden ${className}`}>
+    <div className={`relative flex flex-col min-h-screen bg-surface-base overflow-hidden ${className}`}>
       {/* Background gradients container */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        
-        <div className="absolute inset-0 bg-slate-900 opacity-90"></div>
 
-        {/* Animated Aurora blobs */}
+        {/* Animated Aurora blobs — multiply blend so they read as soft tints on white */}
         <motion.div
           animate={{
             transform: [
@@ -24,7 +22,7 @@ const AuroraBackground = ({ children, className = '' }) => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full mix-blend-screen filter blur-[100px] bg-emerald-500/20"
+          className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full mix-blend-multiply filter blur-[100px] bg-brand-200/40"
         />
 
         <motion.div
@@ -42,7 +40,7 @@ const AuroraBackground = ({ children, className = '' }) => {
             ease: "easeInOut",
             delay: 2,
           }}
-          className="absolute top-[30%] -right-[10%] w-[40%] h-[60%] rounded-full mix-blend-screen filter blur-[120px] bg-teal-500/20"
+          className="absolute top-[30%] -right-[10%] w-[40%] h-[60%] rounded-full mix-blend-multiply filter blur-[120px] bg-teal-200/40"
         />
 
         <motion.div
@@ -60,11 +58,8 @@ const AuroraBackground = ({ children, className = '' }) => {
             ease: "easeInOut",
             delay: 4,
           }}
-          className="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full mix-blend-screen filter blur-[100px] bg-emerald-700/20"
+          className="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full mix-blend-multiply filter blur-[100px] bg-brand-100/40"
         />
-        
-        {/* Subtle noise texture overlay */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
       </div>
 
       {/* Content */}

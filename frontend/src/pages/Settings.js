@@ -9,10 +9,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logout, fetchAuth } from "../api";
-import LottieAnimation from "../components/LottieAnimation";
 import { useTheme } from "../context/ThemeContext";
-
-const LOTTIE_SETTINGS = "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json";
 
 // ─── Storage helpers ──────────────────────────────────────────────────────
 const LS = {
@@ -25,7 +22,7 @@ const LS = {
 
 // ── Accent color palettes ─────────────────────────────────────────────────
 const ACCENT_PALETTES = {
-  green:  { name: "Emerald",  css: "#22c55e", cls: "bg-emerald-500" },
+  green:  { name: "Emerald",  css: "#22c274", cls: "bg-brand-500" },
   indigo: { name: "Indigo",   css: "#6366f1", cls: "bg-indigo-500"  },
   violet: { name: "Violet",   css: "#8b5cf6", cls: "bg-violet-500"  },
   sky:    { name: "Sky",      css: "#0ea5e9", cls: "bg-sky-500"     },
@@ -53,9 +50,9 @@ const TABS = [
 function Section({ title, description, children }) {
   return (
     <div className="glass-panel p-6 space-y-5">
-      <div className="pb-4 border-b border-white/5">
-        <h3 className="text-base font-bold text-white">{title}</h3>
-        {description && <p className="text-sm text-slate-400 mt-0.5">{description}</p>}
+      <div className="pb-4 border-b border-surface-border">
+        <h3 className="text-base font-bold text-ink-900">{title}</h3>
+        {description && <p className="text-sm text-ink-500 mt-0.5">{description}</p>}
       </div>
       {children}
     </div>
@@ -67,8 +64,8 @@ function FormRow({ label, hint, children }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-3">
       <div className="sm:w-44 flex-shrink-0 pt-0.5">
-        <p className="text-sm font-medium text-slate-300">{label}</p>
-        {hint && <p className="text-xs text-slate-500 mt-0.5 leading-snug">{hint}</p>}
+        <p className="text-sm font-medium text-ink-700">{label}</p>
+        {hint && <p className="text-xs text-ink-300 mt-0.5 leading-snug">{hint}</p>}
       </div>
       <div className="flex-1">{children}</div>
     </div>
@@ -79,7 +76,7 @@ function FormRow({ label, hint, children }) {
 function Input({ type = "text", placeholder, value, onChange, icon: Icon, disabled, readOnly, rightEl }) {
   return (
     <div className="relative">
-      {Icon && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><Icon size={15} /></span>}
+      {Icon && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-300"><Icon size={15} /></span>}
       <input
         type={type}
         placeholder={placeholder}
@@ -87,8 +84,8 @@ function Input({ type = "text", placeholder, value, onChange, icon: Icon, disabl
         onChange={onChange}
         disabled={disabled}
         readOnly={readOnly}
-        className={`w-full bg-slate-800/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600
-          focus:outline-none focus:border-brand-500/60 focus:ring-1 focus:ring-brand-500/30 transition-all
+        className={`w-full bg-surface-panel border border-surface-border rounded-xl px-4 py-2.5 text-sm text-ink-900 placeholder-ink-300
+          focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400/40 transition-all
           ${Icon ? "pl-9" : ""} ${rightEl ? "pr-10" : ""} ${disabled || readOnly ? "opacity-50 cursor-not-allowed" : ""}`}
       />
       {rightEl && <span className="absolute right-3 top-1/2 -translate-y-1/2">{rightEl}</span>}
@@ -101,13 +98,13 @@ function Toggle({ checked, onChange, label, description }) {
   return (
     <div className="flex items-center justify-between py-2 gap-4">
       <div>
-        <p className="text-sm font-medium text-slate-300">{label}</p>
-        {description && <p className="text-xs text-slate-500 mt-0.5">{description}</p>}
+        <p className="text-sm font-medium text-ink-700">{label}</p>
+        {description && <p className="text-xs text-ink-300 mt-0.5">{description}</p>}
       </div>
       <button
         onClick={() => onChange(!checked)}
         className={`relative w-11 h-6 rounded-full transition-colors duration-200 flex-shrink-0
-          ${checked ? "bg-brand-500" : "bg-slate-700"}`}
+          ${checked ? "bg-brand-500" : "bg-surface-muted"}`}
       >
         <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200
           ${checked ? "translate-x-5" : "translate-x-0"}`} />
@@ -129,8 +126,8 @@ function Toast({ message, type = "success", onClose }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 48, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 320, damping: 28 }}
-      className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-medium max-w-xs cursor-pointer
-        ${type === "success" ? "bg-brand-500 text-slate-950" : "bg-red-500 text-white"}`}
+      className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-card-hover text-sm font-medium max-w-xs cursor-pointer
+        ${type === "success" ? "bg-brand-500 text-white" : "bg-status-danger text-white"}`}
       onClick={onClose}
     >
       {type === "success" ? <Check size={16} /> : <AlertCircle size={16} />}
@@ -305,7 +302,7 @@ export default function Settings() {
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement("a");
       a.href     = url;
-      a.download = `avni-export-${new Date().toISOString().slice(0,10)}.json`;
+      a.download = `carbontrack-export-${new Date().toISOString().slice(0,10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
       addToast("Data exported successfully!");
@@ -349,24 +346,24 @@ export default function Settings() {
     <div className="max-w-4xl mx-auto space-y-6">
 
       {/* Header */}
-      <div className="flex items-center gap-5 bg-slate-900/60 border border-white/10 p-6 rounded-3xl backdrop-blur-xl">
-        <div className="w-14 h-14 flex-shrink-0 hidden sm:block">
-          <LottieAnimation src={LOTTIE_SETTINGS} style={{ width: "100%", height: "100%" }} />
+      <div className="flex items-center gap-5 bg-surface-card border border-surface-border p-6 rounded-3xl shadow-card">
+        <div className="w-14 h-14 flex-shrink-0 hidden sm:flex rounded-2xl bg-gradient-brand items-center justify-center shadow-lg shadow-brand-500/20">
+          <User size={26} className="text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-extrabold text-white">Account Settings</h1>
-          <p className="text-slate-400 text-sm mt-0.5">Manage your profile, preferences, and workspace.</p>
+          <h1 className="text-2xl font-extrabold text-ink-900">Account Settings</h1>
+          <p className="text-ink-500 text-sm mt-0.5">Manage your profile, preferences, and workspace.</p>
         </div>
         {/* API status indicator */}
         <button
           onClick={checkApi}
           title="Check API connection"
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/60 border border-white/5 text-xs font-medium transition-all hover:bg-slate-800"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-panel border border-surface-border text-xs font-medium transition-all hover:bg-surface-muted"
         >
-          {apiStatus === null && <RefreshCw size={13} className="text-slate-500" />}
-          {apiStatus === "ok" && <Wifi size={13} className="text-brand-400" />}
-          {apiStatus === "error" && <WifiOff size={13} className="text-red-400" />}
-          <span className={apiStatus === "ok" ? "text-brand-400" : apiStatus === "error" ? "text-red-400" : "text-slate-500"}>
+          {apiStatus === null && <RefreshCw size={13} className="text-ink-300" />}
+          {apiStatus === "ok" && <Wifi size={13} className="text-brand-600" />}
+          {apiStatus === "error" && <WifiOff size={13} className="text-status-danger" />}
+          <span className={apiStatus === "ok" ? "text-brand-700" : apiStatus === "error" ? "text-status-danger" : "text-ink-500"}>
             {apiStatus === "ok" ? "API Connected" : apiStatus === "error" ? "API Offline" : "Check API"}
           </span>
         </button>
@@ -384,8 +381,8 @@ export default function Settings() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all w-full text-left whitespace-nowrap
                   ${activeTab === tab.id
-                    ? "bg-brand-500/15 text-brand-400 border border-brand-500/20"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"}`}
+                    ? "bg-brand-50 text-brand-700 border border-brand-200"
+                    : "text-ink-500 hover:text-ink-900 hover:bg-surface-panel"}`}
               >
                 {tab.icon}
                 <span className="hidden md:block">{tab.label}</span>
@@ -406,20 +403,20 @@ export default function Settings() {
                   {/* Avatar */}
                   <div className="flex items-center gap-4">
                     <div className="relative flex-shrink-0">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-400 to-indigo-500 flex items-center justify-center text-2xl font-extrabold text-white shadow-lg">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-brand flex items-center justify-center text-2xl font-extrabold text-white shadow-lg">
                         {profile.name ? profile.name[0].toUpperCase() : "U"}
                       </div>
                       <button
                         title="Upload photo (coming soon)"
-                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-lg bg-slate-700 border border-white/10 flex items-center justify-center hover:bg-slate-600 transition-colors"
+                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-lg bg-surface-card border border-surface-border flex items-center justify-center hover:bg-surface-panel transition-colors shadow-card"
                         onClick={() => addToast("Photo upload coming soon!", "success")}
                       >
-                        <Camera size={11} className="text-slate-300" />
+                        <Camera size={11} className="text-ink-500" />
                       </button>
                     </div>
                     <div>
-                      <p className="text-base font-bold text-white">{profile.name || "User"}</p>
-                      <p className="text-xs text-slate-500">{profile.email || "—"}</p>
+                      <p className="text-base font-bold text-ink-900">{profile.name || "User"}</p>
+                      <p className="text-xs text-ink-300">{profile.email || "—"}</p>
                     </div>
                   </div>
 
@@ -445,27 +442,27 @@ export default function Settings() {
                       onChange={(e) => { setProfile({ ...profile, bio: e.target.value }); setProfileDirty(true); }}
                       placeholder="Sustainability manager focused on Scope 3 reduction..."
                       rows={3}
-                      className="w-full bg-slate-800/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-brand-500/60 focus:ring-1 focus:ring-brand-500/30 transition-all resize-none"
+                      className="w-full bg-surface-panel border border-surface-border rounded-xl px-4 py-2.5 text-sm text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400/40 transition-all resize-none"
                     />
                   </FormRow>
                 </Section>
 
                 <div className="flex items-center justify-between">
-                  {profileDirty && <p className="text-xs text-amber-400">Unsaved changes</p>}
+                  {profileDirty && <p className="text-xs text-amber-600">Unsaved changes</p>}
                   <div className="flex gap-3 ml-auto">
                     <button
                       onClick={() => {
                         setProfile({ name: LS.get("username",""), email: LS.get("email",""), phone: LS.get("s_phone",""), location: LS.get("s_location",""), bio: LS.get("s_bio","") });
                         setProfileDirty(false);
                       }}
-                      className="px-5 py-2.5 rounded-xl border border-white/10 text-slate-300 hover:bg-white/5 text-sm font-medium transition-all"
+                      className="px-5 py-2.5 rounded-xl border border-surface-border text-ink-700 hover:bg-surface-panel text-sm font-medium transition-all"
                     >
                       Discard
                     </button>
                     <button
                       onClick={saveProfile}
                       disabled={saving}
-                      className="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 disabled:opacity-60 text-slate-950 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_0_12px_rgba(34,197,94,0.3)]"
+                      className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 disabled:opacity-60 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_4px_16px_rgba(34,194,116,0.25)]"
                     >
                       {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
                       Save Profile
@@ -478,7 +475,7 @@ export default function Settings() {
             {/* ══ NOTIFICATIONS ════════════════════════════════════════ */}
             {activeTab === "notifications" && (
               <motion.div key="notifications" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
-                <Section title="Email Notifications" description="Control what Avni emails you about.">
+                <Section title="Email Notifications" description="Control what CarbonTrack emails you about.">
                   {[
                     { key: "weeklyReport",    label: "Weekly Summary Report",  desc: "Carbon footprint digest every Monday" },
                     { key: "goalAlerts",      label: "Goal Progress Alerts",   desc: "Notify when behind or ahead of targets" },
@@ -495,12 +492,12 @@ export default function Settings() {
                 <div className="flex justify-between items-center">
                   <button
                     onClick={() => setNotifs({ weeklyReport: false, goalAlerts: false, aiInsights: false, badgeUnlocked: false, systemUpdates: false, marketingEmails: false })}
-                    className="px-4 py-2 rounded-xl border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 text-sm transition-all"
+                    className="px-4 py-2 rounded-xl border border-surface-border text-ink-500 hover:text-ink-900 hover:bg-surface-panel text-sm transition-all"
                   >
                     Disable All
                   </button>
                   <button onClick={saveNotifs}
-                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-slate-950 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_0_12px_rgba(34,197,94,0.3)]"
+                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_4px_16px_rgba(34,194,116,0.25)]"
                   >
                     <Save size={14} /> Save Preferences
                   </button>
@@ -513,12 +510,12 @@ export default function Settings() {
               <motion.div key="appearance" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
                 <Section title="Color Theme" description="Affects background and surface colours.">
                   <div className="flex gap-3">
-                    {[{ id: "dark", label: "Dark", icon: <Moon size={18} /> },
-                      { id: "light", label: "Light", icon: <Sun size={18} /> },
+                    {[{ id: "light", label: "Light", icon: <Sun size={18} /> },
+                      { id: "dark", label: "Dark", icon: <Moon size={18} /> },
                       { id: "system", label: "System", icon: <Monitor size={18} /> }].map((t) => (
                       <button key={t.id} onClick={() => setTheme(t.id)}
                         className={`flex-1 flex flex-col items-center gap-2 py-4 rounded-xl border text-sm font-medium transition-all
-                          ${theme === t.id ? "border-brand-500 bg-brand-500/10 text-brand-400" : "border-white/10 bg-slate-800/40 text-slate-400 hover:border-white/20"}`}
+                          ${theme === t.id ? "border-brand-500 bg-brand-50 text-brand-700" : "border-surface-border bg-surface-panel text-ink-500 hover:border-surface-muted"}`}
                       >
                         {t.icon} {t.label}
                         {theme === t.id && <Check size={13} />}
@@ -532,7 +529,7 @@ export default function Settings() {
                     {Object.entries(ACCENT_PALETTES).map(([id, { name, cls }]) => (
                       <button key={id} onClick={() => setAccent(id)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium transition-all
-                          ${accent === id ? "border-white/40 bg-white/10 text-white" : "border-white/10 text-slate-400 hover:border-white/20"}`}
+                          ${accent === id ? "border-ink-900/30 bg-surface-panel text-ink-900" : "border-surface-border text-ink-500 hover:border-surface-muted"}`}
                       >
                         <span className={`w-3 h-3 rounded-full ${cls}`} /> {name}
                         {accent === id && <Check size={12} />}
@@ -548,7 +545,7 @@ export default function Settings() {
 
                 <div className="flex justify-end">
                   <button onClick={saveAppearance}
-                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-slate-950 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_0_12px_rgba(34,197,94,0.3)]"
+                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_4px_16px_rgba(34,194,116,0.25)]"
                   >
                     <Check size={14} /> Apply Changes
                   </button>
@@ -563,13 +560,13 @@ export default function Settings() {
                   <FormRow label="Current Password">
                     <Input type={showPass.current ? "text" : "password"} value={pw.current} placeholder="••••••••" icon={KeyRound}
                       onChange={(e) => setPw({ ...pw, current: e.target.value })}
-                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, current: !s.current }))} className="text-slate-500 hover:text-slate-300">{showPass.current ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
+                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, current: !s.current }))} className="text-ink-300 hover:text-ink-700">{showPass.current ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
                     />
                   </FormRow>
                   <FormRow label="New Password" hint="Min. 8 characters">
                     <Input type={showPass.new ? "text" : "password"} value={pw.newPass} placeholder="••••••••" icon={KeyRound}
                       onChange={(e) => setPw({ ...pw, newPass: e.target.value })}
-                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, new: !s.new }))} className="text-slate-500 hover:text-slate-300">{showPass.new ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
+                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, new: !s.new }))} className="text-ink-300 hover:text-ink-700">{showPass.new ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
                     />
                     {pw.newPass && (
                       <div className="mt-1.5 flex gap-1">
@@ -577,10 +574,10 @@ export default function Settings() {
                           <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${
                             pw.newPass.length >= i*3
                               ? pw.newPass.length < 8 ? "bg-amber-500" : "bg-brand-500"
-                              : "bg-slate-700"
+                              : "bg-surface-muted"
                           }`} />
                         ))}
-                        <span className="text-[10px] text-slate-500 ml-2 self-center">
+                        <span className="text-[10px] text-ink-300 ml-2 self-center">
                           {pw.newPass.length < 6 ? "Weak" : pw.newPass.length < 10 ? "Fair" : pw.newPass.length < 14 ? "Good" : "Strong"}
                         </span>
                       </div>
@@ -589,16 +586,16 @@ export default function Settings() {
                   <FormRow label="Confirm Password">
                     <Input type={showPass.confirm ? "text" : "password"} value={pw.confirm} placeholder="••••••••" icon={KeyRound}
                       onChange={(e) => setPw({ ...pw, confirm: e.target.value })}
-                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, confirm: !s.confirm }))} className="text-slate-500 hover:text-slate-300">{showPass.confirm ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
+                      rightEl={<button type="button" onClick={() => setShowPass(s => ({ ...s, confirm: !s.confirm }))} className="text-ink-300 hover:text-ink-700">{showPass.confirm ? <EyeOff size={14} /> : <Eye size={14} />}</button>}
                     />
                     {pw.confirm && pw.newPass && (
-                      <p className={`text-xs mt-1 ${pw.confirm === pw.newPass ? "text-brand-400" : "text-red-400"}`}>
+                      <p className={`text-xs mt-1 ${pw.confirm === pw.newPass ? "text-brand-600" : "text-status-danger"}`}>
                         {pw.confirm === pw.newPass ? "✓ Passwords match" : "✗ Passwords do not match"}
                       </p>
                     )}
                   </FormRow>
                   <button onClick={changePassword} disabled={saving}
-                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 disabled:opacity-60 text-slate-950 px-5 py-2.5 rounded-xl font-bold text-sm transition-all"
+                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 disabled:opacity-60 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all"
                   >
                     {saving ? <RefreshCw size={13} className="animate-spin" /> : <KeyRound size={13} />}
                     Update Password
@@ -608,8 +605,8 @@ export default function Settings() {
                 <Section title="Two-Factor Authentication" description="Add an extra layer of security to your account.">
                   <Toggle checked={twoFactor} onChange={toggle2FA} label="Enable 2FA via Authenticator App" description="Require a code on every sign-in" />
                   {twoFactor && (
-                    <div className="p-4 rounded-xl bg-brand-500/5 border border-brand-500/20 text-sm text-slate-300">
-                      <p className="font-semibold text-brand-400 mb-1">2FA Enabled ✓</p>
+                    <div className="p-4 rounded-xl bg-brand-50 border border-brand-200 text-sm text-ink-700">
+                      <p className="font-semibold text-brand-700 mb-1">2FA Enabled ✓</p>
                       <p>Scan the QR code in your authenticator app (Google Authenticator, Authy) to complete setup.</p>
                     </div>
                   )}
@@ -618,19 +615,19 @@ export default function Settings() {
                 <Section title="Active Sessions">
                   <div className="space-y-2">
                     {sessions.map((s) => (
-                      <div key={s.id} className="flex items-center justify-between p-3.5 bg-slate-800/50 rounded-xl border border-white/5">
+                      <div key={s.id} className="flex items-center justify-between p-3.5 bg-surface-panel rounded-xl border border-surface-border">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-slate-700/60 flex items-center justify-center">
-                            <Monitor size={17} className={s.current ? "text-brand-400" : "text-slate-400"} />
+                          <div className="w-9 h-9 rounded-lg bg-surface-muted flex items-center justify-center">
+                            <Monitor size={17} className={s.current ? "text-brand-600" : "text-ink-500"} />
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-white">{s.device}</p>
-                            <p className="text-xs text-slate-500">{s.location} · {s.time}</p>
+                            <p className="text-sm font-medium text-ink-900">{s.device}</p>
+                            <p className="text-xs text-ink-300">{s.location} · {s.time}</p>
                           </div>
                         </div>
                         {s.current
-                          ? <span className="text-xs text-brand-400 font-semibold px-2 py-0.5 bg-brand-500/10 rounded-full">Current</span>
-                          : <button className="text-xs text-red-400 hover:text-red-300 transition-colors">Revoke</button>
+                          ? <span className="text-xs text-brand-700 font-semibold px-2 py-0.5 bg-brand-50 rounded-full">Current</span>
+                          : <button className="text-xs text-status-danger hover:text-red-600 transition-colors">Revoke</button>
                         }
                       </div>
                     ))}
@@ -640,19 +637,19 @@ export default function Settings() {
                 <Section title="Danger Zone">
                   <div className="space-y-4">
                     <button onClick={signOutAll}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-amber-500/30 text-amber-400 hover:bg-amber-500/10 text-sm font-medium transition-all"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-amber-300 text-amber-600 hover:bg-amber-50 text-sm font-medium transition-all"
                     >
                       <LogOut size={15} /> Sign Out of All Devices
                     </button>
-                    <div className="border-t border-white/5 pt-4 space-y-3">
-                      <p className="text-sm text-slate-400">Type <span className="font-mono text-red-400 font-bold">DELETE</span> to permanently delete your account and all data.</p>
+                    <div className="border-t border-surface-border pt-4 space-y-3">
+                      <p className="text-sm text-ink-500">Type <span className="font-mono text-status-danger font-bold">DELETE</span> to permanently delete your account and all data.</p>
                       <div className="flex gap-3">
                         <input value={confirmDelete} onChange={(e) => setConfirmDelete(e.target.value)}
                           placeholder="Type DELETE to confirm"
-                          className="flex-1 bg-slate-800/60 border border-red-500/20 rounded-xl px-4 py-2.5 text-sm text-red-300 placeholder-slate-600 focus:outline-none focus:border-red-500/50 transition-all"
+                          className="flex-1 bg-surface-panel border border-red-200 rounded-xl px-4 py-2.5 text-sm text-status-danger placeholder-ink-300 focus:outline-none focus:border-red-400 transition-all"
                         />
                         <button onClick={deleteAccount} disabled={saving || confirmDelete !== "DELETE"}
-                          className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-red-300 text-status-danger hover:bg-red-50 text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           <Trash2 size={15} /> Delete
                         </button>
@@ -673,7 +670,7 @@ export default function Settings() {
                   </FormRow>
                   <FormRow label="Industry">
                     <select value={org.industry} onChange={(e) => setOrg({ ...org, industry: e.target.value })}
-                      className="w-full bg-slate-800/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-brand-500/60 transition-all">
+                      className="w-full bg-surface-panel border border-surface-border rounded-xl px-4 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-brand-400 transition-all">
                       {["Technology","Manufacturing","Finance","Healthcare","Energy","Retail","Transport","Agriculture","Consulting","Other"].map(i => (
                         <option key={i} value={i}>{i}</option>
                       ))}
@@ -685,7 +682,7 @@ export default function Settings() {
                   </FormRow>
                   <FormRow label="Reporting Standard" hint="Governs how emissions are calculated">
                     <select value={org.reportStd} onChange={(e) => setOrg({ ...org, reportStd: e.target.value })}
-                      className="w-full bg-slate-800/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-brand-500/60 transition-all">
+                      className="w-full bg-surface-panel border border-surface-border rounded-xl px-4 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-brand-400 transition-all">
                       {["GHG Protocol","ISO 14064","CSRD","SEC Climate Disclosure","TCFD","BRSR"].map(s => (
                         <option key={s} value={s}>{s}</option>
                       ))}
@@ -693,7 +690,7 @@ export default function Settings() {
                   </FormRow>
                   <FormRow label="Fiscal Year Start">
                     <select value={org.fiscalYear} onChange={(e) => setOrg({ ...org, fiscalYear: e.target.value })}
-                      className="w-full bg-slate-800/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-brand-500/60 transition-all">
+                      className="w-full bg-surface-panel border border-surface-border rounded-xl px-4 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-brand-400 transition-all">
                       {["January","April","July","October"].map(m => (
                         <option key={m} value={m}>{m}</option>
                       ))}
@@ -704,18 +701,18 @@ export default function Settings() {
                 <Section title="Data Management" description="Export or manage your organisation's stored data.">
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button onClick={exportData} disabled={saving}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 text-slate-300 hover:bg-white/5 text-sm font-medium transition-all disabled:opacity-50"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-surface-border text-ink-700 hover:bg-surface-panel text-sm font-medium transition-all disabled:opacity-50"
                     >
                       {saving ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
                       Export All Activities (JSON)
                     </button>
                   </div>
-                  <p className="text-xs text-slate-500">Downloads all your logged activities as a JSON file to your device.</p>
+                  <p className="text-xs text-ink-300">Downloads all your logged activities as a JSON file to your device.</p>
                 </Section>
 
                 <div className="flex justify-end">
                   <button onClick={saveOrg}
-                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-slate-950 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_0_12px_rgba(34,197,94,0.3)]"
+                    className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-[0_4px_16px_rgba(34,194,116,0.25)]"
                   >
                     <Save size={14} /> Save Organisation
                   </button>

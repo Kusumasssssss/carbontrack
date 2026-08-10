@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 
 const ThemeContext = createContext(null);
 
-// Reads localStorage, falls back to "dark"
+// Reads localStorage, falls back to "light" (default app theme)
 function getInitialTheme() {
   try {
     const stored = localStorage.getItem("s_theme");
     if (stored) return JSON.parse(stored);
   } catch {}
-  return "dark";
+  return "light";
 }
 
 // Applies dark / light / system to <html>

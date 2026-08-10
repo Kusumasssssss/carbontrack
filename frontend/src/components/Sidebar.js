@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../api";
-import LottieAnimation from "./LottieAnimation";
 
 const MENU = [
   { name: "Dashboard",   icon: LayoutDashboard, path: "/dashboard" },
@@ -59,8 +58,8 @@ function Sidebar({ isOpen, setIsOpen }) {
           className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 relative group cursor-pointer
             ${collapsed ? "px-4 py-3 justify-center" : "px-3 py-2.5"}
             ${isActive
-              ? "text-brand-400 bg-brand-500/10"
-              : "text-slate-400 hover:text-slate-100 hover:bg-white/5"
+              ? "text-brand-700 bg-brand-50"
+              : "text-ink-500 hover:text-ink-900 hover:bg-surface-panel"
             }`}
         >
           {/* Active indicator bar */}
@@ -73,7 +72,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             />
           )}
 
-          <span className={`flex-shrink-0 transition-colors ${isActive ? "text-brand-400" : "text-slate-500 group-hover:text-slate-300"}`}>
+          <span className={`flex-shrink-0 transition-colors ${isActive ? "text-brand-600" : "text-ink-300 group-hover:text-ink-700"}`}>
             <Icon size={19} />
           </span>
 
@@ -93,7 +92,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
           {/* Tooltip when collapsed */}
           {collapsed && (
-            <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded-lg border border-white/10 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+            <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-ink-900 text-white text-xs font-medium rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
               {item.name}
             </div>
           )}
@@ -108,39 +107,33 @@ function Sidebar({ isOpen, setIsOpen }) {
       <motion.aside
         animate={{ width: collapsed ? 72 : 260 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`hidden lg:flex flex-col h-screen bg-bg-panel border-r border-white/5 fixed left-0 top-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.25)] overflow-hidden`}
+        className={`hidden lg:flex flex-col h-screen bg-surface-card border-r border-surface-border fixed left-0 top-0 z-50 shadow-[4px_0_24px_rgba(15,26,20,0.04)] overflow-hidden`}
       >
         {/* Brand */}
-        <div className={`flex items-center border-b border-[#2a2a2a] flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
+        <div className={`flex items-center border-b border-surface-border flex-shrink-0 ${collapsed ? "px-4 py-5 justify-center" : "px-5 py-5 justify-between"}`}>
           {!collapsed && (
             <Link to="/dashboard" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#fb923c] rounded-xl blur-md opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform duration-300">
-                  <LottieAnimation 
-                    src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
-                    style={{ width: "24px", height: "24px" }}
-                  />
+                <div className="absolute inset-0 bg-gradient-brand rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                <div className="relative w-full h-full rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform duration-300">
+                  <Leaf size={20} className="text-white" strokeWidth={2.25} />
                 </div>
               </div>
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-xl font-bold tracking-tight text-[#e5e5e5]"
+                className="text-xl font-bold tracking-tight text-ink-900"
               >
-                Avni
+                CarbonTrack
               </motion.span>
             </Link>
           )}
 
           {collapsed && (
             <div className="relative w-8 h-8">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-[#fb923c] rounded-xl blur-sm opacity-40"></div>
-              <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg">
-                <LottieAnimation 
-                  src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
-                  style={{ width: "18px", height: "18px" }}
-                />
+              <div className="absolute inset-0 bg-gradient-brand rounded-xl blur-sm opacity-25"></div>
+              <div className="relative w-full h-full rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <Leaf size={16} className="text-white" strokeWidth={2.25} />
               </div>
             </div>
           )}
@@ -148,7 +141,7 @@ function Sidebar({ isOpen, setIsOpen }) {
           {/* Collapse toggle */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className={`p-1.5 rounded-lg bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors ${collapsed ? "mt-3" : ""}`}
+            className={`p-1.5 rounded-lg bg-surface-panel hover:bg-surface-muted text-ink-500 hover:text-ink-900 transition-colors ${collapsed ? "mt-3" : ""}`}
             title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
@@ -158,7 +151,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         {/* Main nav */}
         <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto custom-scrollbar">
           {!collapsed && (
-            <p className="px-3 mb-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+            <p className="px-3 mb-2 text-[10px] font-bold text-ink-300 uppercase tracking-widest">
               Main Menu
             </p>
           )}
@@ -168,7 +161,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         </nav>
 
         {/* Bottom items */}
-        <div className="px-2 py-3 border-t border-white/5 space-y-0.5">
+        <div className="px-2 py-3 border-t border-surface-border space-y-0.5">
           {BOTTOM_MENU.map((item) => (
             <NavItem key={item.name} item={item} />
           ))}
@@ -178,10 +171,10 @@ function Sidebar({ isOpen, setIsOpen }) {
             whileTap={{ scale: 0.97 }}
             onClick={() => { logout(); navigate("/login"); }}
             title="Sign out"
-            className={`w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all mt-1 text-slate-400 hover:text-red-400 hover:bg-red-500/8 group
+            className={`w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all mt-1 text-ink-500 hover:text-status-danger hover:bg-red-50 group
               ${collapsed ? "px-4 py-3 justify-center" : "px-3 py-2.5"}`}
           >
-            <div className={`flex-shrink-0 w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 group-hover:border-red-500/40 transition-colors ${collapsed ? "" : ""}`}>
+            <div className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-100 border border-brand-200 flex items-center justify-center text-xs font-bold text-brand-700 group-hover:border-red-300 transition-colors">
               {initials}
             </div>
             <AnimatePresence>
@@ -192,14 +185,14 @@ function Sidebar({ isOpen, setIsOpen }) {
                   exit={{ opacity: 0, width: 0 }}
                   className="flex-1 text-left overflow-hidden"
                 >
-                  <p className="text-sm font-medium text-slate-300 group-hover:text-red-300 truncate transition-colors leading-none mb-0.5">{username}</p>
-                  <p className="text-xs text-slate-500 leading-none">Sign out</p>
+                  <p className="text-sm font-medium text-ink-700 group-hover:text-status-danger truncate transition-colors leading-none mb-0.5">{username}</p>
+                  <p className="text-xs text-ink-300 leading-none">Sign out</p>
                 </motion.div>
               )}
             </AnimatePresence>
             {!collapsed && <LogOut size={16} className="flex-shrink-0 opacity-40 group-hover:opacity-100" />}
             {collapsed && (
-              <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded-lg border border-white/10 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+              <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-ink-900 text-white text-xs font-medium rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
                 Sign out
               </div>
             )}
@@ -216,7 +209,7 @@ function Sidebar({ isOpen, setIsOpen }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-ink-900/40 backdrop-blur-sm z-40 lg:hidden"
               onClick={() => setIsOpen?.(false)}
             />
 
@@ -226,22 +219,19 @@ function Sidebar({ isOpen, setIsOpen }) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed left-0 top-0 h-screen w-[260px] bg-[#1a1a1a] border-r border-[#2a2a2a] z-50 flex flex-col shadow-2xl lg:hidden"
+              className="fixed left-0 top-0 h-screen w-[260px] bg-surface-card border-r border-surface-border z-50 flex flex-col shadow-2xl lg:hidden"
             >
               {/* Brand + close */}
-              <div className="flex items-center justify-between px-5 py-5 border-b border-[#2a2a2a]">
+              <div className="flex items-center justify-between px-5 py-5 border-b border-surface-border">
                 <Link to="/dashboard" onClick={() => setIsOpen?.(false)} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-[#f97316] flex items-center justify-center shadow-lg shadow-orange-500/30">
-                    <LottieAnimation 
-                      src="https://assets4.lottiefiles.com/packages/lf20_vnik4lq6.json"
-                      style={{ width: "24px", height: "24px" }}
-                    />
+                  <div className="w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <Leaf size={20} className="text-white" strokeWidth={2.25} />
                   </div>
-                  <span className="text-xl font-bold tracking-tight text-[#e5e5e5]">Avni</span>
+                  <span className="text-xl font-bold tracking-tight text-ink-900">CarbonTrack</span>
                 </Link>
                 <button
                   onClick={() => setIsOpen?.(false)}
-                  className="p-1.5 rounded-lg bg-[#2a2a2a] text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors"
+                  className="p-1.5 rounded-lg bg-surface-panel text-ink-500 hover:text-ink-900 transition-colors"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -249,26 +239,26 @@ function Sidebar({ isOpen, setIsOpen }) {
 
               {/* Nav */}
               <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto">
-                <p className="px-3 mb-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">Main Menu</p>
+                <p className="px-3 mb-2 text-[10px] font-bold text-ink-300 uppercase tracking-widest">Main Menu</p>
                 {MENU.map((item) => (
                   <NavItem key={item.name} item={item} onClick={() => setIsOpen?.(false)} />
                 ))}
               </nav>
 
-              <div className="px-2 py-3 border-t border-white/5 space-y-0.5">
+              <div className="px-2 py-3 border-t border-surface-border space-y-0.5">
                 {BOTTOM_MENU.map((item) => (
                   <NavItem key={item.name} item={item} onClick={() => setIsOpen?.(false)} />
                 ))}
                 <button
                   onClick={() => { logout(); navigate("/login"); }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/8 transition-all group mt-1"
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-500 hover:text-status-danger hover:bg-red-50 transition-all group mt-1"
                 >
-                  <div className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300">
+                  <div className="w-7 h-7 rounded-full bg-brand-100 border border-brand-200 flex items-center justify-center text-xs font-bold text-brand-700">
                     {initials}
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-slate-300 group-hover:text-red-300 truncate">{username}</p>
-                    <p className="text-xs text-slate-500">Sign out</p>
+                    <p className="text-sm font-medium text-ink-700 group-hover:text-status-danger truncate">{username}</p>
+                    <p className="text-xs text-ink-300">Sign out</p>
                   </div>
                   <LogOut size={16} className="opacity-40 group-hover:opacity-100" />
                 </button>

@@ -8,7 +8,7 @@ export default function GoalProgressCard() {
   const progress = 60;
 
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-green-600 to-green-800 p-6 shadow-xl">
+    <div className="rounded-3xl bg-gradient-brand p-6 shadow-card-hover">
 
       <h2 className="text-2xl font-bold text-white mb-6">
         Goal Progress
@@ -21,7 +21,7 @@ export default function GoalProgressCard() {
           text={`${progress}%`}
           styles={buildStyles({
             pathColor: "#ffffff",
-            trailColor: "#15803d",
+            trailColor: "rgba(255,255,255,0.25)",
             textColor: "#ffffff",
             textSize: "18px"
           })}
@@ -29,7 +29,7 @@ export default function GoalProgressCard() {
 
       </div>
 
-      <p className="text-center text-green-100 mt-6 text-lg">
+      <p className="text-center text-white/80 mt-6 text-lg">
         You are on track to achieve your goal.
       </p>
 

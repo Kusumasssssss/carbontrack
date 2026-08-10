@@ -1,17 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, FileEdit, Database, ArrowLeft, Car, Zap, Utensils, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Save, FileEdit, Database, ArrowLeft, Car, Zap, Utensils, Trash2, ChevronLeft, ChevronRight, Leaf } from "lucide-react";
 import BlurText from "../components/BlurText";
 import { fetchAuth } from "../api";
-import LottieAnimation from "../components/LottieAnimation";
-
-const CATEGORY_LOTTIE = {
-  Transportation: "https://assets9.lottiefiles.com/packages/lf20_hg7zdf8w.json",
-  Electricity: "https://assets7.lottiefiles.com/packages/lf20_m6cu980y.json",
-  Food: "https://assets8.lottiefiles.com/packages/lf20_ygiq7r3q.json",
-  Waste: "https://assets10.lottiefiles.com/packages/lf20_49rdyysj.json",
-};
 
 const CATEGORIES = [
   { key: "Transportation", icon: Car },
@@ -221,30 +213,33 @@ function LogActivity() {
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   };
 
+  const activeCategoryIcon = CATEGORIES.find((c) => c.key === formData.category)?.icon || Leaf;
+  const ActiveIcon = activeCategoryIcon;
+
   return (
     <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
             <button
               onClick={() => navigate("/activities")}
-              className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors mb-4"
+              className="flex items-center gap-2 text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors mb-4"
             >
               <ArrowLeft size={16} /> Back to Activities
             </button>
-            <div className="flex items-center gap-2 text-brand-400 mb-2">
+            <div className="flex items-center gap-2 text-brand-600 mb-2">
               <Database size={16} />
               <span className="text-xs font-bold uppercase tracking-wider">Data Repository</span>
             </div>
             <BlurText
               text={id ? "Edit Activity Record" : "Log Carbon Activity"}
               delay={40}
-              className="text-4xl font-extrabold text-white tracking-tight mb-2"
+              className="text-4xl font-extrabold text-ink-900 tracking-tight mb-2"
             />
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-lg text-slate-400 font-medium"
+              className="text-lg text-ink-500 font-medium"
             >
               {id ? "Update the details of this logged activity." : "Record a new activity to calculate your carbon footprint."}
             </motion.p>
@@ -254,12 +249,12 @@ function LogActivity() {
           {!id && (
             <div className="mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">Quick Log</h2>
+                <h2 className="text-xs font-bold uppercase tracking-wider text-ink-500">Quick Log</h2>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => scrollCarousel(-1)}
-                    className="p-1.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg bg-surface-card border border-surface-border text-ink-500 hover:text-ink-900 transition-colors"
                     aria-label="Scroll left"
                   >
                     <ChevronLeft size={16} />
@@ -267,7 +262,7 @@ function LogActivity() {
                   <button
                     type="button"
                     onClick={() => scrollCarousel(1)}
-                    className="p-1.5 rounded-lg bg-slate-900 border border-white/10 text-slate-400 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg bg-surface-card border border-surface-border text-ink-500 hover:text-ink-900 transition-colors"
                     aria-label="Scroll right"
                   >
                     <ChevronRight size={16} />
@@ -286,13 +281,13 @@ function LogActivity() {
                       key={i}
                       type="button"
                       onClick={() => applyQuickLog(preset)}
-                      className="snap-start shrink-0 w-40 text-left bg-slate-900/60 hover:bg-slate-800 border border-white/10 hover:border-brand-500/50 rounded-xl p-4 transition-all"
+                      className="snap-start shrink-0 w-40 text-left bg-surface-card hover:bg-surface-panel border border-surface-border hover:border-brand-300 rounded-xl p-4 transition-all shadow-card"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center mb-3">
-                        <Icon size={16} className="text-brand-400" />
+                      <div className="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center mb-3">
+                        <Icon size={16} className="text-brand-600" />
                       </div>
-                      <p className="text-sm font-semibold text-white leading-snug">{preset.label}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{preset.sub}</p>
+                      <p className="text-sm font-semibold text-ink-900 leading-snug">{preset.label}</p>
+                      <p className="text-xs text-ink-300 mt-0.5">{preset.sub}</p>
                     </button>
                   );
                 })}
@@ -310,15 +305,15 @@ function LogActivity() {
             >
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Category</label>
-                <div className="flex bg-slate-900 border border-white/10 rounded-xl p-1 relative">
+                <label className="block text-sm font-bold text-ink-700 mb-2 uppercase tracking-wide">Category</label>
+                <div className="flex bg-surface-panel border border-surface-border rounded-xl p-1 relative">
                   {CATEGORIES.map((c) => (
                     <button
                       key={c.key}
                       type="button"
                       onClick={() => selectCategory(c.key)}
                       className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-colors z-10 ${
-                        formData.category === c.key ? "text-slate-950" : "text-slate-400 hover:text-slate-200"
+                        formData.category === c.key ? "text-white" : "text-ink-500 hover:text-ink-900"
                       }`}
                     >
                       <c.icon size={15} />
@@ -337,17 +332,17 @@ function LogActivity() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Activity Type</label>
+                <label className="block text-sm font-bold text-ink-700 mb-2 uppercase tracking-wide">Activity Type</label>
                 <select
                   name="activity"
                   value={formData.activity}
                   onChange={handleActivityChange}
-                  className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all appearance-none"
+                  className="w-full px-4 py-3 bg-surface-panel border border-surface-border rounded-xl text-ink-900 focus:outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400 transition-all appearance-none"
                   required
                 >
-                  <option value="" className="bg-slate-900 text-slate-500">Select Activity</option>
+                  <option value="" className="bg-surface-panel text-ink-300">Select Activity</option>
                   {dropdownOptions.map((f) => (
-                    <option key={f.label} value={f.label} className="bg-slate-900">
+                    <option key={f.label} value={f.label} className="bg-surface-panel">
                       {f.label}
                     </option>
                   ))}
@@ -356,7 +351,7 @@ function LogActivity() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Quantity</label>
+                  <label className="block text-sm font-bold text-ink-700 mb-2 uppercase tracking-wide">Quantity</label>
                   <input
                     type="number"
                     step="0.01"
@@ -364,15 +359,15 @@ function LogActivity() {
                     name="quantity"
                     value={formData.quantity}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all placeholder-slate-600"
+                    className="w-full px-4 py-3 bg-surface-panel border border-surface-border rounded-xl text-ink-900 focus:outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400 transition-all placeholder-ink-300"
                     placeholder="e.g., 10"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Unit</label>
-                  <div className="w-full px-4 py-3 bg-slate-900/60 border border-white/10 rounded-xl text-slate-300">
+                  <label className="block text-sm font-bold text-ink-700 mb-2 uppercase tracking-wide">Unit</label>
+                  <div className="w-full px-4 py-3 bg-surface-muted border border-surface-border rounded-xl text-ink-700">
                     {formData.unit || "—"}
                   </div>
                 </div>
@@ -385,10 +380,10 @@ function LogActivity() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
-                    className="p-4 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-between"
+                    className="p-4 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-between"
                   >
-                    <span className="text-sm text-slate-300">Estimated emission</span>
-                    <span className="text-xl font-bold text-brand-400">
+                    <span className="text-sm text-ink-700">Estimated emission</span>
+                    <span className="text-xl font-bold text-brand-700">
                       {previewKgCo2e.toFixed(2)} <span className="text-sm font-medium">kg CO₂e</span>
                     </span>
                   </motion.div>
@@ -396,29 +391,29 @@ function LogActivity() {
               </AnimatePresence>
 
               <div>
-                <label className="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide">Date of Activity</label>
+                <label className="block text-sm font-bold text-ink-700 mb-2 uppercase tracking-wide">Date of Activity</label>
                 <input
                   type="date"
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all"
+                  className="w-full px-4 py-3 bg-surface-panel border border-surface-border rounded-xl text-ink-900 focus:outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400 transition-all"
                   required
                 />
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5 flex gap-4">
+            <div className="mt-8 pt-6 border-t border-surface-border flex gap-4">
               <button
                 type="button"
                 onClick={() => navigate("/activities")}
-                className="flex-1 px-4 py-3 bg-slate-900 border border-white/10 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors"
+                className="flex-1 px-4 py-3 bg-surface-panel border border-surface-border text-ink-900 rounded-xl font-semibold hover:bg-surface-muted transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-2 w-full btn-primary flex justify-center items-center gap-2"
+                className="flex-2 w-full bg-gradient-brand text-white rounded-xl font-semibold px-4 py-3 flex justify-center items-center gap-2 hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(34,194,116,0.25)]"
               >
                 {id ? <FileEdit size={18} /> : <Save size={18} />}
                 {id ? "Save Changes" : "Commit Record"}
@@ -426,16 +421,15 @@ function LogActivity() {
             </div>
           </motion.form>
 
-          {/* Lottie Animation Side Panel */}
-          <div className="hidden md:flex flex-col items-center justify-center bg-slate-900/60 border border-white/10 p-6 rounded-3xl backdrop-blur-xl">
+          {/* Category Icon Side Panel */}
+          <div className="hidden md:flex flex-col items-center justify-center bg-surface-card border border-surface-border p-6 rounded-3xl shadow-card">
             <div className="w-full aspect-square flex items-center justify-center">
-              <LottieAnimation
-                src={CATEGORY_LOTTIE[formData.category] || "https://assets2.lottiefiles.com/packages/lf20_5njp3vgg.json"}
-                style={{ width: '100%', height: '100%' }}
-              />
+              <div className="w-32 h-32 rounded-3xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <ActiveIcon size={56} className="text-white" strokeWidth={1.5} />
+              </div>
             </div>
-            <p className="text-xs text-center text-slate-400 font-medium mt-2">
-              {formData.category ? `Category: ${formData.category}` : "Select a category to view animated impact"}
+            <p className="text-xs text-center text-ink-500 font-medium mt-2">
+              {formData.category ? `Category: ${formData.category}` : "Select a category to view its icon"}
             </p>
           </div>
         </div>

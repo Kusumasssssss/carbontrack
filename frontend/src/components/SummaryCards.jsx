@@ -16,13 +16,13 @@ export default function SummaryCards({ totalCarbon, activities }) {
 
         {/* Total Carbon */}
 
-        <div className="rounded-3xl bg-gradient-to-br from-green-600 to-emerald-800 p-6 shadow-xl hover:scale-105 transition duration-300">
+        <div className="rounded-3xl bg-gradient-brand p-6 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300">
 
           <div className="flex justify-between items-center">
 
             <div>
 
-              <p className="text-green-100">
+              <p className="text-white/80">
                 Total Carbon
               </p>
 
@@ -30,7 +30,7 @@ export default function SummaryCards({ totalCarbon, activities }) {
                 {totalCarbon.toFixed(2)}
               </h2>
 
-              <p className="text-green-100 mt-2">
+              <p className="text-white/80 mt-2">
                 kg CO₂e
               </p>
 
@@ -44,27 +44,27 @@ export default function SummaryCards({ totalCarbon, activities }) {
 
         {/* Activities */}
 
-        <div className="rounded-3xl bg-[#111827] p-6 shadow-xl hover:scale-105 transition duration-300 border border-slate-700">
+        <div className="rounded-3xl bg-surface-card p-6 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 border border-surface-border">
 
           <div className="flex justify-between items-center">
 
             <div>
 
-              <p className="text-slate-400">
+              <p className="text-ink-500">
                 Activities
               </p>
 
-              <h2 className="text-5xl font-bold text-white mt-3">
+              <h2 className="text-5xl font-bold text-ink-900 mt-3">
                 {activities.length}
               </h2>
 
-              <p className="text-slate-400 mt-2">
+              <p className="text-ink-500 mt-2">
                 Logged
               </p>
 
             </div>
 
-            <Activity size={45} className="text-blue-400"/>
+            <Activity size={45} className="text-sky-500"/>
 
           </div>
 
@@ -72,27 +72,27 @@ export default function SummaryCards({ totalCarbon, activities }) {
 
         {/* Eco Score */}
 
-        <div className="rounded-3xl bg-[#111827] p-6 shadow-xl hover:scale-105 transition duration-300 border border-slate-700">
+        <div className="rounded-3xl bg-surface-card p-6 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 border border-surface-border">
 
           <div className="flex justify-between items-center">
 
             <div>
 
-              <p className="text-slate-400">
+              <p className="text-ink-500">
                 Eco Score
               </p>
 
-              <h2 className="text-5xl font-bold text-white mt-3">
+              <h2 className="text-5xl font-bold text-ink-900 mt-3">
                 94
               </h2>
 
-              <p className="text-green-400 mt-2">
+              <p className="text-brand-600 mt-2">
                 Excellent
               </p>
 
             </div>
 
-            <Award size={45} className="text-yellow-400"/>
+            <Award size={45} className="text-amber-400"/>
 
           </div>
 
@@ -100,27 +100,27 @@ export default function SummaryCards({ totalCarbon, activities }) {
 
         {/* Goal */}
 
-        <div className="rounded-3xl bg-[#111827] p-6 shadow-xl hover:scale-105 transition duration-300 border border-slate-700">
+        <div className="rounded-3xl bg-surface-card p-6 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 border border-surface-border">
 
           <div className="flex justify-between items-center">
 
             <div>
 
-              <p className="text-slate-400">
+              <p className="text-ink-500">
                 Goal Progress
               </p>
 
-              <h2 className="text-5xl font-bold text-white mt-3">
+              <h2 className="text-5xl font-bold text-ink-900 mt-3">
                 60%
               </h2>
 
-              <p className="text-green-400 mt-2">
+              <p className="text-brand-600 mt-2">
                 On Track
               </p>
 
             </div>
 
-            <Target size={45} className="text-green-400"/>
+            <Target size={45} className="text-brand-500"/>
 
           </div>
 

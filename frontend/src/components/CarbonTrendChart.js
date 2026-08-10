@@ -24,31 +24,33 @@ export default function CarbonTrendChart() {
       <LineChart data={data}>
 
         <CartesianGrid
-          stroke="#1e293b"
+          stroke="#e3e9e5"
           strokeDasharray="4 4"
         />
 
         <XAxis
           dataKey="day"
-          stroke="#94a3b8"
+          stroke="#94a49c"
+          tick={{ fill: "#5c6f66", fontSize: 12 }}
         />
 
         <Tooltip
           contentStyle={{
-            background: "#0f172a",
-            border: "1px solid #334155",
+            background: "#ffffff",
+            border: "1px solid #e3e9e5",
             borderRadius: "12px",
-            color: "#fff"
+            color: "#0f1a14",
+            boxShadow: "0 4px 12px rgba(15,26,20,0.08)"
           }}
         />
 
         <Line
           type="monotone"
           dataKey="carbon"
-          stroke="#22c55e"
+          stroke="#22c274"
           strokeWidth={4}
           dot={{
-            fill: "#22c55e",
+            fill: "#22c274",
             r: 5
           }}
           activeDot={{

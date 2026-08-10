@@ -5,132 +5,101 @@
 @tailwind utilities;
 
 /* ── Theme CSS variables ──────────────────────────────────────────────── */
-:root {
-  --bg-base:    #0f0f0f;
-  --bg-card:    rgba(23, 23, 23, 0.8);
-  --bg-panel:   #1a1a1a;
-  --text-base:  #e5e5e5;
-  --text-muted: #a3a3a3;
-  --border:     rgba(255,255,255,0.1);
-  --scrollbar:  rgba(163, 163, 163, 0.5);
+/* Light is the default, primary theme (sustainability SaaS look).
+   Dark mode is still fully supported via the existing ThemeContext toggle. */
+:root,
+.light {
+  --surface-base:   #f7faf8;
+  --surface-card:   #ffffff;
+  --surface-panel:  #f1f5f3;
+  --surface-border: #e3e9e5;
+  --surface-muted:  #eef2f0;
+
+  --ink-900: #0f1a14;
+  --ink-700: #33443c;
+  --ink-500: #5c6f66;
+  --ink-300: #94a49c;
+
+  --bg-card:    rgba(255, 255, 255, 0.85);
+  --border:     rgba(15, 26, 20, 0.08);
+  --scrollbar:  rgba(92, 111, 102, 0.4);
 }
 
-/* Light mode overrides */
-.light {
-  --bg-base:    #ffffff;
-  --bg-card:    rgba(245, 245, 245, 0.85);
-  --bg-panel:   #f5f5f5;
-  --text-base:  #0f0f0f;
-  --text-muted: #737373;
-  --border:     rgba(0,0,0,0.08);
-  --scrollbar:  rgba(115, 115, 115, 0.6);
+/* Dark mode overrides */
+.dark {
+  --surface-base:   #0e1512;
+  --surface-card:   #161f1b;
+  --surface-panel:  #1c2622;
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-muted:  #212b26;
+
+  --ink-900: #eef4f0;
+  --ink-700: #c4d1ca;
+  --ink-500: #8ba095;
+  --ink-300: #566860;
+
+  --bg-card:    rgba(22, 31, 27, 0.85);
+  --border:     rgba(255, 255, 255, 0.08);
+  --scrollbar:  rgba(139, 160, 149, 0.5);
 }
 
 @layer base {
   body {
-    @apply antialiased min-h-screen selection:bg-brand-500/30 selection:text-brand-100;
+    @apply antialiased min-h-screen selection:bg-brand-200 selection:text-brand-900;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-base);
-    color: var(--text-base);
+    background-color: var(--surface-base);
+    color: var(--ink-900);
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body {
+    @apply selection:bg-brand-700 selection:text-brand-50;
   }
 }
 
 @layer utilities {
   .glass-panel {
     background-color: var(--bg-card);
-    @apply backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.18)];
+    @apply backdrop-blur-xl rounded-2xl shadow-card;
     border: 1px solid var(--border);
   }
 
-  /* Dark mode glass gets a stronger shadow */
   .dark .glass-panel {
-    @apply shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
+    @apply shadow-[0_8px_32px_0_rgba(0,0,0,0.45)];
   }
-  
+
   .glass-panel-hover {
     @apply transition-all duration-300;
   }
   .glass-panel-hover:hover {
     border-color: var(--border);
     background-color: var(--bg-card);
-    @apply shadow-[0_8px_32px_0_rgba(0,0,0,0.2)];
+    @apply shadow-card-hover;
   }
-  
+
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-brand;
   }
 
   .animate-fade-in {
     animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  
+
   .animation-delay-2000 {
     animation-delay: 2s;
   }
-  
+
   .animation-delay-4000 {
     animation-delay: 4s;
   }
 }
 
-/* ── Light mode component overrides ──────────────────────────────────── */
-
-/* Topbar / header */
-.light header {
-  background-color: rgba(255, 255, 255, 0.85) !important;
-  border-bottom-color: rgba(0,0,0,0.07) !important;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.06) !important;
-}
-
-/* Nav link text */
-.light .text-slate-400 { color: #64748b; }
-.light .text-slate-300 { color: #475569; }
-.light .text-slate-500 { color: #94a3b8; }
-.light .text-white     { color: #0f172a; }
-.light .text-slate-50  { color: #0f172a; }
-.light .text-slate-100 { color: #1e293b; }
-.light .text-slate-200 { color: #334155; }
-
-/* Backgrounds */
-.light .bg-slate-900 { background-color: #f8fafc !important; }
-.light .bg-slate-900\/80 { background-color: rgba(248,250,252,0.85) !important; }
-.light .bg-slate-900\/60 { background-color: rgba(248,250,252,0.7) !important; }
-.light .bg-slate-800 { background-color: #f1f5f9 !important; }
-.light .bg-slate-800\/60 { background-color: rgba(241,245,249,0.7) !important; }
-.light .bg-slate-800\/40 { background-color: rgba(241,245,249,0.5) !important; }
-.light .bg-slate-700 { background-color: #e2e8f0 !important; }
-.light .bg-bg-dark  { background-color: #f8fafc !important; }
-.light .bg-bg-panel { background-color: #ffffff !important; }
-.light .bg-bg-card  { background-color: rgba(255,255,255,0.85) !important; }
-
-/* Borders */
-.light .border-white\/5  { border-color: rgba(0,0,0,0.06) !important; }
-.light .border-white\/10 { border-color: rgba(0,0,0,0.1) !important; }
-.light .border-white\/20 { border-color: rgba(0,0,0,0.14) !important; }
-
-/* Hover states */
-.light .hover\:bg-white\/5:hover  { background-color: rgba(0,0,0,0.04) !important; }
-.light .hover\:bg-white\/10:hover { background-color: rgba(0,0,0,0.07) !important; }
-
-/* Dropdown user menu */
-.light .bg-slate-900.border.border-white\/10 {
-  background-color: #ffffff !important;
-  border-color: rgba(0,0,0,0.1) !important;
-}
-
-/* Scrollbar ring in topbar user avatar */
-.light .ring-slate-900 { --tw-ring-color: #f8fafc; }
-
-/* Layout main wrapper */
-.light .min-h-screen.bg-bg-dark { background-color: #f8fafc !important; }
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
 }
 
-/* Custom Scrollbar for enterprise feel */
+/* Custom scrollbar for an enterprise feel */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -143,5 +112,5 @@
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-600;
+  background-color: var(--ink-500);
 }

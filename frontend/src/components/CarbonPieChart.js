@@ -10,13 +10,13 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#22c55e",
-  "#3b82f6",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#06b6d4",
-  "#14b8a6"
+  "#22c274", // brand
+  "#0d9488", // accent teal
+  "#f59e0b", // amber
+  "#0284c7", // sky
+  "#8b5cf6", // violet
+  "#dc2626", // red (kept last, rarely reached)
+  "#16a35e"
 ];
 
 export default function CarbonPieChart() {
@@ -61,6 +61,8 @@ export default function CarbonPieChart() {
           innerRadius={45}
           outerRadius={90}
           paddingAngle={3}
+          stroke="#ffffff"
+          strokeWidth={2}
         >
 
           {data.map((entry, index) => (
@@ -74,8 +76,18 @@ export default function CarbonPieChart() {
 
         </Pie>
 
-        <Tooltip />
-        <Legend />
+        <Tooltip
+          contentStyle={{
+            background: "#ffffff",
+            border: "1px solid #e3e9e5",
+            borderRadius: "12px",
+            color: "#0f1a14",
+            boxShadow: "0 4px 12px rgba(15,26,20,0.08)"
+          }}
+        />
+        <Legend
+          wrapperStyle={{ fontSize: "12px", color: "#5c6f66" }}
+        />
 
       </PieChart>
 

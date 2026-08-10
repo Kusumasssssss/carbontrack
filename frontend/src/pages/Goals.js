@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { fetchAuth } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
 import { Target, Calendar, TrendingUp, CheckCircle, AlertCircle, Clock, Plus, Trash2, Award } from "lucide-react";
-import LottieAnimation from "../components/LottieAnimation";
 
 function Goals() {
   const [goal, setGoal] = useState(null);
@@ -124,10 +123,10 @@ function Goals() {
   };
 
   const statusColor = (s) => {
-    if (s === "ACTIVE") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
-    if (s === "ACHIEVED") return "bg-blue-500/20 text-blue-300 border-blue-500/30";
-    if (s === "SUPERSEDED") return "bg-slate-500/20 text-slate-400 border-slate-600/30";
-    return "bg-red-500/20 text-red-300 border-red-500/30";
+    if (s === "ACTIVE") return "bg-brand-50 text-brand-700 border-brand-200";
+    if (s === "ACHIEVED") return "bg-sky-50 text-sky-600 border-sky-200";
+    if (s === "SUPERSEDED") return "bg-surface-muted text-ink-500 border-surface-border";
+    return "bg-red-50 text-status-danger border-red-200";
   };
 
   const containerVariants = {
@@ -147,24 +146,21 @@ function Goals() {
       className="max-w-7xl mx-auto px-2 py-6"
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className="mb-10 flex flex-col md:flex-row items-center justify-between bg-slate-900/60 border border-white/10 p-8 rounded-3xl backdrop-blur-xl">
+      <motion.div variants={itemVariants} className="mb-10 flex flex-col md:flex-row items-center justify-between bg-surface-card border border-surface-border p-8 rounded-3xl shadow-card">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 mb-2">
+          <div className="flex items-center gap-2 text-brand-600 mb-2">
             <Target size={16} />
             <span className="text-xs font-bold uppercase tracking-wider">Goal Tracking</span>
           </div>
-          <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">
+          <h1 className="text-4xl font-extrabold text-ink-900 tracking-tight mb-2">
             Carbon Reduction Goals
           </h1>
-          <p className="text-slate-400 font-medium max-w-xl">
+          <p className="text-ink-500 font-medium max-w-xl">
             Set targets, track your trajectory, and stay on course for a greener footprint.
           </p>
         </div>
-        <div className="w-36 h-36 mt-4 md:mt-0 flex-shrink-0">
-          <LottieAnimation
-            src="https://assets1.lottiefiles.com/packages/lf20_vnik4lq6.json"
-            style={{ width: '100%', height: '100%' }}
-          />
+        <div className="w-28 h-28 mt-4 md:mt-0 flex-shrink-0 rounded-3xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20">
+          <Target size={48} className="text-white" />
         </div>
       </motion.div>
 
@@ -172,16 +168,16 @@ function Goals() {
         {/* Create Goal Form */}
         <motion.div
           variants={itemVariants}
-          className="lg:col-span-1 bg-[#111827] border border-white/10 rounded-2xl p-7 shadow-xl"
+          className="lg:col-span-1 bg-surface-card border border-surface-border rounded-2xl p-7 shadow-card"
         >
-          <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            <Plus size={20} className="text-emerald-400" />
+          <h2 className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
+            <Plus size={20} className="text-brand-600" />
             Set New Goal
           </h2>
 
           <div className="space-y-5">
             <div>
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+              <label className="text-xs font-semibold text-ink-500 uppercase tracking-wider block mb-2">
                 Target Reduction (%)
               </label>
               <input
@@ -192,12 +188,12 @@ function Goals() {
                 value={formData.targetReductionPct}
                 onChange={handleChange}
                 placeholder="e.g. 20"
-                className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-surface-panel border border-surface-border text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400/30 transition-all"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+              <label className="text-xs font-semibold text-ink-500 uppercase tracking-wider block mb-2">
                 Duration (Days)
               </label>
               <input
@@ -207,7 +203,7 @@ function Goals() {
                 value={formData.periodDays}
                 onChange={handleChange}
                 placeholder="e.g. 30"
-                className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-surface-panel border border-surface-border text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400/30 transition-all"
               />
             </div>
 
@@ -217,7 +213,7 @@ function Goals() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"
+                  className="flex items-center gap-2 text-status-danger text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2"
                 >
                   <AlertCircle size={14} />
                   {errorMsg}
@@ -228,7 +224,7 @@ function Goals() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="flex items-center gap-2 text-emerald-400 text-sm bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2"
+                  className="flex items-center gap-2 text-brand-700 text-sm bg-brand-50 border border-brand-200 rounded-lg px-3 py-2"
                 >
                   <CheckCircle size={14} />
                   {successMsg}
@@ -239,7 +235,7 @@ function Goals() {
             <button
               onClick={createGoal}
               disabled={submitting}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:from-emerald-400 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-gradient-brand text-white font-bold hover:opacity-90 transition-all shadow-[0_4px_16px_rgba(34,194,116,0.25)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
@@ -259,29 +255,29 @@ function Goals() {
         {/* Active Goal Card */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           {loading ? (
-            <div className="bg-[#111827] border border-white/10 rounded-2xl p-7 h-full animate-pulse">
-              <div className="h-6 bg-slate-700 rounded w-1/3 mb-4" />
-              <div className="h-4 bg-slate-700 rounded w-2/3 mb-8" />
-              <div className="h-5 bg-slate-800 rounded-full mb-4" />
+            <div className="bg-surface-card border border-surface-border rounded-2xl p-7 h-full animate-pulse">
+              <div className="h-6 bg-surface-muted rounded w-1/3 mb-4" />
+              <div className="h-4 bg-surface-muted rounded w-2/3 mb-8" />
+              <div className="h-5 bg-surface-panel rounded-full mb-4" />
               <div className="grid grid-cols-4 gap-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-16 bg-slate-800 rounded-xl" />
+                  <div key={i} className="h-16 bg-surface-panel rounded-xl" />
                 ))}
               </div>
             </div>
           ) : goal ? (
-            <div className="bg-[#111827] border border-white/10 rounded-2xl p-7 h-full shadow-xl">
+            <div className="bg-surface-card border border-surface-border rounded-2xl p-7 h-full shadow-card">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    <TrendingUp size={20} className="text-emerald-400" />
+                  <h2 className="text-lg font-bold text-ink-900 flex items-center gap-2">
+                    <TrendingUp size={20} className="text-brand-600" />
                     Active Goal
                   </h2>
-                  <p className="text-slate-400 text-sm mt-1">
+                  <p className="text-ink-500 text-sm mt-1">
                     Reduce emissions by{" "}
-                    <span className="text-emerald-400 font-bold">{goal.targetReductionPct}%</span>{" "}
+                    <span className="text-brand-700 font-bold">{goal.targetReductionPct}%</span>{" "}
                     over{" "}
-                    <span className="text-white font-semibold">{goal.periodDays} days</span>
+                    <span className="text-ink-900 font-semibold">{goal.periodDays} days</span>
                   </p>
                 </div>
                 <span
@@ -292,14 +288,14 @@ function Goals() {
               </div>
 
               {/* Dates */}
-              <div className="flex items-center gap-6 mb-6 text-sm text-slate-400">
+              <div className="flex items-center gap-6 mb-6 text-sm text-ink-500">
                 <span className="flex items-center gap-1.5">
-                  <Calendar size={14} className="text-slate-500" />
-                  Started: <span className="text-white ml-1">{goal.startDate || "—"}</span>
+                  <Calendar size={14} className="text-ink-300" />
+                  Started: <span className="text-ink-900 ml-1">{goal.startDate || "—"}</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Clock size={14} className="text-slate-500" />
-                  Deadline: <span className="text-white ml-1">{goal.deadline || "—"}</span>
+                  <Clock size={14} className="text-ink-300" />
+                  Deadline: <span className="text-ink-900 ml-1">{goal.deadline || "—"}</span>
                 </span>
               </div>
 
@@ -307,17 +303,17 @@ function Goals() {
               {progress && (
                 <>
                   <div className="mb-2 flex justify-between items-center text-xs font-semibold">
-                    <span className="text-slate-400">Time Progress</span>
-                    <span className="text-white">{progress.progressPercentage?.toFixed(1)}%</span>
+                    <span className="text-ink-500">Time Progress</span>
+                    <span className="text-ink-900">{progress.progressPercentage?.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-slate-800 rounded-full h-3 mb-6 overflow-hidden">
+                  <div className="w-full bg-surface-muted rounded-full h-3 mb-6 overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${progress.progressPercentage || 0}%` }}
                       transition={{ duration: 1, ease: "easeOut" }}
                       className={`h-3 rounded-full ${
                         progress.onTrack
-                          ? "bg-gradient-to-r from-emerald-500 to-teal-400"
+                          ? "bg-gradient-brand"
                           : "bg-gradient-to-r from-amber-500 to-red-500"
                       }`}
                     />
@@ -325,35 +321,35 @@ function Goals() {
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     {[
-                      { label: "Progress", value: `${progress.progressPercentage?.toFixed(1)}%`, color: "text-white" },
-                      { label: "Days Elapsed", value: progress.daysElapsed, color: "text-white" },
-                      { label: "Days Remaining", value: progress.daysRemaining, color: "text-sky-400" },
+                      { label: "Progress", value: `${progress.progressPercentage?.toFixed(1)}%`, color: "text-ink-900" },
+                      { label: "Days Elapsed", value: progress.daysElapsed, color: "text-ink-900" },
+                      { label: "Days Remaining", value: progress.daysRemaining, color: "text-sky-600" },
                       {
                         label: "Status",
                         value: progress.onTrack ? "🟢 On Track" : "🔴 Behind",
-                        color: progress.onTrack ? "text-emerald-400" : "text-red-400",
+                        color: progress.onTrack ? "text-brand-700" : "text-status-danger",
                       },
                     ].map(({ label, value, color }) => (
-                      <div key={label} className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
-                        <p className="text-slate-500 text-xs mb-1">{label}</p>
+                      <div key={label} className="bg-surface-panel rounded-xl p-4 border border-surface-border">
+                        <p className="text-ink-300 text-xs mb-1">{label}</p>
                         <p className={`font-bold text-lg ${color}`}>{value}</p>
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-slate-900/60 border border-white/5 rounded-xl p-4">
-                    <p className="text-slate-300 text-sm">{progress.message}</p>
+                  <div className="bg-surface-panel border border-surface-border rounded-xl p-4">
+                    <p className="text-ink-700 text-sm">{progress.message}</p>
                   </div>
                 </>
               )}
             </div>
           ) : (
-            <div className="bg-[#111827] border border-white/10 rounded-2xl p-7 h-full flex flex-col items-center justify-center text-center shadow-xl min-h-[280px]">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
-                <Target size={28} className="text-emerald-400" />
+            <div className="bg-surface-card border border-surface-border rounded-2xl p-7 h-full flex flex-col items-center justify-center text-center shadow-card min-h-[280px]">
+              <div className="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-200 flex items-center justify-center mb-4">
+                <Target size={28} className="text-brand-600" />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">No Active Goal</h3>
-              <p className="text-slate-500 text-sm max-w-xs">
+              <h3 className="text-ink-900 font-bold text-lg mb-2">No Active Goal</h3>
+              <p className="text-ink-300 text-sm max-w-xs">
                 Set your first carbon reduction goal using the form to start tracking your progress.
               </p>
             </div>
@@ -365,17 +361,17 @@ function Goals() {
       {allGoals.length > 0 && (
         <motion.div
           variants={itemVariants}
-          className="bg-[#111827] border border-white/10 rounded-2xl p-7 shadow-xl"
+          className="bg-surface-card border border-surface-border rounded-2xl p-7 shadow-card"
         >
-          <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            <Award size={20} className="text-slate-400" />
+          <h2 className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
+            <Award size={20} className="text-ink-500" />
             Goal History
           </h2>
 
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-slate-500 text-xs uppercase tracking-wider border-b border-white/5">
+                <tr className="text-ink-300 text-xs uppercase tracking-wider border-b border-surface-border">
                   <th className="text-left pb-3 font-semibold">Target</th>
                   <th className="text-left pb-3 font-semibold">Period</th>
                   <th className="text-left pb-3 font-semibold">Start Date</th>
@@ -384,13 +380,13 @@ function Goals() {
                   <th className="text-left pb-3 font-semibold">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-surface-border">
                 {allGoals.map((g) => (
-                  <tr key={g.id} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="py-4 text-white font-semibold">{g.targetReductionPct}%</td>
-                    <td className="py-4 text-slate-400">{g.periodDays} days</td>
-                    <td className="py-4 text-slate-400">{g.startDate || "—"}</td>
-                    <td className="py-4 text-slate-400">{g.deadline || "—"}</td>
+                  <tr key={g.id} className="hover:bg-surface-panel transition-colors">
+                    <td className="py-4 text-ink-900 font-semibold">{g.targetReductionPct}%</td>
+                    <td className="py-4 text-ink-500">{g.periodDays} days</td>
+                    <td className="py-4 text-ink-500">{g.startDate || "—"}</td>
+                    <td className="py-4 text-ink-500">{g.deadline || "—"}</td>
                     <td className="py-4">
                       <span
                         className={`px-2.5 py-1 rounded-full text-xs font-bold border ${statusColor(g.status)}`}
@@ -401,7 +397,7 @@ function Goals() {
                     <td className="py-4">
                       <button
                         onClick={() => deleteGoal(g.id)}
-                        className="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                        className="p-2 rounded-lg text-ink-300 hover:text-status-danger hover:bg-red-50 transition-all"
                         title="Delete goal"
                       >
                         <Trash2 size={15} />

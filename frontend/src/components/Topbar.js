@@ -63,17 +63,17 @@ export default function Topbar() {
     <>
       {/* ── Main Topbar ───────────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 h-16
-        bg-slate-900/80 dark:bg-slate-900/80 light:bg-white/85 backdrop-blur-xl border-b border-white/5
-        shadow-[0_1px_0_rgba(255,255,255,0.04),0_4px_24px_rgba(0,0,0,0.4)] transition-colors duration-300"
+        bg-white/85 backdrop-blur-xl border-b border-surface-border
+        shadow-[0_1px_0_rgba(15,26,20,0.02),0_4px_24px_rgba(15,26,20,0.04)] transition-colors duration-300"
       >
         <div className="max-w-screen-2xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between gap-4">
 
           {/* Brand */}
           <Link to="/dashboard" className="flex items-center gap-2.5 flex-shrink-0 group">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:shadow-brand-500/50 transition-shadow">
+            <div className="w-8 h-8 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/30 transition-shadow">
               <Leaf size={17} className="text-white" />
             </div>
-            <span className="text-lg font-bold tracking-tight text-white hidden sm:block">Avni</span>
+            <span className="text-lg font-bold tracking-tight text-ink-900 hidden sm:block">CarbonTrack</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -88,8 +88,8 @@ export default function Topbar() {
                     whileTap={{ scale: 0.97 }}
                     className={`relative flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200
                       ${isActive
-                        ? "text-brand-400 bg-brand-500/10"
-                        : "text-slate-400 hover:text-slate-100 hover:bg-white/5"
+                        ? "text-brand-700 bg-brand-50"
+                        : "text-ink-500 hover:text-ink-900 hover:bg-surface-panel"
                       }`}
                   >
                     <Icon size={16} />
@@ -120,7 +120,7 @@ export default function Topbar() {
               transition={{ duration: 0.25 }}
               onClick={() => setTheme(isDark ? "light" : "dark")}
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              className="p-2 rounded-xl text-ink-500 hover:text-ink-900 hover:bg-surface-panel transition-all"
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </motion.button>
@@ -130,8 +130,8 @@ export default function Topbar() {
               <button
                 title="Settings"
                 className={`p-2 rounded-xl transition-all ${location.pathname === "/settings"
-                    ? "bg-brand-500/10 text-brand-400"
-                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                    ? "bg-brand-50 text-brand-700"
+                    : "text-ink-500 hover:text-ink-900 hover:bg-surface-panel"
                   }`}
               >
                 <Settings size={18} />
@@ -141,25 +141,25 @@ export default function Topbar() {
             {/* Notification bell */}
             <button
               title="Notifications"
-              className="relative p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              className="relative p-2 rounded-xl text-ink-500 hover:text-ink-900 hover:bg-surface-panel transition-all"
             >
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-500 ring-2 ring-slate-900" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-500 ring-2 ring-white" />
             </button>
 
             {/* User menu */}
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-white/5 transition-all group"
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-surface-panel transition-all group"
               >
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-400 to-indigo-500 flex items-center justify-center text-xs font-bold text-white">
+                <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-xs font-bold text-white">
                   {initials}
                 </div>
-                <span className="text-sm font-medium text-slate-300 hidden sm:block max-w-[120px] truncate">{username}</span>
+                <span className="text-sm font-medium text-ink-700 hidden sm:block max-w-[120px] truncate">{username}</span>
                 <ChevronDown
                   size={14}
-                  className={`text-slate-500 transition-transform duration-200 ${userMenuOpen ? "rotate-180" : ""}`}
+                  className={`text-ink-300 transition-transform duration-200 ${userMenuOpen ? "rotate-180" : ""}`}
                 />
               </button>
 
@@ -170,22 +170,22 @@ export default function Topbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.96 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-2 w-52 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+                    className="absolute right-0 top-full mt-2 w-52 bg-surface-card border border-surface-border rounded-2xl shadow-card-hover overflow-hidden"
                   >
-                    <div className="p-3 border-b border-white/5">
-                      <p className="text-sm font-semibold text-white truncate">{username}</p>
-                      <p className="text-xs text-slate-500 mt-0.5 truncate">{localStorage.getItem("email") || "—"}</p>
+                    <div className="p-3 border-b border-surface-border">
+                      <p className="text-sm font-semibold text-ink-900 truncate">{username}</p>
+                      <p className="text-xs text-ink-300 mt-0.5 truncate">{localStorage.getItem("email") || "—"}</p>
                     </div>
                     <div className="p-1.5">
                       <Link to="/settings" onClick={() => setUserMenuOpen(false)}>
-                        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all text-left">
-                          <Settings size={15} className="text-slate-500" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-ink-700 hover:text-ink-900 hover:bg-surface-panel transition-all text-left">
+                          <Settings size={15} className="text-ink-300" />
                           Account Settings
                         </button>
                       </Link>
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all text-left mt-0.5"
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-status-danger hover:bg-red-50 transition-all text-left mt-0.5"
                       >
                         <LogOut size={15} />
                         Sign Out
@@ -199,7 +199,7 @@ export default function Topbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              className="lg:hidden p-2 rounded-xl text-ink-500 hover:text-ink-900 hover:bg-surface-panel transition-all"
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -215,7 +215,7 @@ export default function Topbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 lg:hidden bg-black/50 backdrop-blur-sm"
+              className="fixed inset-0 z-40 lg:hidden bg-ink-900/30 backdrop-blur-sm"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
@@ -223,7 +223,7 @@ export default function Topbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ type: "spring", stiffness: 300, damping: 28 }}
-              className="fixed top-16 left-0 right-0 z-40 lg:hidden bg-slate-900/95 backdrop-blur-xl border-b border-white/5 shadow-2xl"
+              className="fixed top-16 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-xl border-b border-surface-border shadow-card-hover"
             >
               <nav className="p-3 grid grid-cols-2 gap-1.5">
                 {[...NAV_ITEMS, { name: "Settings", icon: Settings, path: "/settings" }].map((item) => {
@@ -237,8 +237,8 @@ export default function Topbar() {
                     >
                       <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all
                         ${isActive
-                          ? "bg-brand-500/10 text-brand-400 border border-brand-500/20"
-                          : "text-slate-400 hover:text-white hover:bg-white/5"
+                          ? "bg-brand-50 text-brand-700 border border-brand-200"
+                          : "text-ink-500 hover:text-ink-900 hover:bg-surface-panel"
                         }`}
                       >
                         <Icon size={17} />
@@ -251,7 +251,7 @@ export default function Topbar() {
               <div className="p-3 pt-0">
                 <button
                   onClick={() => { setMobileOpen(false); handleLogout(); }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-status-danger hover:bg-red-50 transition-all"
                 >
                   <LogOut size={17} />
                   Sign Out

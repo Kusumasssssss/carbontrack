@@ -24,16 +24,16 @@ import Profile from "./pages/Profile";
 import Chatbot from "./pages/Chatbot";
 
 const NotFound = () => (
-  <div className="flex flex-col items-center justify-center min-h-[50vh] glass-panel p-8 text-center border-dashed border-2 border-white/10">
-    <div className="w-16 h-16 rounded-2xl bg-brand-500/10 flex items-center justify-center mb-4 border border-brand-500/20">
-      <svg className="w-8 h-8 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <div className="flex flex-col items-center justify-center min-h-[50vh] bg-surface-card rounded-2xl p-8 text-center border-2 border-dashed border-surface-border">
+    <div className="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center mb-4 border border-brand-200">
+      <svg className="w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
       </svg>
     </div>
-    <h2 className="text-2xl font-bold text-white mb-2">
+    <h2 className="text-2xl font-bold text-ink-900 mb-2">
       Under Construction
     </h2>
-    <p className="text-slate-400">
+    <p className="text-ink-500">
       This page does not exist or is currently being built. Check back later!
     </p>
   </div>
@@ -41,7 +41,7 @@ const NotFound = () => (
 
 function AnimatedRoutes() {
   const location = useLocation();
-  
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
@@ -75,7 +75,7 @@ function AnimatedRoutes() {
         <Route path="/analytics" element={<Layout><PageTransition><Analytics /></PageTransition></Layout>} />
         {/* Goals Route */}
         <Route path="/goals" element={<Layout><PageTransition><Goals /></PageTransition></Layout>} />
-        
+
         {/* Placeholder Routes for Sidebar Tabs */}
         <Route
           path="/badges"
@@ -140,7 +140,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <div className="flex min-h-screen bg-slate-900 dark:bg-slate-900 light:bg-white">
+        <div className="flex min-h-screen bg-surface-base">
           <main className="flex-1 overflow-x-hidden">
             <AnimatedRoutes />
           </main>
