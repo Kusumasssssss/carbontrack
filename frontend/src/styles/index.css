@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Theme CSS variables ──────────────────────────────────────────────── */
+/* Light is the default, primary theme (sustainability SaaS look).
+   Dark mode is still fully supported via the existing ThemeContext toggle. */
+:root,
+.light {
+  --surface-base:   #f7faf8;
+  --surface-card:   #ffffff;
+  --surface-panel:  #f1f5f3;
+  --surface-border: #e3e9e5;
+  --surface-muted:  #eef2f0;
+
+  --ink-900: #0f1a14;
+  --ink-700: #33443c;
+  --ink-500: #5c6f66;
+  --ink-300: #94a49c;
+
+  --bg-card:    rgba(255, 255, 255, 0.85);
+  --border:     rgba(15, 26, 20, 0.08);
+  --scrollbar:  rgba(92, 111, 102, 0.4);
+}
+
+/* Dark mode overrides */
+.dark {
+  --surface-base:   #0e1512;
+  --surface-card:   #161f1b;
+  --surface-panel:  #1c2622;
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-muted:  #212b26;
+
+  --ink-900: #eef4f0;
+  --ink-700: #c4d1ca;
+  --ink-500: #8ba095;
+  --ink-300: #566860;
+
+  --bg-card:    rgba(22, 31, 27, 0.85);
+  --border:     rgba(255, 255, 255, 0.08);
+  --scrollbar:  rgba(139, 160, 149, 0.5);
+}
+
+@layer base {
+  body {
+    @apply antialiased min-h-screen selection:bg-brand-200 selection:text-brand-900;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--surface-base);
+    color: var(--ink-900);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body {
+    @apply selection:bg-brand-700 selection:text-brand-50;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background-color: var(--bg-card);
+    @apply backdrop-blur-xl rounded-2xl shadow-card;
+    border: 1px solid var(--border);
+  }
+
+  .dark .glass-panel {
+    @apply shadow-[0_8px_32px_0_rgba(0,0,0,0.45)];
+  }
+
+  .glass-panel-hover {
+    @apply transition-all duration-300;
+  }
+  .glass-panel-hover:hover {
+    border-color: var(--border);
+    background-color: var(--bg-card);
+    @apply shadow-card-hover;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-brand;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+
+/* Custom scrollbar for an enterprise feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ink-500);
+}

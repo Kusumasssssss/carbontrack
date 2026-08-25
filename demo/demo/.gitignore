@@ -31,14 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Custom ###
-
-node_modules/
-
-src/main/resources/application.properties
-
-# Environment variables
-.env
-.env.*
-*.env
